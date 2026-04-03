@@ -19,6 +19,24 @@ const MARQUEE = ["LÍNGUA PORTUGUESA","MATEMÁTICA","RACIOCÍNIO LÓGICO","DIREI
 
 const MOTIVATIONAL = ["Constância vence talento.","Cada questão é um passo à frente.","Quem estuda todo dia, passa.","Aprovação é método, não sorte.","O próximo simulado será melhor."];
 
+const BANCAS = [
+  "CESPE/CEBRASPE", "FCC", "VUNESP", "AOCP", "FGV", "IBFC",
+  "QUADRIX", "IDECAN", "IADES", "FEPESE", "COPS-UEL", "FUNCAB",
+  "CONSULPLAN", "OBJETIVA", "NC-UFPR", "INSTITUTO AOCP", "Outro",
+];
+
+const DISCIPLINAS = [
+  "Língua Portuguesa", "Matemática", "Raciocínio Lógico",
+  "Direito Constitucional", "Direito Administrativo", "Direito Penal",
+  "Direito Processual Penal", "Direito Civil", "Direito do Trabalho",
+  "Legislação de Trânsito", "Informática", "Atualidades",
+  "Geografia do Brasil", "História do Brasil", "Física", "Química",
+  "Biologia", "Estatística", "Contabilidade",
+  "Administração Pública", "Legislação Específica",
+];
+
+const NUMEROS = ["5","10","15","20","25","30"];
+
 const PROMPT_TEMPLATE = `Você é um especialista em concursos públicos brasileiros e gerador de questões.
 Gere [NÚMERO] questões MISTAS para o concurso [CARGO/ÓRGÃO], disciplina [DISCIPLINA].
 Distribua assim: ~40% questões oficiais de provas reais, ~60% criadas/adaptadas.
@@ -222,7 +240,25 @@ body{background:var(--bg);font-family:var(--B);color:var(--tx);min-height:100vh}
 .btn-copy{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;padding:.28rem .72rem;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .15s}
 .btn-copy:hover{border-color:var(--ac);color:var(--ac)}
 .btn-copy.ok{border-color:var(--ok);color:var(--ok)}
-.prompt-code{padding:1.5rem;font-family:var(--M);font-size:.71rem;color:var(--t2);line-height:1.9;white-space:pre-wrap;max-height:360px;overflow-y:auto}
+.prompt-code{padding:1.5rem;font-family:var(--M);font-size:.71rem;color:var(--t2);line-height:1.9;white-space:pre-wrap;max-height:280px;overflow-y:auto}
+
+/* ── PROMPT BUILDER ── */
+.pb-fields{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--b1)}
+@media(max-width:560px){.pb-fields{grid-template-columns:1fr}}
+.pb-field{padding:1.25rem 1.5rem;border-right:1px solid var(--b1);border-bottom:1px solid var(--b1);display:flex;flex-direction:column;gap:.55rem}
+.pb-field:nth-child(even){border-right:none}
+@media(max-width:560px){.pb-field{border-right:none}}
+.pb-label{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);display:flex;align-items:center;gap:.5rem}
+.pb-auto{color:var(--ac);font-size:.52rem;letter-spacing:.06em}
+.pb-readonly{font-family:var(--B);font-size:.9rem;color:var(--ac);padding:.5rem 0;border-bottom:1px solid var(--b1)}
+.pb-select{background:var(--s2);border:1px solid var(--b2);color:var(--tx);font-family:var(--B);font-size:.9rem;padding:.5rem .75rem;outline:none;cursor:pointer;-webkit-appearance:none;transition:border-color .15s;width:100%}
+.pb-select:focus{border-color:var(--ac)}
+.pb-select option{background:#181818}
+.pb-num-row{display:flex;flex-wrap:wrap;gap:.35rem}
+.pb-num-btn{padding:.35rem .75rem;border:1px solid var(--b2);background:transparent;color:var(--t3);font-family:var(--M);font-size:.72rem;font-weight:700;cursor:pointer;transition:all .15s}
+.pb-num-btn:hover{border-color:var(--t2);color:var(--t2)}
+.pb-num-on{border-color:var(--ac);background:rgba(200,240,0,.08);color:var(--ac)}
+.pb-custom-num{margin-top:.35rem;width:100%;padding:.5rem .75rem;background:var(--s2);border:1px solid var(--ac);color:var(--ac);font-family:var(--M);font-size:.9rem;outline:none}
 .info-wrap{border:1px solid var(--b1);padding:1.5rem;margin-bottom:3rem}
 .info-label{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ac);margin-bottom:1rem}
 .info-items{display:flex;flex-direction:column;gap:.5rem}
@@ -237,10 +273,39 @@ body{background:var(--bg);font-family:var(--B);color:var(--tx);min-height:100vh}
 /* ── DROP ── */
 .drop-screen{min-height:calc(100vh - 61px);display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:1}
 .drop-card{width:100%;max-width:540px}
+.drop-card-wide{max-width:720px}
 .drop-h{font-family:var(--F);font-weight:800;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.04em;margin-bottom:.5rem}
 .drop-h em{font-style:italic;color:var(--ac)}
-.drop-sub{font-size:.87rem;color:var(--t2);margin-bottom:2rem;line-height:1.65}
-.drop-zone{border:1px solid var(--b2);padding:4rem 2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.drop-sub{font-size:.87rem;color:var(--t2);margin-bottom:1.25rem;line-height:1.65}
+
+/* tabs */
+.drop-tabs{display:flex;border:1px solid var(--b1);margin-bottom:0}
+.drop-tab{flex:1;padding:.75rem .5rem;border:none;border-right:1px solid var(--b1);background:transparent;color:var(--t3);font-family:var(--M);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:all .15s}
+.drop-tab:last-child{border-right:none}
+.drop-tab:hover{background:var(--s1);color:var(--t2)}
+.drop-tab-on{background:var(--s2);color:var(--ac);border-bottom:2px solid var(--ac)}
+
+/* generate form */
+.gen-form{border:1px solid var(--b1);border-top:none;padding:1.5rem}
+.gen-row{display:grid;grid-template-columns:1fr 1fr auto;gap:.75rem}
+@media(max-width:560px){.gen-row{grid-template-columns:1fr}}
+.gen-field{display:flex;flex-direction:column;gap:.35rem}
+.gen-field-sm{min-width:90px;max-width:120px}
+@media(max-width:560px){.gen-field-sm{max-width:100%}}
+.gen-label{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3)}
+.gen-label-hint{font-size:.55rem;color:var(--t3);text-transform:none;letter-spacing:0;opacity:.7}
+.gen-select,.gen-input{padding:.65rem .9rem;background:var(--s1);border:1px solid var(--b1);color:var(--tx);font-family:var(--B);font-size:.88rem;outline:none;transition:border-color .15s;width:100%}
+.gen-select{cursor:pointer;-webkit-appearance:none}
+.gen-select option{background:#111}
+.gen-select:focus,.gen-input:focus{border-color:var(--ac)}
+.gen-input::placeholder{color:var(--t3);font-family:var(--M);font-size:.75rem}
+.gen-summary{margin-top:1rem;padding:.85rem 1rem;background:var(--s1);border:1px solid var(--b1);border-left:2px solid var(--ac);font-size:.82rem;color:var(--t2);line-height:1.6}
+.gen-summary b{color:var(--tx);font-weight:600}
+.gen-btn{width:100%;margin-top:.85rem;padding:1rem;border:none;background:var(--ac);color:#090909;font-family:var(--F);font-size:.88rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.gen-btn:hover:not(:disabled){opacity:.86}
+.gen-btn:disabled{opacity:.35;cursor:not-allowed}
+
+.drop-zone{border:1px solid var(--b2);padding:3.5rem 2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
 .drop-zone:hover,.drop-zone.over{border-color:var(--ac);background:rgba(200,240,0,.03)}
 .drop-icon{display:block;font-size:2rem;margin-bottom:1rem;transition:transform .25s}
 .drop-zone:hover .drop-icon,.drop-zone.over .drop-icon{transform:translateY(-5px)}
@@ -539,88 +604,186 @@ function WelcomeScreen({ onStart, savedUser }) {
 }
 
 function HowToScreen({ onNext, onBack, user }) {
-  const [copied, setCopied] = useState(false);
+  const [copied,     setCopied]     = useState(false);
+  const [numero,     setNumero]     = useState("10");
+  const [banca,      setBanca]      = useState("CESPE/CEBRASPE");
+  const [disciplina, setDisciplina] = useState("Língua Portuguesa");
+  const [numCustom,  setNumCustom]  = useState("");
 
   const concurso = user?.concurso || "[CARGO/ÓRGÃO]";
-  const dynamicPrompt = PROMPT_TEMPLATE.replace(/\[CARGO\/ÓRGÃO\]/g, concurso);
+  const qtd      = numero === "outro" ? (numCustom || "[NÚMERO]") : numero;
 
-  const copy = () => {
+  const generatedPrompt = PROMPT_TEMPLATE
+    .replace(/\[NÚMERO\]/g,      qtd)
+    .replace(/\[BANCA\]/g,       banca)
+    .replace(/\[CARGO\/ÓRGÃO\]/g, concurso)
+    .replace(/\[DISCIPLINA\]/g,  disciplina);
+
+  const copyText = (text) => {
     const fallback = () => {
       const ta = document.createElement("textarea");
-      ta.value = dynamicPrompt;
+      ta.value = text;
       ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
+      document.body.appendChild(ta); ta.focus(); ta.select();
       try { document.execCommand("copy"); } catch {}
       document.body.removeChild(ta);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
+      setCopied(true); setTimeout(() => setCopied(false), 2200);
     };
     if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(dynamicPrompt).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2200);
-      }).catch(fallback);
-    } else {
-      fallback();
-    }
+      navigator.clipboard.writeText(text)
+        .then(() => { setCopied(true); setTimeout(() => setCopied(false), 2200); })
+        .catch(fallback);
+    } else { fallback(); }
   };
 
   const steps = [
-    { t: "Gere o JSON via IA",     d: "Copie o prompt e cole em qualquer IA (Groq, ChatGPT, Gemini, Claude). Ela retorna o JSON pronto." },
-    { t: "Faça o upload",          d: "Salve como .json e arraste para a plataforma. Se a IA não gerar arquivo, copie o texto e cole diretamente no campo de texto — as questões carregam automaticamente." },
-    { t: "Responda as questões",   d: "Para Certo/Errado tecle C ou E. Para múltipla escolha tecle A, B, C, D ou E. Após responder, tecle Enter ou Espaço para avançar. Você consegue fazer o simulado inteiro sem usar o mouse." },
-    { t: "Análise por IA",         d: "A IA identifica seus pontos fracos e gera um plano de estudo personalizado." },
-    { t: "Como preencher o prompt",d: `O prompt já vem com seu concurso preenchido (${concurso}). Você só precisa substituir: [NÚMERO] pela quantidade de questões desejada (ex: 10), [BANCA] pela banca do concurso (ex: CESPE/CEBRASPE) e [DISCIPLINA] pela matéria (ex: Língua Portuguesa). Os demais campos são gerados automaticamente pela IA.` },
+    { t: "Configure o prompt",    d: "Preencha os campos abaixo: número de questões, banca e disciplina. O prompt é gerado automaticamente." },
+    { t: "Copie e cole na IA",    d: "Clique em Copiar e cole em qualquer IA (Groq, ChatGPT, Gemini, Claude). Ela retorna o JSON pronto." },
+    { t: "Carregue o simulado",   d: "Se a IA gerar um arquivo, faça upload. Se não, copie o texto retornado e cole no campo da tela seguinte." },
+    { t: "Responda as questões",  d: "Para Certo/Errado tecle C ou E. Para múltipla escolha tecle A, B, C, D ou E. Após responder, tecle Enter ou Espaço para avançar. Você consegue fazer o simulado inteiro sem usar o mouse." },
+    { t: "Análise por IA",        d: "A IA identifica seus pontos fracos e gera um plano de estudo personalizado com base nos seus erros." },
   ];
+
   return (
     <div className="screen howto">
       <div className="grid-bg" />
       <div className="ht-top">
-        <h1 className="ht-h1">Como <em>funciona</em></h1>
-        <p className="ht-sub">Quatro passos da geração de questões até a aprovação.</p>
+        <h1 className="ht-h1">Gerar <em>simulado</em></h1>
+        <p className="ht-sub">Configure abaixo e copie o prompt pronto para qualquer IA.</p>
       </div>
+
+      {/* STEPS */}
       <div className="steps">
         {steps.map((s, i) => (
-          <div key={i} className="step" style={{ animationDelay: `${i * .07}s` }}>
+          <div key={i} className="step" style={{ animationDelay: `${i * .06}s` }}>
             <div className="step-n">{String(i+1).padStart(2,"0")}</div>
             <div className="step-t">{s.t}</div>
             <div className="step-d">{s.d}</div>
           </div>
         ))}
       </div>
+
+      {/* PROMPT BUILDER */}
       <div className="prompt-wrap">
         <div className="prompt-bar">
-          <span className="prompt-bar-t">Prompt para gerar <em>questões</em></span>
-          <button className={`btn-copy ${copied ? "ok" : ""}`} onClick={copy}>{copied ? "✓ Copiado" : "Copiar"}</button>
+          <span className="prompt-bar-t">Configure o <em>prompt</em></span>
         </div>
-        <div className="prompt-code">{dynamicPrompt}</div>
+
+        {/* FIELDS GRID */}
+        <div className="pb-fields">
+
+          {/* Concurso — readonly, já preenchido */}
+          <div className="pb-field">
+            <label className="pb-label">Concurso <span className="pb-auto">preenchido automaticamente</span></label>
+            <div className="pb-readonly">{concurso}</div>
+          </div>
+
+          {/* Banca */}
+          <div className="pb-field">
+            <label className="pb-label">Banca</label>
+            <select className="pb-select" value={banca} onChange={e => setBanca(e.target.value)}>
+              {BANCAS.map(b => <option key={b} value={b}>{b}</option>)}
+            </select>
+          </div>
+
+          {/* Disciplina */}
+          <div className="pb-field">
+            <label className="pb-label">Disciplina</label>
+            <select className="pb-select" value={disciplina} onChange={e => setDisciplina(e.target.value)}>
+              {DISCIPLINAS.map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+
+          {/* Número de questões */}
+          <div className="pb-field">
+            <label className="pb-label">Número de questões</label>
+            <div className="pb-num-row">
+              {NUMEROS.map(n => (
+                <button
+                  key={n}
+                  className={`pb-num-btn ${numero === n ? "pb-num-on" : ""}`}
+                  onClick={() => { setNumero(n); setNumCustom(""); }}
+                >{n}</button>
+              ))}
+              <button
+                className={`pb-num-btn ${numero === "outro" ? "pb-num-on" : ""}`}
+                onClick={() => setNumero("outro")}
+              >outro</button>
+            </div>
+            {numero === "outro" && (
+              <input
+                className="pb-custom-num"
+                type="number" min="1" max="100"
+                placeholder="Quantidade..."
+                value={numCustom}
+                onChange={e => setNumCustom(e.target.value)}
+                autoFocus
+              />
+            )}
+          </div>
+        </div>
+
+        {/* PREVIEW + COPY */}
+        <div className="prompt-bar" style={{ borderTop: "1px solid var(--b1)", borderBottom: "none" }}>
+          <span className="prompt-bar-t">Prompt <em>gerado</em></span>
+          <button className={`btn-copy ${copied ? "ok" : ""}`} onClick={() => copyText(generatedPrompt)}>
+            {copied ? "✓ Copiado" : "Copiar prompt"}
+          </button>
+        </div>
+        <div className="prompt-code">{generatedPrompt}</div>
       </div>
+
+      {/* NOTES */}
       <div className="info-wrap">
         <div className="info-label">Notas</div>
         <div className="info-items">
-          {["As questões são variações baseadas no estilo da banca — nunca cópias oficiais.",
+          {[
+            "~40% questões oficiais de provas reais, ~35% adaptadas, ~25% criadas por IA.",
             "O JSON fica com você. Crie quantos simulados quiser em qualquer IA.",
             "XP e progresso salvos automaticamente no navegador.",
             "A análise por IA funciona com Groq (gratuito), Anthropic, OpenAI ou Gemini.",
-            "Atalhos: C/E para Certo·Errado, A–E para múltipla escolha, Enter para avançar."]
-            .map((t, i) => <div key={i} className="info-item">{t}</div>)}
+            "Atalhos: C/E para Certo·Errado, A–E para múltipla escolha, Enter para avançar.",
+          ].map((t, i) => <div key={i} className="info-item">{t}</div>)}
         </div>
       </div>
+
       <div className="ht-nav">
         <button className="btn-ghost" onClick={onBack}>← Voltar</button>
-        <button className="btn-primary" onClick={onNext}>Entendi →</button>
+        <button className="btn-primary" onClick={onNext}>Carregar simulado →</button>
       </div>
     </div>
   );
 }
 
-function DropScreen({ onLoad, onHowTo }) {
+
+function buildGeneratePrompt(banca, disciplina, numero, concurso) {
+  return PROMPT_TEMPLATE
+    .replace(/\[CARGO\/ÓRGÃO\]/g, concurso || "[CARGO/ÓRGÃO]")
+    .replace(/\[NÚMERO\]/g, String(numero))
+    .replace(/\[BANCA\]/g, banca)
+    .replace(/\[DISCIPLINA\]/g, disciplina);
+}
+
+function DropScreen({ onLoad, onHowTo, user }) {
+  const [tab,      setTab]      = useState("gerar"); // gerar | upload | colar
   const [over,     setOver]     = useState(false);
   const [err,      setErr]      = useState(null);
   const [pasted,   setPasted]   = useState("");
   const [pasteErr, setPasteErr] = useState(null);
+
+  // Generate form state
+  const [banca,      setBanca]      = useState("CESPE/CEBRASPE");
+  const [disciplina, setDisciplina] = useState("Língua Portuguesa");
+  const [numero,     setNumero]     = useState(10);
+  const [genPid,     setGenPid]     = useState("groq");
+  const [genMid,     setGenMid]     = useState(PROVIDERS[0].models[0].id);
+  const [genKey,     setGenKey]     = useState("");
+  const [genLoad,    setGenLoad]    = useState(false);
+  const [genErr,     setGenErr]     = useState(null);
+  const [genStatus,  setGenStatus]  = useState("");
+
+  const genProvider = PROVIDERS.find(p => p.id === genPid) || PROVIDERS[0];
+  const switchGenProv = id => { setGenPid(id); setGenMid(PROVIDERS.find(p=>p.id===id).models[0].id); setGenErr(null); };
 
   const validate = (d, onFail) => {
     if (!d?.questoes?.length) { onFail("JSON inválido: campo 'questoes' ausente ou vazio."); return false; }
@@ -647,41 +810,168 @@ function DropScreen({ onLoad, onHowTo }) {
     } catch { setPasteErr("JSON inválido — verifique a sintaxe e tente novamente."); }
   };
 
+  const handleGenerate = async () => {
+    if (!genKey.trim()) { setGenErr("Informe a chave de API."); return; }
+    setGenLoad(true); setGenErr(null);
+    const steps = [
+      "Conectando com a IA...",
+      "Gerando questões...",
+      "Processando respostas...",
+      "Montando simulado...",
+    ];
+    let si = 0;
+    setGenStatus(steps[si]);
+    const interval = setInterval(() => {
+      si = Math.min(si + 1, steps.length - 1);
+      setGenStatus(steps[si]);
+    }, 2200);
+
+    try {
+      const prompt = buildGeneratePrompt(banca, disciplina, numero, user?.concurso);
+      const raw = await genProvider.call(prompt, genKey.trim(), genMid);
+      clearInterval(interval);
+
+      // Strip markdown fences if present
+      const clean = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "").trim();
+      const d = JSON.parse(clean);
+      if (!validate(d, msg => { setGenErr(msg); setGenLoad(false); })) return;
+      onLoad(d);
+    } catch (e) {
+      clearInterval(interval);
+      setGenErr(`Erro: ${e.message}. Verifique a chave e tente novamente.`);
+    } finally {
+      setGenLoad(false);
+      setGenStatus("");
+    }
+  };
+
+  const TABS = [
+    { id:"gerar",  label:"✦ Gerar com IA" },
+    { id:"upload", label:"↑ Upload" },
+    { id:"colar",  label:"⌘ Colar JSON" },
+  ];
+
   return (
     <div className="drop-screen screen">
       <div className="grid-bg" />
-      <div className="drop-card">
+      <div className="drop-card drop-card-wide">
         <h2 className="drop-h">Carregar <em>simulado</em></h2>
-        <p className="drop-sub">Faça upload do arquivo, cole o JSON direto ou arraste para a área abaixo.</p>
-        <label>
-          <div className={`drop-zone ${over ? "over" : ""}`}
-            onDragOver={e => { e.preventDefault(); setOver(true); }}
-            onDragLeave={() => setOver(false)}
-            onDrop={e => { e.preventDefault(); setOver(false); const f = e.dataTransfer.files[0]; if (f) process(f); }}>
-            <span className="drop-icon">↑</span>
-            <div className="drop-zone-t">Arraste o JSON aqui</div>
-            <div className="drop-zone-hint">ou clique para selecionar o arquivo</div>
+        <p className="drop-sub">Gere questões diretamente com IA, faça upload ou cole o JSON.</p>
+
+        {/* TABS */}
+        <div className="drop-tabs">
+          {TABS.map(t => (
+            <button key={t.id} className={`drop-tab ${tab===t.id?"drop-tab-on":""}`} onClick={() => { setTab(t.id); setErr(null); setPasteErr(null); setGenErr(null); }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* TAB: GERAR COM IA */}
+        {tab === "gerar" && (
+          <div className="gen-form">
+
+            {/* Row 1: banca + disciplina + número */}
+            <div className="gen-row">
+              <div className="gen-field">
+                <span className="gen-label">Banca</span>
+                <select className="gen-select" value={banca} onChange={e => setBanca(e.target.value)}>
+                  {BANCAS.map(b => <option key={b} value={b}>{b}</option>)}
+                </select>
+              </div>
+              <div className="gen-field">
+                <span className="gen-label">Disciplina</span>
+                <select className="gen-select" value={disciplina} onChange={e => setDisciplina(e.target.value)}>
+                  {DISCIPLINAS.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+              </div>
+              <div className="gen-field gen-field-sm">
+                <span className="gen-label">Questões</span>
+                <select className="gen-select" value={numero} onChange={e => setNumero(Number(e.target.value))}>
+                  {NUMEROS.map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Row 2: provider */}
+            <div className="gen-field" style={{marginTop:".75rem"}}>
+              <span className="gen-label">Provedor de IA</span>
+              <div className="prov-tabs" style={{marginTop:".35rem",marginBottom:0}}>
+                {PROVIDERS.map(p => (
+                  <button key={p.id} className={`prov-tab ${genPid===p.id?"on":""}`} onClick={() => switchGenProv(p.id)}>
+                    {p.label}<span className="prov-free">{p.tag}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 3: model + key */}
+            <div className="gen-row" style={{marginTop:".75rem"}}>
+              <div className="gen-field gen-field-sm">
+                <span className="gen-label">Modelo</span>
+                <select className="gen-select" value={genMid} onChange={e => setGenMid(e.target.value)}>
+                  {genProvider.models.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+                </select>
+              </div>
+              <div className="gen-field">
+                <span className="gen-label">Chave de API <span className="gen-label-hint">— {genProvider.hint}</span></span>
+                <input className="gen-input" type="password" placeholder={genProvider.placeholder} value={genKey} onChange={e => setGenKey(e.target.value)} />
+              </div>
+            </div>
+
+            {/* Summary */}
+            <div className="gen-summary">
+              Gerar <b>{numero}</b> questões de <b>{disciplina}</b> no estilo <b>{banca}</b>
+              {user?.concurso ? <> para <b>{user.concurso}</b></> : ""} via <b>{genProvider.label}</b>
+            </div>
+
+            {genErr && <div className="drop-err" style={{marginTop:".5rem"}}>— {genErr}</div>}
+
+            <button className="gen-btn" onClick={handleGenerate} disabled={genLoad || !genKey.trim()}>
+              {genLoad
+                ? <><span className="dots"><span>.</span><span>.</span><span>.</span></span> {genStatus}</>
+                : `✦ Gerar simulado com ${genProvider.label} →`}
+            </button>
           </div>
-          <input type="file" accept=".json" style={{ display:"none" }} onChange={e => { if (e.target.files[0]) process(e.target.files[0]); }} />
-        </label>
-        {err && <div className="drop-err">— {err}</div>}
+        )}
 
-        <div className="drop-or">ou cole o JSON abaixo</div>
+        {/* TAB: UPLOAD */}
+        {tab === "upload" && (
+          <>
+            <label style={{display:"block",marginTop:"1rem"}}>
+              <div className={`drop-zone ${over?"over":""}`}
+                onDragOver={e=>{e.preventDefault();setOver(true);}}
+                onDragLeave={()=>setOver(false)}
+                onDrop={e=>{e.preventDefault();setOver(false);const f=e.dataTransfer.files[0];if(f)process(f);}}>
+                <span className="drop-icon">↑</span>
+                <div className="drop-zone-t">Arraste o JSON aqui</div>
+                <div className="drop-zone-hint">ou clique para selecionar o arquivo</div>
+              </div>
+              <input type="file" accept=".json" style={{display:"none"}} onChange={e=>{if(e.target.files[0])process(e.target.files[0]);}} />
+            </label>
+            {err && <div className="drop-err">— {err}</div>}
+          </>
+        )}
 
-        <textarea
-          className="drop-paste"
-          placeholder={'{\n  "metadata": { ... },\n  "questoes": [ ... ]\n}'}
-          value={pasted}
-          onChange={e => { setPasted(e.target.value); setPasteErr(null); }}
-          spellCheck={false}
-        />
-        {pasteErr && <div className="drop-err">— {pasteErr}</div>}
-        <button className="drop-paste-btn" onClick={handlePaste} disabled={!pasted.trim()}>
-          Carregar JSON colado →
-        </button>
+        {/* TAB: COLAR */}
+        {tab === "colar" && (
+          <>
+            <textarea
+              className="drop-paste" style={{marginTop:"1rem"}}
+              placeholder={'{\n  "metadata": { ... },\n  "questoes": [ ... ]\n}'}
+              value={pasted}
+              onChange={e=>{setPasted(e.target.value);setPasteErr(null);}}
+              spellCheck={false}
+            />
+            {pasteErr && <div className="drop-err">— {pasteErr}</div>}
+            <button className="drop-paste-btn" onClick={handlePaste} disabled={!pasted.trim()}>
+              Carregar JSON colado →
+            </button>
+          </>
+        )}
 
         <div className="drop-or">ou</div>
-        <button className="drop-link" onClick={onHowTo}>Como gerar questões com IA →</button>
+        <button className="drop-link" onClick={onHowTo}>Ver como funciona →</button>
       </div>
     </div>
   );
@@ -1108,7 +1398,7 @@ export default function App() {
       <style>{FONTS}{S}</style>
       {screen==="welcome"  && <WelcomeScreen onStart={handleStart} savedUser={user} />}
       {screen==="howto"    && <HowToScreen onNext={()=>setScreen("drop")} onBack={()=>setScreen("welcome")} user={user} />}
-      {screen==="drop"     && <DropScreen onLoad={handleLoad} onHowTo={()=>setScreen("howto")} />}
+      {screen==="drop"     && <DropScreen onLoad={handleLoad} onHowTo={()=>setScreen("howto")} user={user} />}
       {screen==="quiz"     && data && <QuizScreen data={data} user={user} answers={answers} setAnswers={setAnswers} xp={xp} setXp={setXp} streak={streak} setStreak={setStreak} maxStreak={maxStreak} setMaxStreak={setMaxStreak} onFinish={handleFinish} />}
       {screen==="analysis" && data && <AnalysisScreen data={data} answers={answers} user={user} xp={xp} maxStreak={maxStreak} onRestart={handleRestart} />}
     </>
