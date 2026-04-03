@@ -139,8 +139,8 @@ const getEarned = s => { const e=new Set(); if(s.total>=1)e.add("start"); if(s.m
 const loadUser = () => { try { return JSON.parse(localStorage.getItem("cq_v2")||"null"); } catch { return null; } };
 const saveUser = u => localStorage.setItem("cq_v2", JSON.stringify(u));
 const buildPrompt = (wrongs, user) => {
-  const lines = wrongs.map(q=>`• [${q.categoria?.subtopico||"Geral"}] Marcou: "${q.userAlt?.texto}" | Correto: "${q.correctAlt?.texto}"`).join("\n");
-  return `Você é professor especialista em concursos públicos.\n\nCandidato: ${user.name}\nConcurso: ${user.concurso}\n\nErros:\n${lines||"Nenhum — simulado perfeito!"}\n\nAnalise e forneça:\n1. Diagnóstico dos pontos fracos\n2. Prioridade de estudo\n3. Dicas práticas por área\n4. Mensagem motivacional\n\nDireto, didático, máximo 350 palavras.`;
+  const lines = wrongs.map(q=>`• Tópico: ${q.categoria?.subtopico||q.categoria?.topico||"Geral"}\n  Enunciado: ${q.enunciado?.slice(0,200)}\n  Marcou: "${q.userAlt?.texto}" | Correto: "${q.correctAlt?.texto}"\n  Explicação da questão: ${q.explicacao||"—"}`).join("\n\n");
+  return `Você é professor especialista em concursos públicos brasileiros, didático e objetivo.\n\nCandidato: ${user.name} — Concurso: ${user.concurso}\n\nQuestões que ${user.name} errou:\n${lines||"Nenhuma — simulado perfeito!"}\n\nPara cada tópico em que o candidato errou:\n1. Explique brevemente a regra ou conceito (2-3 linhas)\n2. Dê 1 exemplo prático e concreto que ilustre a regra\n3. Aponte o erro específico que levou à resposta errada\n\nNão faça listas genéricas. Ensine de verdade, como um professor explicando no quadro.\nSe errou mais de uma questão do mesmo tópico, agrupe e aprofunde a explicação.\nFinalize com uma frase motivacional curta e direta.\nMáximo 500 palavras.`;
 };
 
 function useClock() {
