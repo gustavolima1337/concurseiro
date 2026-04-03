@@ -598,6 +598,7 @@ function WelcomeScreen({ onStart, savedUser }) {
           <span>Análise personalizada</span>
           <span>Multi-provedor</span>
         </div>
+        <a href="https://www.linkedin.com/in/gustavodocarmolima/" target="_blank" rel="noreferrer" style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",textDecoration:"none",letterSpacing:".08em",transition:"color .15s"}} onMouseEnter={e=>e.target.style.color="var(--ac)"} onMouseLeave={e=>e.target.style.color="var(--t3)"}>feito por Gustavo</a>
       </div>
     </div>
   );
