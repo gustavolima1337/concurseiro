@@ -362,7 +362,7 @@ body{background:var(--bg);font-family:var(--B);color:var(--tx);min-height:100vh}
 .qtag-d{border-color:rgba(255,69,69,.2);color:rgba(255,69,69,.65)}
 .q-pos{font-family:var(--M);font-size:.6rem;color:var(--t3);margin-left:auto}
 .q-card{border:1px solid var(--b1);padding:2.5rem;margin-bottom:1rem;position:relative;overflow:hidden;background:var(--s1)}
-.q-watermark{position:absolute;right:-1rem;bottom:-2rem;font-family:var(--F);font-size:11rem;font-weight:800;color:var(--b1);line-height:1;pointer-events:none;user-select:none}
+.q-watermark{position:absolute;right:-1rem;bottom:-2rem;font-family:var(--F);font-size:11rem;font-weight:800;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;user-select:none}
 .q-type-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem}
 .q-type-lbl{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
 .q-type-line{flex:1;height:1px;background:var(--b1)}
@@ -765,7 +765,7 @@ function buildGeneratePrompt(banca, disciplina, numero, concurso) {
 }
 
 function DropScreen({ onLoad, onHowTo, user }) {
-  const [tab,      setTab]      = useState("gerar"); // gerar | upload | colar
+  const [tab,      setTab]      = useState("colar"); // colar | upload | gerar
   const [over,     setOver]     = useState(false);
   const [err,      setErr]      = useState(null);
   const [pasted,   setPasted]   = useState("");
@@ -846,9 +846,9 @@ function DropScreen({ onLoad, onHowTo, user }) {
   };
 
   const TABS = [
-    { id:"gerar",  label:"✦ Gerar com IA" },
-    { id:"upload", label:"↑ Upload" },
     { id:"colar",  label:"⌘ Colar JSON" },
+    { id:"upload", label:"↑ Upload" },
+    { id:"gerar",  label:"✦ Gerar com IA" },
   ];
 
   return (
