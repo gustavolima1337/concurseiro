@@ -112,25 +112,25 @@ const PROVIDERS = [
     id:"groq", label:"Groq", tag:"Gratuito",
     placeholder:"gsk_...", hint:"console.groq.com — sem cartão de crédito",
     models:[{id:"llama-3.3-70b-versatile",label:"Llama 3.3 70B"},{id:"llama-3.1-8b-instant",label:"Llama 3.1 8B"},{id:"gemma2-9b-it",label:"Gemma 2 9B"}],
-    call:async(p,k,m)=>{const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${k}`},body:JSON.stringify({model:m,max_tokens:800,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`Groq ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.choices?.[0]?.message?.content||"";},
+    call:async(p,k,m,maxTok=800)=>{const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${k}`},body:JSON.stringify({model:m,max_tokens:maxTok,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`Groq ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.choices?.[0]?.message?.content||"";},
   },
   {
     id:"anthropic", label:"Claude", tag:"Pago",
     placeholder:"sk-ant-...", hint:"console.anthropic.com — ~$0,0003 por análise",
     models:[{id:"claude-haiku-4-5-20251001",label:"Claude Haiku"},{id:"claude-sonnet-4-6",label:"Claude Sonnet"}],
-    call:async(p,k,m)=>{const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01"},body:JSON.stringify({model:m,max_tokens:800,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`Anthropic ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.content?.[0]?.text||"";},
+    call:async(p,k,m,maxTok=800)=>{const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01"},body:JSON.stringify({model:m,max_tokens:maxTok,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`Anthropic ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.content?.[0]?.text||"";},
   },
   {
     id:"openai", label:"ChatGPT", tag:"Pago",
     placeholder:"sk-...", hint:"platform.openai.com",
     models:[{id:"gpt-4o-mini",label:"GPT-4o mini"},{id:"gpt-4o",label:"GPT-4o"}],
-    call:async(p,k,m)=>{const r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${k}`},body:JSON.stringify({model:m,max_tokens:800,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`OpenAI ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.choices?.[0]?.message?.content||"";},
+    call:async(p,k,m,maxTok=800)=>{const r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${k}`},body:JSON.stringify({model:m,max_tokens:maxTok,messages:[{role:"user",content:p}]})});if(!r.ok)throw new Error(`OpenAI ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.choices?.[0]?.message?.content||"";},
   },
   {
     id:"gemini", label:"Gemini", tag:"Grátis*",
     placeholder:"AIza...", hint:"aistudio.google.com — tier gratuito disponível",
     models:[{id:"gemini-1.5-flash",label:"Gemini 1.5 Flash"},{id:"gemini-1.5-pro",label:"Gemini 1.5 Pro"}],
-    call:async(p,k,m)=>{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${k}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:p}]}],generationConfig:{maxOutputTokens:800}})});if(!r.ok)throw new Error(`Gemini ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.candidates?.[0]?.content?.parts?.[0]?.text||"";},
+    call:async(p,k,m,maxTok=800)=>{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${k}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:p}]}],generationConfig:{maxOutputTokens:maxTok}})});if(!r.ok)throw new Error(`Gemini ${r.status}`);const d=await r.json();if(d.error)throw new Error(d.error.message);return d.candidates?.[0]?.content?.parts?.[0]?.text||"";},
   },
 ];
 
@@ -828,7 +828,7 @@ function DropScreen({ onLoad, onHowTo, user }) {
 
     try {
       const prompt = buildGeneratePrompt(banca, disciplina, numero, user?.concurso);
-      const raw = await genProvider.call(prompt, genKey.trim(), genMid);
+      const raw = await genProvider.call(prompt, genKey.trim(), genMid, 8192);
       clearInterval(interval);
 
       // Strip markdown fences if present
@@ -1403,4 +1403,4 @@ export default function App() {
       {screen==="analysis" && data && <AnalysisScreen data={data} answers={answers} user={user} xp={xp} maxStreak={maxStreak} onRestart={handleRestart} />}
     </>
   );
-}
+}''
