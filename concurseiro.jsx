@@ -38,7 +38,7 @@ const DISCIPLINAS = [
 const NUMEROS = ["5","10","15","20","25","30"];
 
 const PROMPT_TEMPLATE = `Você é um especialista em concursos públicos brasileiros e gerador de questões.
-Gere [NÚMERO] questões MISTAS para o concurso [CARGO/ÓRGÃO], disciplina [DISCIPLINA].
+Gere [NÚMERO] questões MISTAS para o concurso [CARGO/ÓRGÃO], disciplina [DISCIPLINA][TEMA].
 Distribua assim: ~40% questões oficiais de provas reais, ~60% criadas/adaptadas.
 
 Substitua os campos entre colchetes antes de enviar. Exemplo:
@@ -609,16 +609,13 @@ function HowToScreen({ onNext, onBack, user }) {
   const [numero,     setNumero]     = useState("10");
   const [banca,      setBanca]      = useState("CESPE/CEBRASPE");
   const [disciplina, setDisciplina] = useState("Língua Portuguesa");
+  const [tema,       setTema]       = useState("");
   const [numCustom,  setNumCustom]  = useState("");
 
   const concurso = user?.concurso || "[CARGO/ÓRGÃO]";
   const qtd      = numero === "outro" ? (numCustom || "[NÚMERO]") : numero;
 
-  const generatedPrompt = PROMPT_TEMPLATE
-    .replace(/\[NÚMERO\]/g,      qtd)
-    .replace(/\[BANCA\]/g,       banca)
-    .replace(/\[CARGO\/ÓRGÃO\]/g, concurso)
-    .replace(/\[DISCIPLINA\]/g,  disciplina);
+  const generatedPrompt = buildGeneratePrompt(banca, disciplina, qtd, concurso, tema);
 
   const copyText = (text) => {
     const fallback = () => {
@@ -695,6 +692,19 @@ function HowToScreen({ onNext, onBack, user }) {
             </select>
           </div>
 
+          {/* Tema livre */}
+          <div className="pb-field">
+            <label className="pb-label">Tema <span className="pb-auto">opcional</span></label>
+            <input
+              className="pb-select"
+              type="text"
+              placeholder="Ex: Sintaxe, Morfologia, Juros simples..."
+              value={tema}
+              onChange={e => setTema(e.target.value)}
+              style={{background:"var(--s2)",border:"1px solid var(--b2)",color:"var(--tx)",padding:".5rem .75rem",outline:"none",width:"100%",fontFamily:"var(--B)",fontSize:".9rem"}}
+            />
+          </div>
+
           {/* Número de questões */}
           <div className="pb-field">
             <label className="pb-label">Número de questões</label>
@@ -757,12 +767,13 @@ function HowToScreen({ onNext, onBack, user }) {
 }
 
 
-function buildGeneratePrompt(banca, disciplina, numero, concurso) {
+function buildGeneratePrompt(banca, disciplina, numero, concurso, tema) {
   return PROMPT_TEMPLATE
     .replace(/\[CARGO\/ÓRGÃO\]/g, concurso || "[CARGO/ÓRGÃO]")
     .replace(/\[NÚMERO\]/g, String(numero))
     .replace(/\[BANCA\]/g, banca)
-    .replace(/\[DISCIPLINA\]/g, disciplina);
+    .replace(/\[DISCIPLINA\]/g, disciplina)
+    .replace(/\[TEMA\]/g, tema?.trim() ? `, com foco em ${tema.trim()}` : "");
 }
 
 function DropScreen({ onLoad, onHowTo, user }) {
@@ -775,6 +786,7 @@ function DropScreen({ onLoad, onHowTo, user }) {
   // Generate form state
   const [banca,      setBanca]      = useState("CESPE/CEBRASPE");
   const [disciplina, setDisciplina] = useState("Língua Portuguesa");
+  const [tema,       setTema]       = useState("");
   const [numero,     setNumero]     = useState(10);
   const [genPid,     setGenPid]     = useState("groq");
   const [genMid,     setGenMid]     = useState(PROVIDERS[0].models[0].id);
@@ -828,7 +840,7 @@ function DropScreen({ onLoad, onHowTo, user }) {
     }, 2200);
 
     try {
-      const prompt = buildGeneratePrompt(banca, disciplina, numero, user?.concurso);
+      const prompt = buildGeneratePrompt(banca, disciplina, numero, user?.concurso, tema);
       const raw = await genProvider.call(prompt, genKey.trim(), genMid, 8192);
       clearInterval(interval);
 
@@ -885,6 +897,10 @@ function DropScreen({ onLoad, onHowTo, user }) {
                 <select className="gen-select" value={disciplina} onChange={e => setDisciplina(e.target.value)}>
                   {DISCIPLINAS.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
+              </div>
+              <div className="gen-field">
+                <span className="gen-label">Tema <span className="gen-label-hint">— opcional</span></span>
+                <input className="gen-input" type="text" placeholder="Ex: Sintaxe, Morfologia, Juros simples..." value={tema} onChange={e => setTema(e.target.value)} />
               </div>
               <div className="gen-field gen-field-sm">
                 <span className="gen-label">Questões</span>
