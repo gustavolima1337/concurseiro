@@ -1397,7 +1397,7 @@ function AnalysisScreen({ data, answers, user, xp, maxStreak, onRestart }) {
 }
 
 export default function App() {
-  const [screen,    setScreen]    = useState(() => loadUser() ? "drop" : "welcome");
+  const [screen,    setScreen]    = useState("welcome");
   const [user,      setUser]      = useState(loadUser);
   const [data,      setData]      = useState(null);
   const [answers,   setAnswers]   = useState({});
