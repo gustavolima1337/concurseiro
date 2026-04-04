@@ -994,7 +994,7 @@ function DropScreen({ onLoad, onHowTo, user }) {
   );
 }
 
-function TopBar({ xp, streak, acertos, erros, progress, meta }) {
+function TopBar({ xp, streak, acertos, erros, progress, meta, onBack }) {
   const { level, progress: xpPct, xpIn } = calcLevel(xp);
   const items = [...MARQUEE, ...MARQUEE];
   const metaLabel = { diaria: "/ dia", semanal: "/ sem", mensal: "/ mês" };
@@ -1002,7 +1002,10 @@ function TopBar({ xp, streak, acertos, erros, progress, meta }) {
   return (
     <div className="topbar">
       <div className="topbar-row">
-        <div className="tb-brand">Concurseiro<b>.</b></div>
+        <div style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+          <div className="tb-brand">Concurseiro<b>.</b></div>
+          {onBack && <button onClick={onBack} style={{fontFamily:"var(--M)",fontSize:".58rem",textTransform:"uppercase",letterSpacing:".08em",padding:".22rem .65rem",border:"1px solid var(--b2)",background:"transparent",color:"var(--t3)",cursor:"pointer",transition:"all .15s"}} onMouseEnter={e=>{e.target.style.borderColor="var(--tx)";e.target.style.color="var(--tx)"}} onMouseLeave={e=>{e.target.style.borderColor="var(--b2)";e.target.style.color="var(--t3)"}}>← Voltar</button>}
+        </div>
         <div className="xp-bar-wrap">
           <div className="xp-bar-meta"><span>NV {level}</span><span>{xpIn}/500</span></div>
           <div className="xp-track"><div className="xp-fill" style={{ width:`${xpPct*100}%` }} /></div>
@@ -1031,7 +1034,7 @@ function TopBar({ xp, streak, acertos, erros, progress, meta }) {
   );
 }
 
-function QuizScreen({ data, user, answers, setAnswers, xp, setXp, streak, setStreak, maxStreak, setMaxStreak, onFinish }) {
+function QuizScreen({ data, user, answers, setAnswers, xp, setXp, streak, setStreak, maxStreak, setMaxStreak, onFinish, onBack }) {
   const [cur, setCur] = useState(0);
   const [dir, setDir] = useState("r");
   const [xpFs, setXpFs] = useState([]);
@@ -1069,7 +1072,7 @@ function QuizScreen({ data, user, answers, setAnswers, xp, setXp, streak, setStr
 
   return (
     <>
-      <TopBar xp={xp} streak={streak} acertos={acertos} erros={erros} progress={cur/questoes.length} meta={user?.meta} />
+      <TopBar xp={xp} streak={streak} acertos={acertos} erros={erros} progress={cur/questoes.length} meta={user?.meta} onBack={onBack} />
       <div className="quiz-wrap">
         <div className="q-meta">
           {q.fonte?.banca && <span className="qtag qtag-b">{q.fonte.banca}{q.fonte.ano ? ` · ${q.fonte.ano}` : ""}</span>}
@@ -1416,7 +1419,7 @@ export default function App() {
       {screen==="welcome"  && <WelcomeScreen onStart={handleStart} savedUser={user} />}
       {screen==="howto"    && <HowToScreen onNext={()=>setScreen("drop")} onBack={()=>setScreen("welcome")} user={user} />}
       {screen==="drop"     && <DropScreen onLoad={handleLoad} onHowTo={()=>setScreen("howto")} user={user} />}
-      {screen==="quiz"     && data && <QuizScreen data={data} user={user} answers={answers} setAnswers={setAnswers} xp={xp} setXp={setXp} streak={streak} setStreak={setStreak} maxStreak={maxStreak} setMaxStreak={setMaxStreak} onFinish={handleFinish} />}
+      {screen==="quiz"     && data && <QuizScreen data={data} user={user} answers={answers} setAnswers={setAnswers} xp={xp} setXp={setXp} streak={streak} setStreak={setStreak} maxStreak={maxStreak} setMaxStreak={setMaxStreak} onFinish={handleFinish} onBack={handleRestart} />}
       {screen==="analysis" && data && <AnalysisScreen data={data} answers={answers} user={user} xp={xp} maxStreak={maxStreak} onRestart={handleRestart} />}
     </>
   );
