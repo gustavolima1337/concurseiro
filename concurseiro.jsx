@@ -543,7 +543,7 @@ function WelcomeScreen({ onStart, savedUser }) {
       </div>
       <div className="w-hero">
         <div className="w-eyebrow">Plataforma de simulados</div>
-        <h1 className="w-h1">Estude<br />com <em>método.</em></h1>
+        <h1 className="w-h1">Estude<br />com <em>eficiência.</em></h1>
       </div>
 
       <div className="w-form">
