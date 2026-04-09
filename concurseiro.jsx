@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap');`;
 
@@ -2561,8 +2561,8 @@ function SintaxeScreen({ onBack }) {
   const [extraIdentificar, setExtraIdentificar] = useState([]);
   const [extraConstruir, setExtraConstruir] = useState([]);
 
-  const todosIdentificar = [...SINTAXE_EXERCICIOS, ...extraIdentificar];
-  const todosConstruir = [...CONSTRUCAO_EXERCICIOS, ...extraConstruir];
+  const todosIdentificar = useMemo(() => shuffle([...SINTAXE_EXERCICIOS, ...extraIdentificar]), [extraIdentificar.length]);
+  const todosConstruir = useMemo(() => shuffle([...CONSTRUCAO_EXERCICIOS, ...extraConstruir]), [extraConstruir.length]);
 
   return (
     <div className="sint-screen screen">
