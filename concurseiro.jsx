@@ -37,6 +37,761 @@ const DISCIPLINAS = [
 
 const NUMEROS = ["5","10","15","20","25","30"];
 
+const SINT_CATS = ["Adjunto Adnominal","Complemento Nominal","Sujeito","Objeto Direto","Predicativo do Sujeito","Predicativo do Objeto","Adjunto Adverbial","Agente da Passiva","Objeto Indireto","Aposto"];
+
+const SINTAXE_EXERCICIOS = [
+  // ── ADJUNTO ADNOMINAL (5) ──
+  {
+    id: 1, categoria: "Adjunto Adnominal",
+    instrucao: 'Encontre o <em>adjunto adnominal</em> de "construção"',
+    frase: "A construção do engenheiro impressionou a todos.",
+    blocos: [
+      { id: "b1", texto: "A", funcao: "Artigo definido", cor: "#6b9fff" },
+      { id: "b2", texto: "construção", funcao: "Núcleo do sujeito", cor: "#a78bfa" },
+      { id: "b3", texto: "do engenheiro", funcao: "Adjunto Adnominal", cor: "#c8f000" },
+      { id: "b4", texto: "impressionou", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b5", texto: "a todos", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b3",
+    explicacao: 'O sintagma "do engenheiro" é preposicionado e qualifica o substantivo "construção" (indica autoria). Termos preposicionados que modificam um nome — sem serem exigidos por ele — são adjuntos adnominais.',
+  },
+  // ── ADJUNTO ADNOMINAL 2-5 ──
+  {
+    id: 2, categoria: "Adjunto Adnominal",
+    instrucao: 'Encontre o <em>adjunto adnominal</em> de "viatura"',
+    frase: "A viatura da PRF abordou o veículo suspeito.",
+    blocos: [
+      { id: "b1", texto: "A viatura", funcao: "Sujeito (art. + núcleo)", cor: "#a78bfa" },
+      { id: "b2", texto: "da PRF", funcao: "Adjunto Adnominal", cor: "#c8f000" },
+      { id: "b3", texto: "abordou", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b4", texto: "o veículo suspeito", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b2",
+    explicacao: '"Da PRF" especifica a qual instituição pertence a viatura — relação de pertencimento. Sintagmas preposicionados que qualificam um substantivo sem serem exigidos por ele são adjuntos adnominais.',
+  },
+  {
+    id: 3, categoria: "Adjunto Adnominal",
+    instrucao: 'Encontre o <em>adjunto adnominal</em> de "agentes"',
+    frase: "Os agentes federais realizaram a busca no local.",
+    blocos: [
+      { id: "b1", texto: "Os agentes", funcao: "Núcleo do sujeito + art.", cor: "#a78bfa" },
+      { id: "b2", texto: "federais", funcao: "Adjunto Adnominal", cor: "#c8f000" },
+      { id: "b3", texto: "realizaram", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b4", texto: "a busca", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b5", texto: "no local", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b2",
+    explicacao: '"Federais" é adjetivo que qualifica diretamente "agentes". Adjetivos que modificam um nome sem a mediação de verbo de ligação são adjuntos adnominais — diferem do predicativo por não dependerem de VL.',
+  },
+  {
+    id: 4, categoria: "Adjunto Adnominal",
+    instrucao: 'Encontre o <em>adjunto adnominal</em> de "advogado"',
+    frase: "O advogado do réu apresentou os documentos ao juiz.",
+    blocos: [
+      { id: "b1", texto: "O advogado", funcao: "Núcleo do sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "do réu", funcao: "Adjunto Adnominal", cor: "#c8f000" },
+      { id: "b3", texto: "apresentou", funcao: "Verbo (VTDI)", cor: "#f97316" },
+      { id: "b4", texto: "os documentos", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b5", texto: "ao juiz", funcao: "Objeto Indireto", cor: "#6b9fff" },
+    ],
+    resposta: "b2",
+    explicacao: '"Do réu" indica de quem é o advogado — posse. Não confunda com complemento nominal: o CN é exigido por nomes que expressam ação/sentimento; o adj. adnominal é acessório e pode ser retirado sem tornar o nome incompleto.',
+  },
+  {
+    id: 5, categoria: "Adjunto Adnominal",
+    instrucao: 'Encontre o <em>adjunto adnominal</em> de "candidatos"',
+    frase: "Os candidatos aprovados receberam a convocação oficial.",
+    blocos: [
+      { id: "b1", texto: "Os candidatos", funcao: "Núcleo do sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "aprovados", funcao: "Adjunto Adnominal", cor: "#c8f000" },
+      { id: "b3", texto: "receberam", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b4", texto: "a convocação oficial", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b2",
+    explicacao: '"Aprovados" é particípio com valor adjetival que qualifica "candidatos". Mesmo sendo forma verbal, funciona como adjetivo aqui — portanto, adjunto adnominal. "Oficial" faz o mesmo papel em relação a "convocação".',
+  },
+  // ── COMPLEMENTO NOMINAL (5) ──
+  {
+    id: 6, categoria: "Complemento Nominal",
+    instrucao: 'Encontre o <em>complemento nominal</em> de "favorável"',
+    frase: "O candidato era favorável à proposta da banca.",
+    blocos: [
+      { id: "b1", texto: "O candidato", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "era", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "favorável", funcao: "Predicativo do sujeito", cor: "#6b9fff" },
+      { id: "b4", texto: "à proposta da banca", funcao: "Complemento Nominal", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"À proposta da banca" completa o adjetivo "favorável": favorável *a quê*? CNs são exigidos por nomes (subst., adj., adv.) e sempre vêm com preposição. Diferem do adj. adnominal por serem obrigatórios para completar o sentido.',
+  },
+  {
+    id: 7, categoria: "Complemento Nominal",
+    instrucao: 'Encontre o <em>complemento nominal</em> de "necessidade"',
+    frase: "A sociedade tem necessidade de novos policiais.",
+    blocos: [
+      { id: "b1", texto: "A sociedade", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "tem", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "necessidade", funcao: "Objeto Direto (núcleo)", cor: "#6b9fff" },
+      { id: "b4", texto: "de novos policiais", funcao: "Complemento Nominal", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"De novos policiais" completa o substantivo "necessidade" (necessidade *de quê*?). Substantivos que expressam ação, sentimento ou estado frequentemente exigem CN com preposição. Estrutura "necessidade de" é padrão típico de CN.',
+  },
+  {
+    id: 8, categoria: "Complemento Nominal",
+    instrucao: 'Encontre o <em>complemento nominal</em> de "apto"',
+    frase: "O servidor mostrou-se apto ao cargo efetivado.",
+    blocos: [
+      { id: "b1", texto: "O servidor", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "mostrou-se", funcao: "Verbo de ligação (pronominal)", cor: "#f97316" },
+      { id: "b3", texto: "apto", funcao: "Predicativo do sujeito", cor: "#6b9fff" },
+      { id: "b4", texto: "ao cargo efetivado", funcao: "Complemento Nominal", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Ao cargo efetivado" completa o adjetivo "apto": apto *a quê*? Adjetivos como apto, contrário, favorável, propício, ávido exigem CN com preposição. Padrão altamente cobrado no CESPE/CEBRASPE.',
+  },
+  {
+    id: 9, categoria: "Complemento Nominal",
+    instrucao: 'Encontre o <em>complemento nominal</em> de "certo"',
+    frase: "O candidato estava certo de sua aprovação.",
+    blocos: [
+      { id: "b1", texto: "O candidato", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "estava", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "certo", funcao: "Predicativo do sujeito", cor: "#6b9fff" },
+      { id: "b4", texto: "de sua aprovação", funcao: "Complemento Nominal", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"De sua aprovação" completa "certo" no sentido de "convicto/seguro" — certo *de quê*? O adjetivo "certo" nessa acepção exige CN com "de". CN é exigido; adj. adnominal é facultativo — essa é a distinção-chave.',
+  },
+  {
+    id: 10, categoria: "Complemento Nominal",
+    instrucao: 'Encontre o <em>complemento nominal</em> de "contrário"',
+    frase: "O agente era contrário à resolução administrativa.",
+    blocos: [
+      { id: "b1", texto: "O agente", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "era", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "contrário", funcao: "Predicativo do sujeito", cor: "#6b9fff" },
+      { id: "b4", texto: "à resolução administrativa", funcao: "Complemento Nominal", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"À resolução administrativa" completa "contrário": contrário *a quê*? Sem o CN a frase ficaria semanticamente incompleta. Adjetivos "contrário", "favorável", "apto", "propenso" sempre exigem CN com preposição.',
+  },
+  // ── SUJEITO (5) ──
+  {
+    id: 11, categoria: "Sujeito",
+    instrucao: "Encontre o <em>sujeito</em> da oração",
+    frase: "Os policiais federais cumpriram as ordens.",
+    blocos: [
+      { id: "b1", texto: "Os policiais federais", funcao: "Sujeito", cor: "#c8f000" },
+      { id: "b2", texto: "cumpriram", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b3", texto: "as ordens", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b1",
+    explicacao: '"Os policiais federais" é o sujeito: ser sobre o qual se declara algo, com o qual o verbo concorda. Núcleo "policiais" + adj. adnominal "federais" + artigo "Os".',
+  },
+  {
+    id: 12, categoria: "Sujeito",
+    instrucao: "Encontre o <em>sujeito</em> da oração (atenção: voz passiva)",
+    frase: "O edital do concurso foi publicado no Diário Oficial.",
+    blocos: [
+      { id: "b1", texto: "O edital do concurso", funcao: "Sujeito paciente", cor: "#c8f000" },
+      { id: "b2", texto: "foi publicado", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "no Diário Oficial", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b1",
+    explicacao: 'Na voz passiva o sujeito é o ser que sofre a ação (sujeito paciente). "O edital do concurso" sofre a ação de ser publicado — é o sujeito. O verbo "foi publicado" concorda com ele. "Do concurso" é adj. adnominal.',
+  },
+  {
+    id: 13, categoria: "Sujeito",
+    instrucao: "Encontre o <em>sujeito</em> da oração",
+    frase: "A banca examinadora divulgou o resultado preliminar.",
+    blocos: [
+      { id: "b1", texto: "A banca examinadora", funcao: "Sujeito", cor: "#c8f000" },
+      { id: "b2", texto: "divulgou", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b3", texto: "o resultado preliminar", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b1",
+    explicacao: '"A banca examinadora" é o sujeito simples: único núcleo "banca" + determinante "A" + adj. adnominal "examinadora". O sujeito inclui todos os seus modificadores — eles não são o sujeito em si, apenas o expandem.',
+  },
+  {
+    id: 14, categoria: "Sujeito",
+    instrucao: "Encontre o <em>sujeito</em> da oração",
+    frase: "O delegado de polícia instaurou o inquérito policial.",
+    blocos: [
+      { id: "b1", texto: "O delegado de polícia", funcao: "Sujeito", cor: "#c8f000" },
+      { id: "b2", texto: "instaurou", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b3", texto: "o inquérito policial", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b1",
+    explicacao: '"O delegado de polícia" é o sujeito. "De polícia" é adj. adnominal de "delegado". O sujeito simples tem um único núcleo nominal — aqui "delegado" — podendo ter modificadores sem mudar a classificação.',
+  },
+  {
+    id: 15, categoria: "Sujeito",
+    instrucao: "Encontre o <em>sujeito</em> da oração",
+    frase: "Os candidatos aprovados aguardavam a convocação ansiosamente.",
+    blocos: [
+      { id: "b1", texto: "Os candidatos aprovados", funcao: "Sujeito", cor: "#c8f000" },
+      { id: "b2", texto: "aguardavam", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b3", texto: "a convocação", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "ansiosamente", funcao: "Adjunto Adverbial de Modo", cor: "#6b9fff" },
+    ],
+    resposta: "b1",
+    explicacao: '"Os candidatos aprovados" é o sujeito. "Aprovados" é adj. adnominal de "candidatos". A concordância verbal se dá com o núcleo: "candidatos aguardavam". Adj. adverbial "ansiosamente" é acessório — não integra o sujeito.',
+  },
+  // ── OBJETO DIRETO (5) ──
+  {
+    id: 16, categoria: "Objeto Direto",
+    instrucao: 'Encontre o <em>objeto direto</em> do verbo "multar"',
+    frase: "O fiscal multou o motorista imprudente.",
+    blocos: [
+      { id: "b1", texto: "O fiscal", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "multou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "o motorista imprudente", funcao: "Objeto Direto", cor: "#c8f000" },
+    ],
+    resposta: "b3",
+    explicacao: '"O motorista imprudente" completa "multar" sem preposição. VTD pede complemento sem preposição = OD. Pergunte: o fiscal multou *quem*? "Imprudente" é adj. adnominal dentro do OD.',
+  },
+  {
+    id: 17, categoria: "Objeto Direto",
+    instrucao: 'Encontre o <em>objeto direto</em> do verbo "apreender"',
+    frase: "O agente apreendeu o veículo irregular na rodovia.",
+    blocos: [
+      { id: "b1", texto: "O agente", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "apreendeu", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "o veículo irregular", funcao: "Objeto Direto", cor: "#c8f000" },
+      { id: "b4", texto: "na rodovia", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"O veículo irregular" é o OD — responde *o quê* foi apreendido, sem preposição. "Na rodovia" é adj. adverbial de lugar (acessório — pode ser retirado sem destruir a estrutura).',
+  },
+  {
+    id: 18, categoria: "Objeto Direto",
+    instrucao: 'Encontre o <em>objeto direto</em> do verbo "analisar"',
+    frase: "O auditor analisou os documentos fiscais com atenção.",
+    blocos: [
+      { id: "b1", texto: "O auditor", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "analisou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "os documentos fiscais", funcao: "Objeto Direto", cor: "#c8f000" },
+      { id: "b4", texto: "com atenção", funcao: "Adjunto Adverbial de Modo", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Os documentos fiscais" é o OD — complemento verbal sem preposição. "Com atenção" é adj. adv. de modo, acessório. Pergunte: o auditor analisou *o quê*? → os documentos.',
+  },
+  {
+    id: 19, categoria: "Objeto Direto",
+    instrucao: 'Encontre o <em>objeto direto</em> do verbo "deflagrar"',
+    frase: "A PRF deflagrou a operação de combate ao tráfico.",
+    blocos: [
+      { id: "b1", texto: "A PRF", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "deflagrou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "a operação", funcao: "Objeto Direto", cor: "#c8f000" },
+      { id: "b4", texto: "de combate ao tráfico", funcao: "Adjunto Adnominal", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"A operação" é o OD de "deflagrar". "De combate ao tráfico" é adj. adnominal de "operação" — especifica o tipo, mas não é o OD em si. O OD é apenas o núcleo do sintagma complemento.',
+  },
+  {
+    id: 20, categoria: "Objeto Direto",
+    instrucao: 'Encontre o <em>objeto direto</em> do verbo "divulgar"',
+    frase: "A banca divulgou o resultado preliminar do concurso.",
+    blocos: [
+      { id: "b1", texto: "A banca", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "divulgou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "o resultado preliminar", funcao: "Objeto Direto", cor: "#c8f000" },
+      { id: "b4", texto: "do concurso", funcao: "Adjunto Adnominal", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"O resultado preliminar" é o OD. "Do concurso" é adj. adnominal de "resultado". Pergunte: a banca divulgou *o quê*? → o resultado. Sem preposição antes = OD.',
+  },
+  // ── PREDICATIVO DO SUJEITO (5) ──
+  {
+    id: 21, categoria: "Predicativo do Sujeito",
+    instrucao: "Encontre o <em>predicativo do sujeito</em>",
+    frase: "O concurseiro ficou animado com o resultado.",
+    blocos: [
+      { id: "b1", texto: "O concurseiro", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "ficou", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "animado", funcao: "Predicativo do Sujeito", cor: "#c8f000" },
+      { id: "b4", texto: "com o resultado", funcao: "Adjunto Adverbial de Causa", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Animado" é adjetivo ligado ao sujeito pelo VL "ficou". Pred. do sujeito ocorre com VL (ser, estar, ficar, parecer, tornar-se, continuar). Concorda em gênero e número com o sujeito.',
+  },
+  {
+    id: 22, categoria: "Predicativo do Sujeito",
+    instrucao: "Encontre o <em>predicativo do sujeito</em>",
+    frase: "A apresentação dos documentos é obrigatória.",
+    blocos: [
+      { id: "b1", texto: "A apresentação dos documentos", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "é", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "obrigatória", funcao: "Predicativo do Sujeito", cor: "#c8f000" },
+    ],
+    resposta: "b3",
+    explicacao: '"Obrigatória" atribui qualidade ao sujeito "apresentação" por meio do VL "é". A concordância confirma: "apresentação" [fem. sing.] → "obrigatória" [fem. sing.]. Pred. do sujeito = estado/qualidade atribuída ao sujeito via VL.',
+  },
+  {
+    id: 23, categoria: "Predicativo do Sujeito",
+    instrucao: "Encontre o <em>predicativo do sujeito</em>",
+    frase: "O policial se mostrou eficiente na abordagem.",
+    blocos: [
+      { id: "b1", texto: "O policial", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "se mostrou", funcao: "Verbo de ligação (pronominal)", cor: "#f97316" },
+      { id: "b3", texto: "eficiente", funcao: "Predicativo do Sujeito", cor: "#c8f000" },
+      { id: "b4", texto: "na abordagem", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Eficiente" é pred. do sujeito. "Mostrar-se" é VL pronominal — equivale a "revelar-se/parecer". Verbos como mostrar-se, revelar-se, tornar-se também funcionam como VL, exigindo predicativo.',
+  },
+  {
+    id: 24, categoria: "Predicativo do Sujeito",
+    instrucao: "Encontre o <em>predicativo do sujeito</em>",
+    frase: "O processo seletivo se tornou rigoroso naquela edição.",
+    blocos: [
+      { id: "b1", texto: "O processo seletivo", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "se tornou", funcao: "Verbo de ligação (pronominal)", cor: "#f97316" },
+      { id: "b3", texto: "rigoroso", funcao: "Predicativo do Sujeito", cor: "#c8f000" },
+      { id: "b4", texto: "naquela edição", funcao: "Adjunto Adverbial de Tempo", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Rigoroso" é pred. do sujeito — estado atribuído ao sujeito pelo VL "se tornou". Predicativos do sujeito podem ser adjetivos, substantivos ou locuções. Distinguem-se do adj. adnominal por dependerem do VL.',
+  },
+  {
+    id: 25, categoria: "Predicativo do Sujeito",
+    instrucao: "Encontre o <em>predicativo do sujeito</em>",
+    frase: "O edital pareceu claro aos candidatos.",
+    blocos: [
+      { id: "b1", texto: "O edital", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "pareceu", funcao: "Verbo de ligação", cor: "#f97316" },
+      { id: "b3", texto: "claro", funcao: "Predicativo do Sujeito", cor: "#c8f000" },
+      { id: "b4", texto: "aos candidatos", funcao: "Objeto Indireto", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Claro" é pred. do sujeito — atribui qualidade ao sujeito "edital" via VL "pareceu". "Aos candidatos" é OI do verbo "parecer" nessa construção (para quem pareceu). Não confunda OI com adj. adverbial.',
+  },
+  // ── PREDICATIVO DO OBJETO (5) ──
+  {
+    id: 26, categoria: "Predicativo do Objeto",
+    instrucao: "Encontre o <em>predicativo do objeto</em>",
+    frase: "O inspetor considerou o relatório inconsistente.",
+    blocos: [
+      { id: "b1", texto: "O inspetor", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "considerou", funcao: "VTD (predicação incompleta)", cor: "#f97316" },
+      { id: "b3", texto: "o relatório", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "inconsistente", funcao: "Predicativo do Objeto", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Inconsistente" é pred. do objeto: adjetivo que se refere ao OD ("relatório") exigido por "considerar". Estrutura: VTD + OD + adj. = pred. do objeto. Verbos: considerar, julgar, eleger, nomear, achar, declarar.',
+  },
+  {
+    id: 27, categoria: "Predicativo do Objeto",
+    instrucao: "Encontre o <em>predicativo do objeto</em>",
+    frase: "O júri julgou o réu culpado de todos os crimes.",
+    blocos: [
+      { id: "b1", texto: "O júri", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "julgou", funcao: "VTD (predicação incompleta)", cor: "#f97316" },
+      { id: "b3", texto: "o réu", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "culpado", funcao: "Predicativo do Objeto", cor: "#c8f000" },
+      { id: "b5", texto: "de todos os crimes", funcao: "Complemento Nominal de 'culpado'", cor: "#6b9fff" },
+    ],
+    resposta: "b4",
+    explicacao: '"Culpado" é pred. do objeto — qualifica o OD "réu" e é requerido por "julgar". "De todos os crimes" é CN de "culpado" (culpado *de quê*?). Dupla estrutura: pred. do objeto + CN — frequente em questões CESPE.',
+  },
+  {
+    id: 28, categoria: "Predicativo do Objeto",
+    instrucao: "Encontre o <em>predicativo do objeto</em>",
+    frase: "A banca declarou o candidato inapto na prova física.",
+    blocos: [
+      { id: "b1", texto: "A banca", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "declarou", funcao: "VTD (predicação incompleta)", cor: "#f97316" },
+      { id: "b3", texto: "o candidato", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "inapto", funcao: "Predicativo do Objeto", cor: "#c8f000" },
+      { id: "b5", texto: "na prova física", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b4",
+    explicacao: '"Inapto" é pred. do objeto: refere-se ao OD "candidato" e é exigido por "declarar". Na voz passiva — "O candidato foi declarado inapto" — "inapto" vira pred. do sujeito paciente. Fique atento à conversão!',
+  },
+  {
+    id: 29, categoria: "Predicativo do Objeto",
+    instrucao: "Encontre o <em>predicativo do objeto</em>",
+    frase: "O agente considerou o veículo irregular para circular.",
+    blocos: [
+      { id: "b1", texto: "O agente", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "considerou", funcao: "VTD (predicação incompleta)", cor: "#f97316" },
+      { id: "b3", texto: "o veículo", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "irregular", funcao: "Predicativo do Objeto", cor: "#c8f000" },
+      { id: "b5", texto: "para circular", funcao: "Adjunto Adverbial de Finalidade", cor: "#6b9fff" },
+    ],
+    resposta: "b4",
+    explicacao: '"Irregular" é pred. do objeto. Teste: substitua por "O agente achou o veículo [como?] irregular" — a estrutura pred. do objeto fica clara. "Para circular" é adj. adverbial de finalidade (acessório).',
+  },
+  {
+    id: 30, categoria: "Predicativo do Objeto",
+    instrucao: "Encontre o <em>predicativo do objeto</em>",
+    frase: "O auditor julgou a documentação incompleta.",
+    blocos: [
+      { id: "b1", texto: "O auditor", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "julgou", funcao: "VTD (predicação incompleta)", cor: "#f97316" },
+      { id: "b3", texto: "a documentação", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "incompleta", funcao: "Predicativo do Objeto", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Incompleta" é pred. do objeto — concorda com o OD "documentação" [fem. sing.]. Distinção: "A documentação foi julgada incompleta" (voz passiva) → "incompleta" vira pred. do sujeito paciente. A função muda com a voz verbal.',
+  },
+  // ── ADJUNTO ADVERBIAL (5) ──
+  {
+    id: 31, categoria: "Adjunto Adverbial",
+    instrucao: "Encontre o <em>adjunto adverbial de finalidade</em>",
+    frase: "O candidato estudou muito para a prova.",
+    blocos: [
+      { id: "b1", texto: "O candidato", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "estudou", funcao: "Verbo intransitivo", cor: "#f97316" },
+      { id: "b3", texto: "muito", funcao: "Adjunto Adverbial de Intensidade", cor: "#6b9fff" },
+      { id: "b4", texto: "para a prova", funcao: "Adjunto Adverbial de Finalidade", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Para a prova" indica *para quê* o candidato estudou. Sintagmas com "para" + substantivo frequentemente expressam finalidade. Adj. adverbiais são acessórios — a frase é gramaticalmente completa sem eles.',
+  },
+  {
+    id: 32, categoria: "Adjunto Adverbial",
+    instrucao: "Encontre o <em>adjunto adverbial de modo</em>",
+    frase: "O fiscal atuou com rigor nas fiscalizações de trânsito.",
+    blocos: [
+      { id: "b1", texto: "O fiscal", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "atuou", funcao: "Verbo intransitivo", cor: "#f97316" },
+      { id: "b3", texto: "com rigor", funcao: "Adjunto Adverbial de Modo", cor: "#c8f000" },
+      { id: "b4", texto: "nas fiscalizações de trânsito", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Com rigor" indica *como* o fiscal atuou. Sintagmas "com" + subst. abstrato frequentemente expressam modo. Podem ser substituídos por advérbio em -mente: "rigorosamente".',
+  },
+  {
+    id: 33, categoria: "Adjunto Adverbial",
+    instrucao: "Encontre o <em>adjunto adverbial de tempo</em>",
+    frase: "O agente abordou vinte veículos durante a blitz.",
+    blocos: [
+      { id: "b1", texto: "O agente", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "abordou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "vinte veículos", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "durante a blitz", funcao: "Adjunto Adverbial de Tempo", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Durante a blitz" indica *quando* os veículos foram abordados. Preposições "durante", "após", "antes de", "em" + valor temporal = adj. adverbial de tempo. Acessório: pode ser retirado sem tornar a frase agramatical.',
+  },
+  {
+    id: 34, categoria: "Adjunto Adverbial",
+    instrucao: "Encontre o <em>adjunto adverbial de lugar</em>",
+    frase: "A PRF intensificou as operações na fronteira.",
+    blocos: [
+      { id: "b1", texto: "A PRF", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "intensificou", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "as operações", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "na fronteira", funcao: "Adjunto Adverbial de Lugar", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Na fronteira" indica *onde* as operações foram intensificadas. Sintagmas "em/na/no" + lugar = valor locativo. Adj. adverbiais de lugar respondem à pergunta "onde?".',
+  },
+  {
+    id: 35, categoria: "Adjunto Adverbial",
+    instrucao: "Encontre o <em>adjunto adverbial de tempo</em>",
+    frase: "O candidato aguardava a nomeação desde a aprovação.",
+    blocos: [
+      { id: "b1", texto: "O candidato", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "aguardava", funcao: "Verbo transitivo direto", cor: "#f97316" },
+      { id: "b3", texto: "a nomeação", funcao: "Objeto Direto", cor: "#ff6b6b" },
+      { id: "b4", texto: "desde a aprovação", funcao: "Adjunto Adverbial de Tempo", cor: "#c8f000" },
+    ],
+    resposta: "b4",
+    explicacao: '"Desde a aprovação" indica o ponto de partida temporal da espera. A preposição "desde" marca origem no tempo. Adj. adverbiais são acessórios — podem ser retirados sem tornar a frase agramatical.',
+  },
+  // ── AGENTE DA PASSIVA (5) ──
+  {
+    id: 36, categoria: "Agente da Passiva",
+    instrucao: "Encontre o <em>agente da passiva</em>",
+    frase: "O suspeito foi detido pelos agentes federais.",
+    blocos: [
+      { id: "b1", texto: "O suspeito", funcao: "Sujeito paciente", cor: "#a78bfa" },
+      { id: "b2", texto: "foi detido", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "pelos agentes federais", funcao: "Agente da Passiva", cor: "#c8f000" },
+    ],
+    resposta: "b3",
+    explicacao: '"Pelos agentes federais" é o agente da passiva: quem pratica a ação. Sempre introduzido por "por" (pelo/pela/pelos). Na voz ativa: "Os agentes federais detiveram o suspeito" — o agente vira sujeito.',
+  },
+  {
+    id: 37, categoria: "Agente da Passiva",
+    instrucao: "Encontre o <em>agente da passiva</em>",
+    frase: "A sentença foi proferida pelo juiz federal.",
+    blocos: [
+      { id: "b1", texto: "A sentença", funcao: "Sujeito paciente", cor: "#a78bfa" },
+      { id: "b2", texto: "foi proferida", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "pelo juiz federal", funcao: "Agente da Passiva", cor: "#c8f000" },
+    ],
+    resposta: "b3",
+    explicacao: '"Pelo juiz federal" é o agente da passiva. Voz passiva analítica = auxiliar "ser" + particípio. Na ativa: "O juiz federal proferiu a sentença." O agente é facultativo — a frase é gramatical sem ele.',
+  },
+  {
+    id: 38, categoria: "Agente da Passiva",
+    instrucao: "Encontre o <em>agente da passiva</em>",
+    frase: "O veículo foi apreendido pela PRF na rodovia.",
+    blocos: [
+      { id: "b1", texto: "O veículo", funcao: "Sujeito paciente", cor: "#a78bfa" },
+      { id: "b2", texto: "foi apreendido", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "pela PRF", funcao: "Agente da Passiva", cor: "#c8f000" },
+      { id: "b4", texto: "na rodovia", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Pela PRF" é o agente da passiva. "Na rodovia" é adj. adv. de lugar. Distinção: *por quem?* → pela PRF (agente) vs *onde?* → na rodovia (adj. adv.). Não confunda os dois sintagmas preposicionados.',
+  },
+  {
+    id: 39, categoria: "Agente da Passiva",
+    instrucao: "Encontre o <em>agente da passiva</em>",
+    frase: "O inquérito foi instaurado pelo delegado de plantão.",
+    blocos: [
+      { id: "b1", texto: "O inquérito", funcao: "Sujeito paciente", cor: "#a78bfa" },
+      { id: "b2", texto: "foi instaurado", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "pelo delegado de plantão", funcao: "Agente da Passiva", cor: "#c8f000" },
+    ],
+    resposta: "b3",
+    explicacao: '"Pelo delegado de plantão" é o agente da passiva. "De plantão" é adj. adnominal de "delegado" dentro do sintagma. Na ativa: "O delegado de plantão instaurou o inquérito."',
+  },
+  {
+    id: 40, categoria: "Agente da Passiva",
+    instrucao: "Encontre o <em>agente da passiva</em>",
+    frase: "O gabarito foi divulgado pela banca no prazo legal.",
+    blocos: [
+      { id: "b1", texto: "O gabarito", funcao: "Sujeito paciente", cor: "#a78bfa" },
+      { id: "b2", texto: "foi divulgado", funcao: "Verbo (voz passiva analítica)", cor: "#f97316" },
+      { id: "b3", texto: "pela banca", funcao: "Agente da Passiva", cor: "#c8f000" },
+      { id: "b4", texto: "no prazo legal", funcao: "Adjunto Adverbial de Tempo", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Pela banca" é o agente da passiva. "No prazo legal" é adj. adv. de tempo. Pergunte: *por quem?* → pela banca; *quando?* → no prazo. Distinguir os dois sintagmas é ponto frequente em provas.',
+  },
+  // ── OBJETO INDIRETO (5) ──
+  {
+    id: 41, categoria: "Objeto Indireto",
+    instrucao: "Encontre o <em>objeto indireto</em>",
+    frase: "O candidato obedeceu às instruções do edital.",
+    blocos: [
+      { id: "b1", texto: "O candidato", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "obedeceu", funcao: "Verbo transitivo indireto", cor: "#f97316" },
+      { id: "b3", texto: "às instruções", funcao: "Objeto Indireto", cor: "#c8f000" },
+      { id: "b4", texto: "do edital", funcao: "Adjunto Adnominal", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Às instruções" é OI de "obedecer" — VTI que exige preposição. "Obedecer" não admite OD — erro clássico em provas. "Do edital" é adj. adnominal de "instruções".',
+  },
+  {
+    id: 42, categoria: "Objeto Indireto",
+    instrucao: 'Encontre o <em>objeto indireto</em> do verbo "assistir" (presenciar)',
+    frase: "O advogado assistiu ao processo com atenção.",
+    blocos: [
+      { id: "b1", texto: "O advogado", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "assistiu", funcao: "Verbo transitivo indireto", cor: "#f97316" },
+      { id: "b3", texto: "ao processo", funcao: "Objeto Indireto", cor: "#c8f000" },
+      { id: "b4", texto: "com atenção", funcao: "Adjunto Adverbial de Modo", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Ao processo" é OI de "assistir" no sentido de "presenciar" — VTI. "Com atenção" é adj. adv. de modo. Outros VTI comuns: gostar de, precisar de, depender de, lembrar-se de, obedecer a.',
+  },
+  {
+    id: 43, categoria: "Objeto Indireto",
+    instrucao: "Encontre o <em>objeto indireto</em> (a quem se concedeu)",
+    frase: "O juiz concedeu ao réu o direito de recurso.",
+    blocos: [
+      { id: "b1", texto: "O juiz", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "concedeu", funcao: "Verbo transitivo direto e indireto", cor: "#f97316" },
+      { id: "b3", texto: "ao réu", funcao: "Objeto Indireto", cor: "#c8f000" },
+      { id: "b4", texto: "o direito de recurso", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b3",
+    explicacao: '"Ao réu" é OI (concedeu *a quem*?). "O direito de recurso" é OD (concedeu *o quê*?). "Conceder" é VTDI. A ordem OI/OD pode variar, mas a distinção permanece: OI tem preposição; OD, não.',
+  },
+  {
+    id: 44, categoria: "Objeto Indireto",
+    instrucao: 'Encontre o <em>objeto indireto</em> do verbo "duvidar"',
+    frase: "Ninguém duvida da honestidade do servidor público.",
+    blocos: [
+      { id: "b1", texto: "Ninguém", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "duvida", funcao: "Verbo transitivo indireto", cor: "#f97316" },
+      { id: "b3", texto: "da honestidade", funcao: "Objeto Indireto", cor: "#c8f000" },
+      { id: "b4", texto: "do servidor público", funcao: "Adjunto Adnominal", cor: "#6b9fff" },
+    ],
+    resposta: "b3",
+    explicacao: '"Da honestidade" é OI de "duvidar" — VTI com "de". "Do servidor público" é adj. adnominal de "honestidade". Outros VTI com "de": gostar, precisar, depender, lembrar-se.',
+  },
+  {
+    id: 45, categoria: "Objeto Indireto",
+    instrucao: 'Encontre o <em>objeto indireto</em> do verbo "comunicar"',
+    frase: "O agente comunicou ao superior a ocorrência grave.",
+    blocos: [
+      { id: "b1", texto: "O agente", funcao: "Sujeito", cor: "#a78bfa" },
+      { id: "b2", texto: "comunicou", funcao: "Verbo transitivo direto e indireto", cor: "#f97316" },
+      { id: "b3", texto: "ao superior", funcao: "Objeto Indireto", cor: "#c8f000" },
+      { id: "b4", texto: "a ocorrência grave", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b3",
+    explicacao: '"Ao superior" é OI (comunicou *a quem*?). "A ocorrência grave" é OD (comunicou *o quê*?). "Comunicar" é VTDI. Regra geral: OI sempre tem preposição; OD não tem preposição.',
+  },
+  // ── APOSTO (5) ──
+  {
+    id: 46, categoria: "Aposto",
+    instrucao: "Encontre o <em>aposto</em>",
+    frase: "O CESPE, banca organizadora do concurso, divulgou o gabarito.",
+    blocos: [
+      { id: "b1", texto: "O CESPE", funcao: "Sujeito (núcleo)", cor: "#a78bfa" },
+      { id: "b2", texto: "banca organizadora do concurso", funcao: "Aposto", cor: "#c8f000" },
+      { id: "b3", texto: "divulgou", funcao: "Verbo (núcleo do predicado)", cor: "#f97316" },
+      { id: "b4", texto: "o gabarito", funcao: "Objeto Direto", cor: "#ff6b6b" },
+    ],
+    resposta: "b2",
+    explicacao: '"Banca organizadora do concurso" é aposto de "CESPE": explica/detalha o termo anterior. Apostos entre vírgulas são denominativos. Diferem do adj. adnominal por serem locuções substantivas — não adjetivos.',
+  },
+  {
+    id: 47, categoria: "Aposto",
+    instrucao: "Encontre o <em>aposto</em>",
+    frase: "A PRF, órgão de segurança pública federal, atua nas rodovias.",
+    blocos: [
+      { id: "b1", texto: "A PRF", funcao: "Sujeito (núcleo)", cor: "#a78bfa" },
+      { id: "b2", texto: "órgão de segurança pública federal", funcao: "Aposto", cor: "#c8f000" },
+      { id: "b3", texto: "atua", funcao: "Verbo intransitivo", cor: "#f97316" },
+      { id: "b4", texto: "nas rodovias", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b2",
+    explicacao: '"Órgão de segurança pública federal" é aposto de "PRF": esclarece a natureza institucional. Sua remoção não afeta a estrutura: "A PRF atua nas rodovias." Apostos são sempre termos explicativos e acessórios.',
+  },
+  {
+    id: 48, categoria: "Aposto",
+    instrucao: "Encontre o <em>aposto</em>",
+    frase: "Em Brasília, capital federal, fica a sede da PRF.",
+    blocos: [
+      { id: "b1", texto: "Em Brasília", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+      { id: "b2", texto: "capital federal", funcao: "Aposto", cor: "#c8f000" },
+      { id: "b3", texto: "fica", funcao: "Verbo intransitivo", cor: "#f97316" },
+      { id: "b4", texto: "a sede da PRF", funcao: "Sujeito", cor: "#a78bfa" },
+    ],
+    resposta: "b2",
+    explicacao: '"Capital federal" é aposto de "Brasília": define o status político. Apostos podem se referir a qualquer termo da oração — aqui ao adj. adverbial de lugar. Atenção: o sujeito está posposto — "a sede da PRF fica".',
+  },
+  {
+    id: 49, categoria: "Aposto",
+    instrucao: "Encontre o <em>aposto</em>",
+    frase: "O réu, principal investigado do caso, compareceu ao tribunal.",
+    blocos: [
+      { id: "b1", texto: "O réu", funcao: "Sujeito (núcleo)", cor: "#a78bfa" },
+      { id: "b2", texto: "principal investigado do caso", funcao: "Aposto", cor: "#c8f000" },
+      { id: "b3", texto: "compareceu", funcao: "Verbo intransitivo", cor: "#f97316" },
+      { id: "b4", texto: "ao tribunal", funcao: "Adjunto Adverbial de Lugar", cor: "#6b9fff" },
+    ],
+    resposta: "b2",
+    explicacao: '"Principal investigado do caso" é aposto de "réu": acrescenta informação descritiva. Apostos descritivos são comuns em linguagem jornalística e jurídica — exatamente o estilo das questões de concurso.',
+  },
+  {
+    id: 50, categoria: "Aposto",
+    instrucao: "Encontre o <em>aposto</em>",
+    frase: "O edital, documento obrigatório do processo seletivo, foi publicado.",
+    blocos: [
+      { id: "b1", texto: "O edital", funcao: "Sujeito (núcleo)", cor: "#a78bfa" },
+      { id: "b2", texto: "documento obrigatório do processo seletivo", funcao: "Aposto", cor: "#c8f000" },
+      { id: "b3", texto: "foi publicado", funcao: "Verbo (voz passiva)", cor: "#f97316" },
+    ],
+    resposta: "b2",
+    explicacao: '"Documento obrigatório do processo seletivo" é aposto de "edital": define/caracteriza. A voz passiva sem agente expresso = agente indeterminado. O aposto pode preceder ou seguir o termo a que se refere.',
+  },
+];
+
+const CONSTRUCAO_EXERCICIOS = [
+  {
+    id: 1,
+    descricao: "Monte a oração colocando cada bloco no slot correto",
+    frase_resultado: "O policial rodoviário multou o motorista imprudente na rodovia.",
+    blocos: [
+      { id: "b1", texto: "O policial rodoviário" },
+      { id: "b2", texto: "multou" },
+      { id: "b3", texto: "o motorista" },
+      { id: "b4", texto: "imprudente" },
+      { id: "b5", texto: "na rodovia" },
+    ],
+    slots: [
+      { id: "s1", funcao: "Sujeito", resposta: "b1", cor: "#a78bfa" },
+      { id: "s2", funcao: "VTD", resposta: "b2", cor: "#f97316" },
+      { id: "s3", funcao: "Objeto Direto", resposta: "b3", cor: "#ff6b6b" },
+      { id: "s4", funcao: "Adj. Adnominal", resposta: "b4", cor: "#c8f000" },
+      { id: "s5", funcao: "Adj. Adverbial de Lugar", resposta: "b5", cor: "#6b9fff" },
+    ],
+    explicacao: 'Sujeito "O policial rodoviário" pratica a ação. "Multou" é VTD — pede OD sem preposição. "O motorista" é o OD (multou quem?). "Imprudente" é adj. adnominal de "motorista" (qualifica). "Na rodovia" é adj. adv. de lugar (onde?).',
+  },
+  {
+    id: 2,
+    descricao: "Monte a oração com Objeto Direto e Predicativo do Objeto",
+    frase_resultado: "Os agentes federais consideraram o suspeito culpado.",
+    blocos: [
+      { id: "b1", texto: "Os agentes federais" },
+      { id: "b2", texto: "consideraram" },
+      { id: "b3", texto: "o suspeito" },
+      { id: "b4", texto: "culpado" },
+    ],
+    slots: [
+      { id: "s1", funcao: "Sujeito", resposta: "b1", cor: "#a78bfa" },
+      { id: "s2", funcao: "VTD", resposta: "b2", cor: "#f97316" },
+      { id: "s3", funcao: "Objeto Direto", resposta: "b3", cor: "#ff6b6b" },
+      { id: "s4", funcao: "Predicativo do Objeto", resposta: "b4", cor: "#c8f000" },
+    ],
+    explicacao: '"Consideraram" + OD + adj. forma a estrutura de predicativo do objeto. "O suspeito" é o OD. "Culpado" é o predicativo: adjetivo que caracteriza o OD e é exigido pelo verbo nesse sentido. Verbos como considerar, julgar, eleger, nomear cobram muito essa estrutura.',
+  },
+  {
+    id: 3,
+    descricao: "Monte a oração com Objeto Direto e Objeto Indireto (verbo bitransitivo)",
+    frase_resultado: "O servidor entregou o requerimento à chefia imediata.",
+    blocos: [
+      { id: "b1", texto: "O servidor" },
+      { id: "b2", texto: "entregou" },
+      { id: "b3", texto: "o requerimento" },
+      { id: "b4", texto: "à chefia imediata" },
+    ],
+    slots: [
+      { id: "s1", funcao: "Sujeito", resposta: "b1", cor: "#a78bfa" },
+      { id: "s2", funcao: "VTDI", resposta: "b2", cor: "#f97316" },
+      { id: "s3", funcao: "Objeto Direto", resposta: "b3", cor: "#ff6b6b" },
+      { id: "s4", funcao: "Objeto Indireto", resposta: "b4", cor: "#c8f000" },
+    ],
+    explicacao: '"Entregar" é VTDI: exige OD (o que se entrega) + OI (a quem). "O requerimento" é OD — sem preposição. "À chefia imediata" é OI — com preposição "a". Diferença crucial: OD não tem preposição; OI tem.',
+  },
+  {
+    id: 4,
+    descricao: "Monte a oração na voz passiva identificando o Agente da Passiva",
+    frase_resultado: "O inquérito foi instaurado pelo delegado federal.",
+    blocos: [
+      { id: "b1", texto: "O inquérito" },
+      { id: "b2", texto: "foi instaurado" },
+      { id: "b3", texto: "pelo delegado federal" },
+    ],
+    slots: [
+      { id: "s1", funcao: "Sujeito Paciente", resposta: "b1", cor: "#a78bfa" },
+      { id: "s2", funcao: "Verbo (Voz Passiva)", resposta: "b2", cor: "#f97316" },
+      { id: "s3", funcao: "Agente da Passiva", resposta: "b3", cor: "#c8f000" },
+    ],
+    explicacao: 'Na voz passiva o sujeito sofre a ação (sujeito paciente). "Foi instaurado" = auxiliar + particípio. "Pelo delegado federal" é o agente da passiva — quem pratica a ação, introduzido por "por". Na voz ativa: "O delegado federal instaurou o inquérito."',
+  },
+  {
+    id: 5,
+    descricao: "Monte a oração com Predicativo do Sujeito e Adjunto Adverbial",
+    frase_resultado: "O auditor fiscal ficou satisfeito com o resultado da perícia.",
+    blocos: [
+      { id: "b1", texto: "O auditor fiscal" },
+      { id: "b2", texto: "ficou" },
+      { id: "b3", texto: "satisfeito" },
+      { id: "b4", texto: "com o resultado da perícia" },
+    ],
+    slots: [
+      { id: "s1", funcao: "Sujeito", resposta: "b1", cor: "#a78bfa" },
+      { id: "s2", funcao: "Verbo de Ligação", resposta: "b2", cor: "#f97316" },
+      { id: "s3", funcao: "Predicativo do Sujeito", resposta: "b3", cor: "#c8f000" },
+      { id: "s4", funcao: "Adj. Adverbial de Causa", resposta: "b4", cor: "#6b9fff" },
+    ],
+    explicacao: '"Ficou" é verbo de ligação — estabelece relação entre sujeito e predicativo. "Satisfeito" é predicativo do sujeito: adjetivo que atribui qualidade/estado ao sujeito. "Com o resultado da perícia" é adj. adverbial de causa (por que ficou satisfeito?).',
+  },
+];
+
 const PROMPT_TEMPLATE = `Você é um especialista em concursos públicos brasileiros e gerador de questões.
 Gere [NÚMERO] questões MISTAS para o concurso [CARGO/ÓRGÃO], disciplina [DISCIPLINA][TEMA].
 Distribua assim: ~40% questões oficiais de provas reais, ~60% criadas/adaptadas.
@@ -518,9 +1273,94 @@ body{background:var(--bg);font-family:var(--B);color:var(--tx);min-height:100vh}
 .mm-detail-ans{font-family:var(--M);font-size:.65rem;display:flex;flex-direction:column;gap:.2rem;margin-bottom:.7rem}
 .mm-wrong-ans{color:var(--er)}.mm-right-ans{color:var(--ok)}
 .mm-detail-expl{font-size:.82rem;color:var(--t2);line-height:1.7;padding:.75rem;background:var(--s1);border-left:2px solid var(--ac)}
+
+/* ── SINTAXE ── */
+.sint-screen{min-height:100vh;display:flex;flex-direction:column}
+.sint-header{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2.5rem;border-bottom:1px solid var(--b1)}
+.sint-back{font-family:var(--M);font-size:.7rem;color:var(--t2);background:none;border:none;cursor:pointer;letter-spacing:.06em}
+.sint-back:hover{color:var(--tx)}
+.sint-title{font-family:var(--F);font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sint-prog{font-family:var(--M);font-size:.68rem;color:var(--t3)}
+.sint-body{flex:1;max-width:720px;margin:0 auto;padding:3rem 2rem;width:100%}
+.sint-ex-nav{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+.sint-nav-btn{font-family:var(--M);font-size:1.1rem;background:none;border:1px solid var(--b2);color:var(--t2);width:32px;height:32px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sint-nav-btn:hover{border-color:var(--b1);color:var(--tx)}
+.sint-ex-num{font-family:var(--M);font-size:.65rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
+.sint-instrucao{font-size:1rem;color:var(--t2);margin-bottom:1rem;line-height:1.5}
+.sint-instrucao em{font-style:italic;color:var(--ac)}
+.sint-frase{font-family:var(--M);font-size:1rem;color:var(--tx);margin-bottom:2.5rem;padding:1rem 1.25rem;border:1px solid var(--b1);border-radius:6px;background:var(--s1);line-height:1.6}
+.sint-section-label{font-family:var(--M);font-size:.6rem;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.75rem}
+.sint-pool{margin-bottom:1.5rem;min-height:56px}
+.sint-blocos{display:flex;flex-wrap:wrap;gap:.6rem}
+.sint-bloco{font-family:var(--M);font-size:.85rem;color:var(--tx);background:var(--s2);border:1px solid var(--b2);padding:.5rem 1rem;border-radius:6px;cursor:grab;user-select:none;transition:border-color .15s,transform .1s}
+.sint-bloco:hover{border-color:var(--ac);transform:translateY(-2px)}
+.sint-bloco:active{cursor:grabbing}
+.sint-pool-empty{font-family:var(--M);font-size:.65rem;color:var(--t3)}
+.sint-zona{min-height:130px;border:2px dashed var(--b2);border-radius:10px;padding:1.5rem;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;margin-bottom:1.5rem}
+.sint-zona.zona-ok{border-color:var(--ok);background:var(--ok-bg)}
+.sint-zona.zona-err{border-color:var(--er);background:var(--er-bg)}
+.sint-zona-vazia{font-family:var(--M);font-size:.68rem;color:var(--t3);letter-spacing:.08em}
+.sint-zona-inner{display:flex;flex-direction:column;align-items:center;gap:.75rem;width:100%}
+.sint-bloco-zona{font-family:var(--M);font-size:1rem;color:var(--tx);padding:.6rem 1.4rem;border:2px solid;border-radius:8px;background:var(--s1);cursor:pointer;user-select:none}
+.sint-bloco-zona:hover{opacity:.85}
+.sint-funcao{font-family:var(--F);font-weight:700;font-size:1.25rem;text-transform:uppercase;letter-spacing:.04em;text-align:center}
+.sint-badge-ok{font-family:var(--M);font-size:.7rem;font-weight:400;color:var(--ok);border:1px solid var(--ok-b);padding:.15rem .5rem;border-radius:4px;margin-left:.5rem;vertical-align:middle}
+.sint-dica{font-size:.82rem;color:var(--t2);text-align:center}
+.sint-exp-btn{font-family:var(--M);font-size:.7rem;color:var(--ac);background:none;border:1px solid rgba(200,240,0,.3);padding:.4rem .9rem;border-radius:4px;cursor:pointer;letter-spacing:.08em}
+.sint-exp-btn:hover{background:rgba(200,240,0,.07)}
+.sint-explicacao{font-size:.86rem;line-height:1.65;color:var(--t2);text-align:left;max-width:520px;padding:1rem 1.25rem;background:var(--s1);border:1px solid var(--b1);border-radius:8px;border-left:2px solid var(--ac)}
+.sint-actions{display:flex;gap:.75rem}
+.sint-btn-pri{font-family:var(--M);font-size:.72rem;background:var(--ac);border:none;color:#000;padding:.6rem 1.4rem;border-radius:5px;cursor:pointer;letter-spacing:.06em;font-weight:700}
+.sint-btn-pri:hover{opacity:.9}
+.sint-link{font-family:var(--M);font-size:.65rem;color:var(--t3);background:none;border:none;cursor:pointer;letter-spacing:.08em;text-decoration:underline}
+.sint-link:hover{color:var(--t2)}
+.sint-tabs{display:flex;border-bottom:1px solid var(--b1)}
+.sint-tab{font-family:var(--M);font-size:.65rem;padding:.85rem 2rem;background:none;border:none;cursor:pointer;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.sint-tab.active{color:var(--ac);border-bottom-color:var(--ac)}
+.sint-tab:hover:not(.active){color:var(--t2)}
+.sint-slots{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem}
+.sint-slot{flex:1;min-width:110px;border:2px dashed;border-radius:8px;padding:.75rem .6rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;min-height:76px;transition:border-color .2s,background .2s;cursor:default}
+.sint-slot.slot-ok{border-style:solid;background:var(--ok-bg)}
+.sint-slot.slot-err{border-style:solid;background:var(--er-bg)}
+.sint-slot-label{font-family:var(--M);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;text-align:center;line-height:1.3}
+.sint-slot-content{font-family:var(--M);font-size:.8rem;color:var(--tx);text-align:center;cursor:pointer;line-height:1.3}
+.sint-slot-content:hover{opacity:.75}
+.sint-slot-empty{font-family:var(--M);font-size:.6rem;color:var(--b2);letter-spacing:.05em}
+.sint-result{padding:1.25rem 1.5rem;border:1px solid var(--ok-b);background:var(--ok-bg);border-radius:8px;margin-bottom:1.25rem}
+.sint-result-label{font-family:var(--M);font-size:.58rem;color:var(--ok);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.sint-result-frase{font-family:var(--M);font-size:1rem;color:var(--tx);line-height:1.6}
+.sint-gerar{padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;max-width:700px;margin:0 auto}
+.sint-gerar-section{display:flex;flex-direction:column;gap:.5rem}
+.sint-gerar-label{font-family:var(--M);font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--t3)}
+.sint-gerar-row{display:flex;gap:1rem;flex-wrap:wrap}
+.sint-provider-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.sint-provider-tab{font-family:var(--M);font-size:.65rem;padding:.4rem .9rem;background:var(--s1);border:1px solid var(--b2);border-radius:5px;cursor:pointer;color:var(--t2);letter-spacing:.06em;transition:all .15s;display:flex;align-items:center;gap:.4rem}
+.sint-provider-tab.active{background:rgba(200,240,0,.1);border-color:var(--ac);color:var(--ac)}
+.sint-provider-tab:hover:not(.active){border-color:var(--b2);color:var(--tx)}
+.sint-tag{font-size:.5rem;background:var(--b2);padding:.1rem .35rem;border-radius:3px;color:var(--t3)}
+.sint-gerar-input,.sint-gerar-select{background:var(--s1);border:1px solid var(--b2);border-radius:5px;padding:.55rem .9rem;font-family:var(--M);font-size:.8rem;color:var(--tx);outline:none;width:100%;transition:border-color .15s}
+.sint-gerar-input:focus,.sint-gerar-select:focus{border-color:var(--ac)}
+.sint-gerar-select{cursor:pointer;-webkit-appearance:none}
+.sint-gerar-select option{background:#111}
+.sint-gerar-hint{font-family:var(--M);font-size:.58rem;color:var(--t3);letter-spacing:.04em}
+.sint-tipo-tabs{display:flex;gap:0;border:1px solid var(--b2);width:fit-content;border-radius:5px;overflow:hidden}
+.sint-tipo-tab{font-family:var(--M);font-size:.65rem;padding:.4rem 1rem;background:transparent;border:none;cursor:pointer;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;transition:all .15s;border-right:1px solid var(--b2)}
+.sint-tipo-tab:last-child{border-right:none}
+.sint-tipo-tab.active{background:var(--ac);color:#000;font-weight:700}
+.sint-tipo-tab:hover:not(.active){color:var(--t2)}
+.sint-gerar-btn{font-family:var(--M);font-size:.75rem;background:var(--ac);border:none;color:#000;padding:.75rem 1.5rem;border-radius:5px;cursor:pointer;font-weight:700;letter-spacing:.08em;transition:opacity .15s;align-self:flex-start}
+.sint-gerar-btn:hover:not(:disabled){opacity:.85}
+.sint-gerar-btn:disabled{opacity:.4;cursor:not-allowed}
+.sint-gerar-erro{font-family:var(--M);font-size:.75rem;color:var(--er);padding:.75rem 1rem;background:var(--er-bg);border:1px solid var(--er-b);border-radius:5px}
+.sint-gerar-preview{border:1px solid var(--b2);border-radius:8px;padding:1.25rem;background:var(--s1);display:flex;flex-direction:column;gap:.75rem}
+.sint-gerar-preview-label{font-family:var(--M);font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--t3)}
+.sint-gerar-preview-frase{font-family:var(--M);font-size:.88rem;color:var(--tx);line-height:1.6}
+.sint-gerar-preview-exp{font-family:var(--B);font-size:.82rem;color:var(--t2);line-height:1.65;border-left:2px solid var(--b2);padding-left:.75rem}
+.sint-gerar-add{font-family:var(--M);font-size:.7rem;background:rgba(200,240,0,.1);border:1px solid rgba(200,240,0,.3);color:var(--ac);padding:.5rem 1.1rem;border-radius:5px;cursor:pointer;letter-spacing:.06em;align-self:flex-start;transition:all .15s}
+.sint-gerar-add:hover{background:rgba(200,240,0,.18)}
 `;
 
-function WelcomeScreen({ onStart, savedUser }) {
+function WelcomeScreen({ onStart, onSintaxe, savedUser }) {
   const [name,      setName]      = useState(savedUser?.name      || "");
   const [concurso,  setConcurso]  = useState(savedUser?.concurso  || "");
   const [periodo,   setPeriodo]   = useState(savedUser?.meta?.periodo  || "diaria");
@@ -598,7 +1438,10 @@ function WelcomeScreen({ onStart, savedUser }) {
           <span>Análise personalizada</span>
           <span>Multi-provedor</span>
         </div>
-        <span style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",letterSpacing:".08em"}}>feito por Gustavo C L</span>
+        <div style={{display:"flex",alignItems:"center",gap:"1rem"}}>
+          <button className="sint-link" onClick={onSintaxe}>Treinar sintaxe →</button>
+          <span style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",letterSpacing:".08em"}}>feito por Gustavo C L</span>
+        </div>
       </div>
     </div>
   );
@@ -1399,6 +2242,347 @@ function AnalysisScreen({ data, answers, user, xp, maxStreak, onRestart }) {
   );
 }
 
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+function IdentificarMode({ exercicios }) {
+  const [exIdx, setExIdx] = useState(0);
+  const [zona, setZona] = useState(null);
+  const [mostrarExp, setMostrarExp] = useState(false);
+  const [concluidos, setConcluidos] = useState(new Set());
+  const [shuffledBlocos, setShuffledBlocos] = useState([]);
+
+  const total = exercicios.length;
+  const ex = exercicios[exIdx];
+  const isCorreto = zona?.id === ex.resposta;
+  const pool = shuffledBlocos.filter(b => b.id !== zona?.id);
+
+  useEffect(() => { setShuffledBlocos(shuffle(ex.blocos)); }, [ex.id]);
+
+  const colocarNaZona = (bloco) => {
+    setZona(bloco);
+    setMostrarExp(false);
+    if (bloco.id === ex.resposta) setConcluidos(prev => new Set([...prev, ex.id]));
+  };
+  const removerDaZona = () => { setZona(null); setMostrarExp(false); };
+  const goTo = (idx) => { setExIdx(idx); setZona(null); setMostrarExp(false); };
+
+  const onDragStart = (e, bloco) => e.dataTransfer.setData("bid", bloco.id);
+  const onDragOver  = (e) => e.preventDefault();
+  const onDropZona  = (e) => { e.preventDefault(); const id = e.dataTransfer.getData("bid"); const bloco = ex.blocos.find(b => b.id === id); if (bloco) colocarNaZona(bloco); };
+  const onDropPool  = (e) => { e.preventDefault(); if (zona && e.dataTransfer.getData("bid") === zona.id) removerDaZona(); };
+
+  return (
+    <div className="sint-body">
+      <div className="sint-ex-nav">
+        <button className="sint-nav-btn" onClick={() => goTo((exIdx - 1 + total) % total)}>‹</button>
+        <span className="sint-ex-num">{exIdx + 1} / {total} · {concluidos.size} acertos</span>
+        <button className="sint-nav-btn" onClick={() => goTo((exIdx + 1) % total)}>›</button>
+      </div>
+      <div className="sint-instrucao" dangerouslySetInnerHTML={{ __html: ex.instrucao }} />
+      <div className="sint-frase">{ex.frase}</div>
+      <div className="sint-pool" onDrop={onDropPool} onDragOver={onDragOver}>
+        <div className="sint-section-label">Blocos — arraste ou clique</div>
+        <div className="sint-blocos">
+          {pool.map(b => (
+            <div key={b.id} className="sint-bloco" draggable onDragStart={e => onDragStart(e, b)} onClick={() => colocarNaZona(b)}>{b.texto}</div>
+          ))}
+          {pool.length === 0 && <span className="sint-pool-empty">Clique no bloco abaixo para devolvê-lo</span>}
+        </div>
+      </div>
+      <div className={`sint-zona${zona ? (isCorreto ? " zona-ok" : " zona-err") : ""}`} onDrop={onDropZona} onDragOver={onDragOver}>
+        {zona ? (
+          <div className="sint-zona-inner">
+            <div className="sint-bloco-zona" style={{ borderColor: zona.cor }} draggable onDragStart={e => onDragStart(e, zona)} onClick={removerDaZona} title="Clique para devolver">
+              {zona.texto}
+            </div>
+            <div className="sint-funcao" style={{ color: zona.cor }}>
+              {zona.funcao}
+              {isCorreto && <span className="sint-badge-ok">✓ correto</span>}
+            </div>
+            {!isCorreto && <div className="sint-dica">Esta não é a função pedida. Clique no bloco para tentar outro.</div>}
+            {isCorreto && !mostrarExp && <button className="sint-exp-btn" onClick={() => setMostrarExp(true)}>Ver explicação</button>}
+            {mostrarExp && <div className="sint-explicacao">{ex.explicacao}</div>}
+          </div>
+        ) : (
+          <div className="sint-zona-vazia">Arraste um bloco aqui ou clique nele</div>
+        )}
+      </div>
+      {isCorreto && (
+        <div className="sint-actions">
+          <button className="sint-btn-pri" onClick={() => goTo((exIdx + 1) % total)}>Próximo →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ConstruirMode({ exercicios }) {
+  const [exIdx, setExIdx] = useState(0);
+  const [slots, setSlots] = useState({});
+  const [mostrarExp, setMostrarExp] = useState(false);
+  const [concluidos, setConcluidos] = useState(new Set());
+  const [shuffledBlocos, setShuffledBlocos] = useState([]);
+
+  const ex = exercicios[exIdx];
+  const total = exercicios.length;
+  const blocosEmSlots = new Set(Object.values(slots));
+
+  useEffect(() => { setShuffledBlocos(shuffle(ex.blocos)); }, [ex.id]);
+  const pool = shuffledBlocos.filter(b => !blocosEmSlots.has(b.id));
+  const slotCorreto = (slotId) => slots[slotId] === ex.slots.find(s => s.id === slotId)?.resposta;
+  const tudoCorreto = ex.slots.every(s => slots[s.id] === s.resposta);
+  const getBlocoById = (id) => ex.blocos.find(b => b.id === id);
+
+  const placeInSlot = (slotId, blocoId) => {
+    setSlots(prev => {
+      const next = { ...prev };
+      for (const sid in next) { if (next[sid] === blocoId) delete next[sid]; }
+      next[slotId] = blocoId;
+      return next;
+    });
+  };
+  const removeFromSlot = (slotId) => setSlots(prev => { const n = { ...prev }; delete n[slotId]; return n; });
+  const clickBlock = (blocoId) => { const empty = ex.slots.find(s => !slots[s.id]); if (empty) placeInSlot(empty.id, blocoId); };
+  const goTo = (idx) => { setExIdx(idx); setSlots({}); setMostrarExp(false); };
+
+  useEffect(() => { if (tudoCorreto) setConcluidos(prev => new Set([...prev, ex.id])); }, [tudoCorreto, ex.id]);
+
+  const onDragStart = (e, id) => e.dataTransfer.setData("bid", id);
+  const onDragOver  = (e) => e.preventDefault();
+  const onDropSlot  = (e, slotId) => { e.preventDefault(); const id = e.dataTransfer.getData("bid"); if (id) placeInSlot(slotId, id); };
+  const onDropPool  = (e) => { e.preventDefault(); const id = e.dataTransfer.getData("bid"); if (id) setSlots(prev => { const n={...prev}; for(const s in n){if(n[s]===id)delete n[s];} return n; }); };
+
+  return (
+    <div className="sint-body">
+      <div className="sint-ex-nav">
+        <button className="sint-nav-btn" onClick={() => goTo((exIdx - 1 + total) % total)}>‹</button>
+        <span className="sint-ex-num">{exIdx + 1} / {total} · {concluidos.size} acertos</span>
+        <button className="sint-nav-btn" onClick={() => goTo((exIdx + 1) % total)}>›</button>
+      </div>
+      <div className="sint-instrucao">{ex.descricao}</div>
+      <div className="sint-pool" onDrop={onDropPool} onDragOver={onDragOver}>
+        <div className="sint-section-label">Blocos disponíveis — arraste para os slots ou clique</div>
+        <div className="sint-blocos">
+          {pool.map(b => (
+            <div key={b.id} className="sint-bloco" draggable onDragStart={e => onDragStart(e, b.id)} onClick={() => clickBlock(b.id)}>{b.texto}</div>
+          ))}
+          {pool.length === 0 && <span className="sint-pool-empty">Todos posicionados — clique em um slot para remover</span>}
+        </div>
+      </div>
+      <div className="sint-section-label" style={{marginBottom:'.75rem'}}>Estrutura da oração</div>
+      <div className="sint-slots">
+        {ex.slots.map(slot => {
+          const blocoId = slots[slot.id];
+          const bloco = blocoId ? getBlocoById(blocoId) : null;
+          const ok = blocoId !== undefined ? slotCorreto(slot.id) : null;
+          return (
+            <div
+              key={slot.id}
+              className={`sint-slot${ok===true?" slot-ok":ok===false?" slot-err":""}`}
+              style={{ borderColor: ok===true ? "var(--ok)" : ok===false ? "var(--er)" : slot.cor+"66" }}
+              onDrop={e => onDropSlot(e, slot.id)}
+              onDragOver={onDragOver}
+            >
+              <div className="sint-slot-label" style={{ color: slot.cor }}>{slot.funcao}</div>
+              {bloco ? (
+                <div className="sint-slot-content" draggable onDragStart={e => onDragStart(e, bloco.id)} onClick={() => removeFromSlot(slot.id)} title="Clique para remover">
+                  {bloco.texto}
+                </div>
+              ) : (
+                <div className="sint-slot-empty">drop</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {tudoCorreto && (
+        <>
+          <div className="sint-result">
+            <div className="sint-result-label">Oração montada ✓</div>
+            <div className="sint-result-frase">{ex.frase_resultado}</div>
+            {mostrarExp && <div className="sint-explicacao" style={{marginTop:'.75rem',borderLeft:'2px solid var(--ac)',paddingLeft:'1rem',background:'transparent'}}>{ex.explicacao}</div>}
+          </div>
+          <div className="sint-actions">
+            {!mostrarExp && <button className="sint-exp-btn" onClick={() => setMostrarExp(true)}>Ver análise</button>}
+            <button className="sint-btn-pri" onClick={() => goTo((exIdx + 1) % total)}>Próximo →</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function GerarIAMode({ onAddIdentificar, onAddConstruir }) {
+  const [provIdx, setProvIdx] = useState(0);
+  const [apiKey, setApiKey] = useState("");
+  const [modelId, setModelId] = useState(PROVIDERS[0].models[0].id);
+  const [tipoEx, setTipoEx] = useState("identificar");
+  const [categoria, setCategoria] = useState(SINT_CATS[0]);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState("");
+  const [preview, setPreview] = useState(null);
+
+  const prov = PROVIDERS[provIdx];
+
+  const handleProvChange = (i) => {
+    setProvIdx(i);
+    setModelId(PROVIDERS[i].models[0].id);
+    setPreview(null);
+    setErro("");
+  };
+
+  const buildSintPrompt = () => {
+    if (tipoEx === "identificar") {
+      return `Gere 1 exercício de análise sintática do português brasileiro sobre "${categoria}" no formato JSON exato abaixo. Use uma frase simples e didática de nível concurso público. Retorne APENAS o JSON, sem markdown, sem explicações extras.\n\n{\n  "id": 9999,\n  "categoria": "${categoria}",\n  "instrucao": "Encontre o <em>${categoria.toLowerCase()}</em> na frase",\n  "frase": "...",\n  "blocos": [\n    { "id": "b1", "texto": "...", "funcao": "Sujeito", "cor": "#a78bfa" },\n    { "id": "b2", "texto": "...", "funcao": "${categoria}", "cor": "#c8f000" }\n  ],\n  "resposta": ["b2"],\n  "explicacao": "..."\n}\n\nAs cores dos blocos devem ser: Sujeito=#a78bfa, Predicado=#60a5fa, ${categoria}=#c8f000, outros=#f472b6. Cada bloco deve ter texto com 1-4 palavras. Mínimo 3 blocos. A resposta deve conter apenas os ids dos blocos com função "${categoria}".`;
+    } else {
+      return `Gere 1 exercício de construção sintática do português brasileiro no formato JSON exato abaixo. O exercício deve ter slots que o usuário preenche com blocos de palavras para montar uma frase. Use "${categoria}" como um dos slots. Retorne APENAS o JSON, sem markdown, sem explicações extras.\n\n{\n  "id": 9999,\n  "descricao": "Monte a frase colocando cada termo no slot correto",\n  "frase_resultado": "...",\n  "blocos": [\n    { "id": "b1", "texto": "..." },\n    { "id": "b2", "texto": "..." }\n  ],\n  "slots": [\n    { "id": "s1", "funcao": "Sujeito", "resposta": "b1", "cor": "#a78bfa" },\n    { "id": "s2", "funcao": "${categoria}", "resposta": "b2", "cor": "#c8f000" }\n  ],\n  "explicacao": "..."\n}\n\nMínimo 3 blocos e 3 slots. Cada bloco deve ter 1-4 palavras. Certifique-se que cada slot.resposta é um id de bloco válido.`;
+    }
+  };
+
+  const gerar = async () => {
+    if (!apiKey.trim()) { setErro("Insira a chave de API."); return; }
+    setLoading(true);
+    setErro("");
+    setPreview(null);
+    try {
+      const raw = await prov.call(buildSintPrompt(), apiKey.trim(), modelId, 900);
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("Resposta não contém JSON válido.");
+      const obj = JSON.parse(jsonMatch[0]);
+      obj.id = Date.now();
+      setPreview(obj);
+    } catch (e) {
+      setErro("Erro: " + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const adicionar = () => {
+    if (!preview) return;
+    if (tipoEx === "identificar") onAddIdentificar(preview);
+    else onAddConstruir(preview);
+    setPreview(null);
+  };
+
+  return (
+    <div className="sint-gerar">
+      <div className="sint-gerar-section">
+        <div className="sint-gerar-label">Provedor</div>
+        <div className="sint-provider-tabs">
+          {PROVIDERS.map((p, i) => (
+            <button key={p.id} className={`sint-provider-tab${i===provIdx?" active":""}`} onClick={() => handleProvChange(i)}>
+              {p.label} <span className="sint-tag">{p.tag}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="sint-gerar-row">
+        <div className="sint-gerar-section" style={{flex:1}}>
+          <div className="sint-gerar-label">Chave de API</div>
+          <input
+            className="sint-gerar-input"
+            type="password"
+            placeholder={prov.placeholder}
+            value={apiKey}
+            onChange={e => setApiKey(e.target.value)}
+          />
+          <div className="sint-gerar-hint">{prov.hint}</div>
+        </div>
+        <div className="sint-gerar-section" style={{minWidth:160}}>
+          <div className="sint-gerar-label">Modelo</div>
+          <select className="sint-gerar-select" value={modelId} onChange={e => setModelId(e.target.value)}>
+            {prov.models.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div className="sint-gerar-row">
+        <div className="sint-gerar-section" style={{flex:1}}>
+          <div className="sint-gerar-label">Tipo de exercício</div>
+          <div className="sint-tipo-tabs">
+            <button className={`sint-tipo-tab${tipoEx==="identificar"?" active":""}`} onClick={() => setTipoEx("identificar")}>Identificar</button>
+            <button className={`sint-tipo-tab${tipoEx==="construir"?" active":""}`} onClick={() => setTipoEx("construir")}>Construir</button>
+          </div>
+        </div>
+        <div className="sint-gerar-section" style={{flex:1}}>
+          <div className="sint-gerar-label">Categoria</div>
+          <select className="sint-gerar-select" value={categoria} onChange={e => setCategoria(e.target.value)}>
+            {SINT_CATS.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <button className="sint-gerar-btn" onClick={gerar} disabled={loading}>
+        {loading ? "Gerando..." : "Gerar exercício com IA →"}
+      </button>
+
+      {erro && <div className="sint-gerar-erro">{erro}</div>}
+
+      {preview && (
+        <div className="sint-gerar-preview">
+          <div className="sint-gerar-preview-label">Prévia do exercício</div>
+          {tipoEx === "identificar" ? (
+            <>
+              <div className="sint-gerar-preview-frase" dangerouslySetInnerHTML={{__html: preview.instrucao}} />
+              <div className="sint-gerar-preview-frase" style={{color:"var(--t2)"}}>{preview.frase}</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:".5rem",marginTop:".75rem"}}>
+                {(preview.blocos||[]).map(b => (
+                  <span key={b.id} style={{background:b.cor+"22",border:`1px solid ${b.cor}55`,color:b.cor,padding:".25rem .75rem",borderRadius:"4px",fontSize:".8rem"}}>{b.texto}</span>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="sint-gerar-preview-frase">{preview.descricao}</div>
+              <div className="sint-gerar-preview-frase" style={{color:"var(--t2)"}}>{preview.frase_resultado}</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:".5rem",marginTop:".75rem"}}>
+                {(preview.slots||[]).map(s => (
+                  <span key={s.id} style={{background:s.cor+"22",border:`1px solid ${s.cor}55`,color:s.cor,padding:".25rem .75rem",borderRadius:"4px",fontSize:".8rem"}}>{s.funcao}</span>
+                ))}
+              </div>
+            </>
+          )}
+          <div className="sint-gerar-preview-exp">{preview.explicacao}</div>
+          <button className="sint-gerar-add" onClick={adicionar}>+ Adicionar aos exercícios</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SintaxeScreen({ onBack }) {
+  const [modo, setModo] = useState("identificar");
+  const [extraIdentificar, setExtraIdentificar] = useState([]);
+  const [extraConstruir, setExtraConstruir] = useState([]);
+
+  const todosIdentificar = [...SINTAXE_EXERCICIOS, ...extraIdentificar];
+  const todosConstruir = [...CONSTRUCAO_EXERCICIOS, ...extraConstruir];
+
+  return (
+    <div className="sint-screen screen">
+      <div className="sint-header">
+        <button className="sint-back" onClick={onBack}>← Voltar</button>
+        <div className="sint-title">Análise Sintática</div>
+        <div style={{width:"80px"}} />
+      </div>
+      <div className="sint-tabs">
+        <button className={`sint-tab${modo==="identificar"?" active":""}`} onClick={() => setModo("identificar")}>Identificar</button>
+        <button className={`sint-tab${modo==="construir"?" active":""}`} onClick={() => setModo("construir")}>Construir</button>
+        <button className={`sint-tab${modo==="ia"?" active":""}`} onClick={() => setModo("ia")}>Gerar com IA</button>
+      </div>
+      {modo === "identificar" && <IdentificarMode exercicios={todosIdentificar} />}
+      {modo === "construir" && <ConstruirMode exercicios={todosConstruir} />}
+      {modo === "ia" && <GerarIAMode onAddIdentificar={ex => setExtraIdentificar(p => [...p, ex])} onAddConstruir={ex => setExtraConstruir(p => [...p, ex])} />}
+    </div>
+  );
+}
+
 export default function App() {
   const [screen,    setScreen]    = useState("welcome");
   const [user,      setUser]      = useState(loadUser);
@@ -1416,7 +2600,8 @@ export default function App() {
   return (
     <>
       <style>{FONTS}{S}</style>
-      {screen==="welcome"  && <WelcomeScreen onStart={handleStart} savedUser={user} />}
+      {screen==="welcome"  && <WelcomeScreen onStart={handleStart} onSintaxe={()=>setScreen("sintaxe")} savedUser={user} />}
+      {screen==="sintaxe"  && <SintaxeScreen onBack={()=>setScreen("welcome")} />}
       {screen==="howto"    && <HowToScreen onNext={()=>setScreen("drop")} onBack={()=>setScreen("welcome")} user={user} />}
       {screen==="drop"     && <DropScreen onLoad={handleLoad} onHowTo={()=>setScreen("howto")} user={user} />}
       {screen==="quiz"     && data && <QuizScreen data={data} user={user} answers={answers} setAnswers={setAnswers} xp={xp} setXp={setXp} streak={streak} setStreak={setStreak} maxStreak={maxStreak} setMaxStreak={setMaxStreak} onFinish={handleFinish} onBack={handleRestart} />}
