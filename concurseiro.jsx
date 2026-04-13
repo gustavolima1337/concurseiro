@@ -4262,6 +4262,328 @@ function MorfologiaPanel() {
 }
 
 /* ══════════════════════════════════════════════
+   GLOSSÁRIO
+══════════════════════════════════════════════ */
+const GLOSSARIO = [
+  /* ── MORFOLOGIA ── */
+  { termo:"Substantivo",    cat:"Morfologia",
+    def:"Palavra que nomeia seres, objetos, lugares, sentimentos ou ideias.",
+    ex:"A aprovação no concurso mudou sua vida.",
+    sin:[] },
+  { termo:"Adjetivo",       cat:"Morfologia",
+    def:"Palavra que qualifica ou caracteriza o substantivo.",
+    ex:"O candidato dedicado foi aprovado na primeira fase.",
+    sin:[] },
+  { termo:"Artigo",         cat:"Morfologia",
+    def:"Palavra que precede o substantivo, determinando-o (definido) ou indeterminando-o (indefinido).",
+    ex:"O edital foi publicado. Um candidato foi convocado.",
+    sin:["Definidos: o, a, os, as","Indefinidos: um, uma, uns, umas"] },
+  { termo:"Pronome",        cat:"Morfologia",
+    def:"Palavra que substitui ou acompanha o substantivo, representando as pessoas do discurso.",
+    ex:"Ela revisou todo o material antes da prova.",
+    sin:["Pessoal: eu, tu, ele","Possessivo: meu, seu","Demonstrativo: este, esse, aquele","Relativo: que, o qual","Indefinido: alguém, ninguém"] },
+  { termo:"Verbo",          cat:"Morfologia",
+    def:"Palavra que expressa ação, estado, fenômeno ou processo, situado no tempo.",
+    ex:"O candidato estudou por meses e foi aprovado.",
+    sin:[] },
+  { termo:"Advérbio",       cat:"Morfologia",
+    def:"Palavra invariável que modifica verbo, adjetivo ou outro advérbio, indicando circunstância.",
+    ex:"Ele chegou cedo e respondeu rapidamente as questões.",
+    sin:["Tempo: ontem, hoje, sempre, nunca","Lugar: aqui, lá, aonde","Modo: rapidamente, bem, mal","Intensidade: muito, pouco, bastante","Negação: não, jamais","Afirmação: sim, certamente"] },
+  { termo:"Preposição",     cat:"Morfologia",
+    def:"Palavra invariável que relaciona dois termos, subordinando o segundo ao primeiro.",
+    ex:"O candidato inscreveu-se por meio do portal.",
+    sin:["Simples: a, de, em, para, por, com, sobre, sob, ante, após","Locuções: antes de, depois de, por causa de, a fim de, em frente a"] },
+  { termo:"Conjunção",      cat:"Morfologia",
+    def:"Palavra invariável que liga orações ou termos de mesma função sintática.",
+    ex:"Estudou muito, mas não foi aprovado.",
+    sin:["Coordenativas: e, mas, ou, porém, logo","Subordinativas: que, porque, embora, se, quando"] },
+  { termo:"Interjeição",    cat:"Morfologia",
+    def:"Palavra ou expressão que traduz emoção, sensação ou apelo de forma exclamativa.",
+    ex:"Ufa! Finalmente o resultado saiu.",
+    sin:["Alegria: Eba!, Ótimo!, Bravo!","Alívio: Ufa!, Ainda bem!","Espanto: Nossa!, Puxa!, Caramba!","Chamamento: Ei!, Olha!, Psiu!"] },
+  { termo:"Numeral",        cat:"Morfologia",
+    def:"Palavra que indica quantidade, ordem, múltiplo ou fração.",
+    ex:"Três candidatos foram convocados na segunda chamada.",
+    sin:["Cardinal: um, dois, cem","Ordinal: primeiro, segundo","Multiplicativo: dobro, triplo","Fracionário: metade, terço"] },
+
+  /* ── FORMAÇÃO DE PALAVRAS ── */
+  { termo:"Derivação Prefixal",     cat:"Formação",
+    def:"Formação de palavra nova pela adição de prefixo ao radical.",
+    ex:"in + feliz = infeliz",
+    sin:["Prefixos comuns: des-, in-, re-, sub-, super-, anti-"] },
+  { termo:"Derivação Sufixal",      cat:"Formação",
+    def:"Formação de palavra nova pela adição de sufixo ao radical.",
+    ex:"livro + -aria = livraria",
+    sin:["Sufixos comuns: -ção, -ismo, -dade, -eiro, -mente, -aria"] },
+  { termo:"Derivação Parassintética", cat:"Formação",
+    def:"Adição simultânea de prefixo e sufixo ao radical — se retirar um dos dois, a palavra deixa de existir.",
+    ex:"a- + noite + -ecer = anoitecer",
+    sin:["Outros exemplos: entristecer, emudecer, encarecer"] },
+  { termo:"Derivação Regressiva",   cat:"Formação",
+    def:"Formação por subtração de morfema verbal, gerando substantivo.",
+    ex:"amar → amor / combater → combate",
+    sin:["Sempre gera substantivo a partir de verbo"] },
+  { termo:"Composição por Justaposição", cat:"Formação",
+    def:"União de dois ou mais radicais sem alteração fonética. Geralmente mantém hífen.",
+    ex:"guarda + chuva = guarda-chuva",
+    sin:["Outros: bem-estar, segunda-feira, couve-flor"] },
+  { termo:"Composição por Aglutinação", cat:"Formação",
+    def:"União de dois ou mais radicais com alteração ou supressão fonética.",
+    ex:"plano + alto = planalto / água + ardente = aguardente",
+    sin:["Outros: embora (em + boa + hora), vinagre (vinho + acre)"] },
+  { termo:"Hibridismo",             cat:"Formação",
+    def:"Palavra formada por radicais de línguas diferentes.",
+    ex:"petróleo (grego: petra + latim: oleum)",
+    sin:["Outros: automóvel (grego + latim), televisão (grego + latim)"] },
+  { termo:"Onomatopeia",            cat:"Formação",
+    def:"Palavra formada pela imitação de sons da natureza ou do ambiente.",
+    ex:"o zumbido do mosquito incomodava o candidato",
+    sin:["Outros: miau, au-au, tique-taque, pingue-pongue"] },
+
+  /* ── SINTAXE ── */
+  { termo:"Sujeito",                cat:"Sintaxe",
+    def:"Ser sobre o qual o predicado declara algo. Concorda com o verbo em pessoa e número.",
+    ex:"Os candidatos aprovados foram convocados para a posse.",
+    sin:["Simples: um núcleo","Composto: dois ou mais núcleos","Oculto/elíptico: identificado pela desinência verbal","Indeterminado: não identificável","Inexistente/orações sem sujeito: verbos impessoais"] },
+  { termo:"Predicado",              cat:"Sintaxe",
+    def:"Tudo que se declara sobre o sujeito.",
+    ex:"O candidato estudou por meses.",
+    sin:["Verbal: verbo de ação","Nominal: verbo de ligação + predicativo","Verbo-nominal: verbo de ação + predicativo"] },
+  { termo:"Objeto Direto",          cat:"Sintaxe",
+    def:"Complemento verbal sem preposição obrigatória.",
+    ex:"A banca divulgou o gabarito ontem.",
+    sin:["Pergunta-chave: verbo + o quê? / verbo + quem?"] },
+  { termo:"Objeto Indireto",        cat:"Sintaxe",
+    def:"Complemento verbal introduzido por preposição obrigatória.",
+    ex:"O candidato precisava de mais tempo para revisar.",
+    sin:["Pregunta-chave: verbo + a quê? / verbo + de quê?","Preposições: a, de, em, para, por, com"] },
+  { termo:"Adjunto Adnominal",      cat:"Sintaxe",
+    def:"Termo que modifica ou determina o substantivo, sem ser predicativo.",
+    ex:"O jovem candidato dedicado passou na prova difícil.",
+    sin:["Artigos, adjetivos, pronomes e locuções adjetivas que acompanham o substantivo"] },
+  { termo:"Adjunto Adverbial",      cat:"Sintaxe",
+    def:"Termo que modifica o verbo, adjetivo ou advérbio, indicando circunstância.",
+    ex:"Ele estudou intensamente durante três meses.",
+    sin:["Tempo, lugar, modo, causa, instrumento, companhia, intensidade"] },
+  { termo:"Complemento Nominal",    cat:"Sintaxe",
+    def:"Termo que completa o sentido de um nome (substantivo, adjetivo ou advérbio abstrato), introduzido por preposição.",
+    ex:"O candidato tinha necessidade de aprovação.",
+    sin:["Completa substantivos, adjetivos ou advérbios abstratos","Sempre vem com preposição"] },
+  { termo:"Aposto",                 cat:"Sintaxe",
+    def:"Termo que explica, especifica ou resume um substantivo ou pronome anterior.",
+    ex:"Brasília, capital federal, sedia os principais concursos.",
+    sin:["Explicativo, especificativo, enumerativo, resumidor (este/isto/aquilo)"] },
+  { termo:"Vocativo",               cat:"Sintaxe",
+    def:"Termo independente usado para chamar ou interpelar o interlocutor. Isolado por vírgulas.",
+    ex:"Candidatos, prestem atenção às instruções da prova.",
+    sin:["Não pertence nem ao sujeito nem ao predicado","Sempre separado por vírgula"] },
+  { termo:"Predicativo do Sujeito", cat:"Sintaxe",
+    def:"Termo que atribui qualidade ao sujeito por meio de verbo de ligação.",
+    ex:"O candidato ficou nervoso durante a prova oral.",
+    sin:["Verbos de ligação: ser, estar, ficar, parecer, tornar-se, permanecer, continuar"] },
+  { termo:"Predicativo do Objeto",  cat:"Sintaxe",
+    def:"Termo que atribui qualidade ao objeto (direto ou indireto).",
+    ex:"A banca considerou a prova difícil demais.",
+    sin:["Recai sobre objeto direto ou indireto","Pode ser adjetivo ou substantivo"] },
+  { termo:"Agente da Passiva",      cat:"Sintaxe",
+    def:"Termo introduzido por preposição (por/de) que indica quem pratica a ação na voz passiva.",
+    ex:"O gabarito foi divulgado pela banca examinadora.",
+    sin:["Sempre introduzido por 'por' ou 'de'","Só existe na voz passiva analítica"] },
+
+  /* ── ORAÇÕES COORDENADAS ── */
+  { termo:"Oração Coord. Assindética", cat:"Orações",
+    def:"Oração coordenada sem conjunção, ligada por vírgula ou ponto e vírgula.",
+    ex:"Estudou, treinou questões, revisou os erros.",
+    sin:["Sem conjunção coordenativa"] },
+  { termo:"Oração Coord. Aditiva",     cat:"Orações",
+    def:"Liga orações somando ideias.",
+    ex:"Estudou muito e foi aprovado.",
+    sin:["e, nem, não só...mas também, tanto...como, bem como"] },
+  { termo:"Oração Coord. Adversativa", cat:"Orações",
+    def:"Indica oposição, contraste ou restrição entre as orações.",
+    ex:"Estudou bastante, mas não foi aprovado.",
+    sin:["mas, porém, contudo, todavia, entretanto, no entanto, não obstante"] },
+  { termo:"Oração Coord. Alternativa", cat:"Orações",
+    def:"Indica alternância ou exclusão entre as ideias.",
+    ex:"Ou você estuda agora, ou reprova novamente.",
+    sin:["ou...ou, ora...ora, quer...quer, seja...seja, já...já"] },
+  { termo:"Oração Coord. Conclusiva",  cat:"Orações",
+    def:"Indica conclusão ou consequência lógica da oração anterior.",
+    ex:"Dedicou-se por meses, portanto foi aprovado.",
+    sin:["portanto, logo, então, por isso, por conseguinte, assim, consequentemente"] },
+  { termo:"Oração Coord. Explicativa", cat:"Orações",
+    def:"Justifica ou explica a oração anterior.",
+    ex:"Não foi aprovado, pois não estudou o suficiente.",
+    sin:["pois, porque, que, porquanto"] },
+
+  /* ── ORAÇÕES SUBORDINADAS SUBSTANTIVAS ── */
+  { termo:"Sub. Substantiva Subjetiva",       cat:"Orações",
+    def:"Exerce a função de sujeito do verbo da oração principal.",
+    ex:"É necessário que os candidatos cheguem cedo.",
+    sin:["que, se, quem, o que — após verbos impessoais ou na estrutura 'é + adjetivo'"] },
+  { termo:"Sub. Substantiva Objetiva Direta", cat:"Orações",
+    def:"Exerce a função de objeto direto do verbo da oração principal (sem preposição).",
+    ex:"A banca confirmou que o gabarito seria divulgado.",
+    sin:["que, se, quem, o que — após verbos transitivos diretos como dizer, afirmar, confirmar, querer"] },
+  { termo:"Sub. Substantiva Objetiva Indireta", cat:"Orações",
+    def:"Exerce a função de objeto indireto (com preposição).",
+    ex:"O candidato precisava de que o edital fosse publicado.",
+    sin:["de que, em que, a que, para que — após verbos transitivos indiretos"] },
+  { termo:"Sub. Substantiva Predicativa",    cat:"Orações",
+    def:"Exerce a função de predicativo do sujeito, após verbo de ligação.",
+    ex:"O problema é que as vagas são poucas.",
+    sin:["que, se — após verbo 'ser' como verbo de ligação"] },
+  { termo:"Sub. Substantiva Apositiva",      cat:"Orações",
+    def:"Exerce a função de aposto de um substantivo da oração principal.",
+    ex:"Tinha um único desejo: que fosse aprovado no concurso.",
+    sin:["Geralmente após dois pontos","que, se"] },
+
+  /* ── ORAÇÕES SUBORDINADAS ADJETIVAS ── */
+  { termo:"Sub. Adjetiva Restritiva",   cat:"Orações",
+    def:"Restringe o sentido do substantivo antecedente — essencial ao sentido. Sem vírgulas.",
+    ex:"Os candidatos que estudaram foram aprovados.",
+    sin:["que, o qual, cujo, onde — sem vírgula"] },
+  { termo:"Sub. Adjetiva Explicativa",  cat:"Orações",
+    def:"Acrescenta informação acessória ao substantivo antecedente. Entre vírgulas.",
+    ex:"Os candidatos, que estudaram muito, foram aprovados.",
+    sin:["que, o qual, cujo, onde — entre vírgulas"] },
+
+  /* ── ORAÇÕES SUBORDINADAS ADVERBIAIS ── */
+  { termo:"Sub. Adverbial Causal",        cat:"Orações",
+    def:"Indica a causa da ação da oração principal.",
+    ex:"Passou no concurso porque estudou todos os dias.",
+    sin:["porque, pois, visto que, já que, uma vez que, como (= porque), dado que, porquanto"] },
+  { termo:"Sub. Adverbial Temporal",      cat:"Orações",
+    def:"Indica o tempo em que ocorre a ação da oração principal.",
+    ex:"Quando o gabarito foi divulgado, ele comemorou.",
+    sin:["quando, enquanto, assim que, logo que, depois que, antes que, desde que, mal"] },
+  { termo:"Sub. Adverbial Condicional",   cat:"Orações",
+    def:"Indica condição necessária para que ocorra a ação principal.",
+    ex:"Se você estudar todos os dias, será aprovado.",
+    sin:["se, caso, desde que, contanto que, salvo se, a não ser que, a menos que"] },
+  { termo:"Sub. Adverbial Concessiva",    cat:"Orações",
+    def:"Indica concessão — algo ocorre apesar de uma condição contrária.",
+    ex:"Embora estivesse atrasado, ele não se apressou.",
+    sin:["embora, ainda que, mesmo que, posto que, se bem que, conquanto, por mais que, por muito que, apesar de que, nem que"] },
+  { termo:"Sub. Adverbial Consecutiva",   cat:"Orações",
+    def:"Indica a consequência ou resultado da ação da oração principal.",
+    ex:"Estudou tanto que não aguentou mais e dormiu.",
+    sin:["tanto que, tão...que, tamanho...que, de modo que, de forma que, de maneira que"] },
+  { termo:"Sub. Adverbial Comparativa",   cat:"Orações",
+    def:"Estabelece comparação entre as orações.",
+    ex:"Ele se preparou mais do que imaginava ser necessário.",
+    sin:["como, assim como, tal como, mais...do que, menos...do que, tanto...quanto"] },
+  { termo:"Sub. Adverbial Conformativa",  cat:"Orações",
+    def:"Indica conformidade, modo de acordo com o que foi dito.",
+    ex:"Conforme o edital previa, a prova durou quatro horas.",
+    sin:["conforme, como, segundo, consoante"] },
+  { termo:"Sub. Adverbial Final",         cat:"Orações",
+    def:"Indica a finalidade ou objetivo da ação da oração principal.",
+    ex:"Estudou muito para que pudesse passar na primeira fase.",
+    sin:["para que, a fim de que, que (= para que)"] },
+  { termo:"Sub. Adverbial Proporcional",  cat:"Orações",
+    def:"Indica que as ações das duas orações crescem ou decrescem proporcionalmente.",
+    ex:"À medida que estudava, sentia mais confiança.",
+    sin:["à medida que, ao passo que, quanto mais...mais, quanto menos...menos, à proporção que"] },
+];
+
+const CAT_CORES = {
+  Morfologia: "#7c3aed",
+  Formação:   "#0891b2",
+  Sintaxe:    "#059669",
+  Orações:    "#d97706",
+};
+
+function GlossarioPanel() {
+  const [busca,  setBusca]  = useState("");
+  const [filtro, setFiltro] = useState("Todos");
+  const [aberto, setAberto] = useState(null);
+
+  const cats = ["Todos","Morfologia","Formação","Sintaxe","Orações"];
+
+  const lista = useMemo(() => {
+    const q = busca.toLowerCase().trim();
+    return GLOSSARIO.filter(g =>
+      (filtro === "Todos" || g.cat === filtro) &&
+      (!q || g.termo.toLowerCase().includes(q) || g.def.toLowerCase().includes(q) || g.sin.some(s => s.toLowerCase().includes(q)))
+    );
+  }, [busca, filtro]);
+
+  return (
+    <div className="sint-content">
+      {/* busca */}
+      <input
+        type="text"
+        placeholder="Buscar termo..."
+        value={busca}
+        onChange={e => setBusca(e.target.value)}
+        style={{width:"100%",boxSizing:"border-box",padding:".65rem 1rem",borderRadius:".75rem",border:"1.5px solid var(--b1)",background:"var(--ca)",color:"var(--tx)",fontFamily:"var(--S)",fontSize:".9rem",marginBottom:".75rem",outline:"none"}}
+      />
+      {/* filtros */}
+      <div style={{display:"flex",gap:".4rem",flexWrap:"wrap",marginBottom:"1rem"}}>
+        {cats.map(c => (
+          <button key={c} onClick={() => setFiltro(c)} style={{
+            fontFamily:"var(--M)",fontSize:".65rem",letterSpacing:".06em",padding:".3rem .75rem",
+            borderRadius:"2rem",border:"1.5px solid",cursor:"pointer",
+            borderColor: filtro===c ? "var(--ac)" : "var(--b1)",
+            background:  filtro===c ? "var(--ac)" : "transparent",
+            color:       filtro===c ? "#000"      : "var(--t3)",
+          }}>{c}</button>
+        ))}
+      </div>
+      {/* contagem */}
+      <div style={{fontFamily:"var(--M)",fontSize:".65rem",color:"var(--t3)",marginBottom:".75rem"}}>{lista.length} termos</div>
+      {/* lista */}
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem"}}>
+        {lista.map(g => {
+          const open = aberto === g.termo;
+          const cor  = CAT_CORES[g.cat] || "var(--ac)";
+          return (
+            <div key={g.termo}
+              style={{background:"var(--ca)",borderRadius:"1rem",border:`1.5px solid ${open ? cor : "var(--b1)"}`,overflow:"hidden",cursor:"pointer",transition:"border-color .15s"}}
+              onClick={() => setAberto(open ? null : g.termo)}
+            >
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:".85rem 1rem"}}>
+                <div>
+                  <span style={{fontWeight:700,fontSize:".9rem"}}>{g.termo}</span>
+                  <span style={{marginLeft:".6rem",fontFamily:"var(--M)",fontSize:".6rem",letterSpacing:".06em",padding:".15rem .55rem",borderRadius:"2rem",background:cor+"22",color:cor}}>{g.cat}</span>
+                </div>
+                <span style={{color:"var(--t3)",fontSize:".8rem"}}>{open ? "▲" : "▼"}</span>
+              </div>
+              {open && (
+                <div style={{padding:"0 1rem 1rem",borderTop:"1px solid var(--b1)"}}>
+                  {/* definição */}
+                  <div style={{marginTop:".75rem",fontSize:".88rem",lineHeight:1.55}}>{g.def}</div>
+                  {/* exemplo */}
+                  <div style={{marginTop:".6rem",background:"var(--bg)",borderRadius:".6rem",padding:".6rem .85rem",fontStyle:"italic",fontSize:".85rem",color:"var(--t3)",borderLeft:`3px solid ${cor}`}}>
+                    "{g.ex}"
+                  </div>
+                  {/* sinônimos / variantes */}
+                  {g.sin.length > 0 && (
+                    <div style={{marginTop:".75rem"}}>
+                      <div style={{fontFamily:"var(--M)",fontSize:".65rem",letterSpacing:".06em",color:"var(--t3)",marginBottom:".4rem"}}>SINÔNIMOS / VARIANTES</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:".35rem"}}>
+                        {g.sin.map((s,i) => (
+                          <span key={i} style={{fontFamily:"var(--M)",fontSize:".7rem",padding:".25rem .65rem",borderRadius:"2rem",background:cor+"18",color:cor,border:`1px solid ${cor}44`}}>{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {lista.length === 0 && (
+          <div style={{textAlign:"center",color:"var(--t3)",fontFamily:"var(--M)",fontSize:".75rem",padding:"2rem"}}>Nenhum termo encontrado.</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════
    PORTUGUÊS — aba unificada
 ══════════════════════════════════════════════ */
 function PortuguesScreen({ onBack }) {
@@ -4274,7 +4596,7 @@ function PortuguesScreen({ onBack }) {
         <div style={{width:"80px"}} />
       </div>
       <div style={{display:"flex",gap:".5rem",padding:".75rem 1rem",borderBottom:"1px solid var(--b1)",overflowX:"auto",scrollbarWidth:"none"}}>
-        {[["sintaxe","Sintaxe"],["oracoes","Orações"],["morfologia","Morfologia"]].map(([k,l]) => (
+        {[["sintaxe","Sintaxe"],["oracoes","Orações"],["morfologia","Morfologia"],["glossario","Glossário"]].map(([k,l]) => (
           <button key={k}
             onClick={() => setTopico(k)}
             style={{
@@ -4290,6 +4612,7 @@ function PortuguesScreen({ onBack }) {
       {topico === "sintaxe"    && <SintaxePanel />}
       {topico === "oracoes"    && <OracoesPanel />}
       {topico === "morfologia" && <MorfologiaPanel />}
+      {topico === "glossario"  && <GlossarioPanel />}
     </div>
   );
 }
