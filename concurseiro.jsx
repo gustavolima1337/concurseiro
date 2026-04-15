@@ -1668,6 +1668,86 @@ body{background:var(--bg);font-family:var(--B);color:var(--tx);min-height:100vh}
 .expert-slot-inner{cursor:pointer;text-align:center;align-items:center;display:flex;justify-content:center}
 .expert-slot-inner:hover{opacity:.75}
 .expert-slot-inner span{font-family:var(--M);font-size:.8rem;color:var(--tx)}
+
+/* ── SINT-CONTENT (morfologia / glossário) ── */
+.sint-content{flex:1;max-width:720px;margin:0 auto;padding:1.5rem;width:100%;box-sizing:border-box}
+
+/* ════════════════════════════════════════════
+   MOBILE — breakpoint 600px
+════════════════════════════════════════════ */
+@media(max-width:600px){
+  /* Header */
+  .sint-header{padding:.85rem 1rem}
+  .sint-title{font-size:.75rem}
+  .sint-back{font-size:.65rem}
+
+  /* Body / Content */
+  .sint-body{padding:1.25rem 1rem}
+  .sint-content{padding:1.25rem 1rem}
+
+  /* Tabs */
+  .sint-tab{font-size:.58rem;padding:.75rem .9rem}
+
+  /* Frase card */
+  .sint-frase{font-size:.88rem;padding:.85rem 1rem;margin-bottom:1.75rem}
+
+  /* Blocos de sintaxe */
+  .sint-bloco{font-size:.78rem;padding:.4rem .75rem}
+  .sint-blocos{gap:.45rem}
+
+  /* Slots */
+  .sint-slots{gap:.4rem}
+  .sint-slot{min-width:80px;padding:.55rem .4rem;min-height:64px}
+  .sint-slot-label{font-size:.52rem}
+  .sint-slot-content{font-size:.74rem}
+
+  /* Zona de resposta */
+  .sint-zona{min-height:90px;padding:.85rem}
+
+  /* Função (título grande) */
+  .sint-funcao{font-size:1rem}
+
+  /* Navegação entre exercícios */
+  .sint-ex-nav{margin-bottom:1rem;gap:.6rem}
+
+  /* Botões */
+  .sint-btn-pri{font-size:.68rem;padding:.6rem 1rem}
+  .sint-exp-btn{font-size:.65rem;padding:.35rem .75rem}
+  .sint-actions{flex-wrap:wrap}
+
+  /* Explicação */
+  .sint-explicacao{font-size:.82rem;padding:.85rem 1rem}
+
+  /* Expert mode grid → 1 col */
+  .expert-dicas-panel{grid-template-columns:1fr}
+  .expert-bloco{min-width:60px;padding:.45rem .65rem}
+  .expert-texto{font-size:.76rem}
+  .expert-slot{min-width:80px}
+
+  /* Gerar com IA */
+  .sint-gerar{padding:1rem}
+  .sint-gerar-row{flex-direction:column}
+  .sint-gerar-btn{width:100%}
+
+  /* Welcome */
+  .w-top{padding:1rem 1.1rem}
+  .w-hero{padding:2rem 1.1rem 1.25rem}
+  .w-h1{font-size:clamp(2.5rem,14vw,4rem);margin-bottom:1.75rem}
+  .w-field{padding:1.1rem 1.1rem}
+  .w-bottom{padding:.85rem 1.1rem;flex-direction:column;gap:.75rem;align-items:flex-start}
+  .w-btn{padding:1.2rem 2rem;font-size:.78rem}
+
+  /* HowTo */
+  .howto{padding:1.5rem 1rem 3rem}
+  .ht-top{padding-bottom:1.25rem;margin-bottom:1.5rem}
+}
+
+@media(max-width:400px){
+  .sint-tab{font-size:.52rem;padding:.7rem .7rem}
+  .sint-slot{min-width:65px}
+  .sint-content{padding:1rem .85rem}
+  .sint-body{padding:1rem .85rem}
+}
 `;
 
 function WelcomeScreen({ onStart, onPortugues, savedUser }) {
