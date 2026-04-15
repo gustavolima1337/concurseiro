@@ -2672,44 +2672,219 @@ const PERIODO_EXERCICIOS = [
 ];
 
 const CONJUNCOES_DATA = [
-  {palavra:"e",          tipo:"Coordenada Sindética Aditiva",       exemplo:"A PRF fiscalizou e autuou os infratores."},
-  {palavra:"nem",        tipo:"Coordenada Sindética Aditiva",       exemplo:"Não estudou nem foi aprovado."},
-  {palavra:"mas",        tipo:"Coordenada Sindética Adversativa",   exemplo:"Estudou muito, mas não foi aprovado."},
-  {palavra:"porém",      tipo:"Coordenada Sindética Adversativa",   exemplo:"Tentou, porém não conseguiu."},
-  {palavra:"contudo",    tipo:"Coordenada Sindética Adversativa",   exemplo:"Correu muito, contudo chegou tarde."},
-  {palavra:"entretanto", tipo:"Coordenada Sindética Adversativa",   exemplo:"Prometeu, entretanto não cumpriu."},
-  {palavra:"todavia",    tipo:"Coordenada Sindética Adversativa",   exemplo:"Estudou bastante, todavia não passou."},
-  {palavra:"ou...ou",    tipo:"Coordenada Sindética Alternativa",   exemplo:"Ou estuda ou repete a prova."},
-  {palavra:"ora...ora",  tipo:"Coordenada Sindética Alternativa",   exemplo:"Ora chove, ora faz sol."},
-  {palavra:"portanto",   tipo:"Coordenada Sindética Conclusiva",    exemplo:"Estudou muito, portanto foi aprovado."},
-  {palavra:"logo",       tipo:"Coordenada Sindética Conclusiva",    exemplo:"Penso, logo existo."},
-  {palavra:"assim",      tipo:"Coordenada Sindética Conclusiva",    exemplo:"Dedicou-se, assim conquistou a vaga."},
-  {palavra:"pois (antes do verbo)", tipo:"Coordenada Sindética Explicativa", exemplo:"Estude, pois a prova é amanhã."},
-  {palavra:"porque (no meio da frase)", tipo:"Coordenada Sindética Explicativa", exemplo:"Fique, porque você é necessário."},
-  {palavra:"embora",     tipo:"Subordinada Adverbial Concessiva",   exemplo:"Embora cansado, continuou estudando."},
-  {palavra:"ainda que",  tipo:"Subordinada Adverbial Concessiva",   exemplo:"Ainda que chova, irei trabalhar."},
-  {palavra:"mesmo que",  tipo:"Subordinada Adverbial Concessiva",   exemplo:"Mesmo que tente, não conseguirá."},
-  {palavra:"se",         tipo:"Subordinada Adverbial Condicional",  exemplo:"Se estudar, será aprovado."},
-  {palavra:"caso",       tipo:"Subordinada Adverbial Condicional",  exemplo:"Caso chova, não iremos."},
-  {palavra:"contanto que",tipo:"Subordinada Adverbial Condicional", exemplo:"Pode sair, contanto que volte cedo."},
-  {palavra:"porque (início da frase causal)",tipo:"Subordinada Adverbial Causal",exemplo:"Porque estudou, foi aprovado."},
-  {palavra:"como (causal)",tipo:"Subordinada Adverbial Causal",     exemplo:"Como não estudou, reprovou."},
-  {palavra:"já que",     tipo:"Subordinada Adverbial Causal",       exemplo:"Já que está aqui, pode ajudar."},
-  {palavra:"uma vez que",tipo:"Subordinada Adverbial Causal",       exemplo:"Uma vez que chegou, começamos."},
-  {palavra:"quando",     tipo:"Subordinada Adverbial Temporal",     exemplo:"Quando chegar, avise-me."},
-  {palavra:"enquanto",   tipo:"Subordinada Adverbial Temporal",     exemplo:"Enquanto estuda, ouve música."},
-  {palavra:"assim que",  tipo:"Subordinada Adverbial Temporal",     exemplo:"Assim que terminar, sairemos."},
-  {palavra:"para que",   tipo:"Subordinada Adverbial Final",        exemplo:"Estuda para que passe no concurso."},
-  {palavra:"a fim de que",tipo:"Subordinada Adverbial Final",       exemplo:"Correu a fim de que chegasse a tempo."},
-  {palavra:"tão...que",  tipo:"Subordinada Adverbial Consecutiva",  exemplo:"Era tão difícil que poucos passaram."},
-  {palavra:"tanto...que",tipo:"Subordinada Adverbial Consecutiva",  exemplo:"Estudou tanto que ficou exausto."},
-  {palavra:"conforme",   tipo:"Subordinada Adverbial Conformativa", exemplo:"Agiu conforme o regulamento."},
-  {palavra:"segundo",    tipo:"Subordinada Adverbial Conformativa", exemplo:"Fez segundo as instruções recebidas."},
-  {palavra:"como (comparativa)",tipo:"Subordinada Adverbial Comparativa",exemplo:"Agiu como esperávamos."},
-  {palavra:"à medida que",tipo:"Subordinada Adverbial Proporcional",exemplo:"À medida que estudava, melhorava."},
-  {palavra:"que (sem vírgula)",tipo:"Subordinada Adjetiva Restritiva",exemplo:"O candidato que estudou passou."},
-  {palavra:"que (com vírgula)",tipo:"Subordinada Adjetiva Explicativa",exemplo:"O candidato, que estudou, passou."},
+  /* ── COORDENADAS ADITIVAS ── */
+  {palavra:"e",                    tipo:"Coordenada Sindética Aditiva",        exemplo:"A PRF fiscalizou e autuou os infratores."},
+  {palavra:"nem",                  tipo:"Coordenada Sindética Aditiva",        exemplo:"Não estudou nem foi aprovado."},
+  {palavra:"não só...mas também",  tipo:"Coordenada Sindética Aditiva",        exemplo:"Não só estudou mas também praticou questões."},
+  {palavra:"tanto...quanto",       tipo:"Coordenada Sindética Aditiva",        exemplo:"Tanto o edital quanto o gabarito foram publicados."},
+  {palavra:"bem como",             tipo:"Coordenada Sindética Aditiva",        exemplo:"Revisou a teoria bem como os exercícios."},
+  /* ── COORDENADAS ADVERSATIVAS ── */
+  {palavra:"mas",                  tipo:"Coordenada Sindética Adversativa",    exemplo:"Estudou muito, mas não foi aprovado."},
+  {palavra:"porém",                tipo:"Coordenada Sindética Adversativa",    exemplo:"Tentou, porém não conseguiu."},
+  {palavra:"contudo",              tipo:"Coordenada Sindética Adversativa",    exemplo:"Correu muito, contudo chegou tarde."},
+  {palavra:"entretanto",           tipo:"Coordenada Sindética Adversativa",    exemplo:"Prometeu, entretanto não cumpriu."},
+  {palavra:"todavia",              tipo:"Coordenada Sindética Adversativa",    exemplo:"Estudou bastante, todavia não passou."},
+  {palavra:"no entanto",           tipo:"Coordenada Sindética Adversativa",    exemplo:"Tentou passar, no entanto reprovnou."},
+  {palavra:"não obstante",         tipo:"Coordenada Sindética Adversativa",    exemplo:"Não obstante o esforço, não foi aprovado."},
+  /* ── COORDENADAS ALTERNATIVAS ── */
+  {palavra:"ou...ou",              tipo:"Coordenada Sindética Alternativa",    exemplo:"Ou estuda ou repete a prova."},
+  {palavra:"ora...ora",            tipo:"Coordenada Sindética Alternativa",    exemplo:"Ora chove, ora faz sol."},
+  {palavra:"quer...quer",          tipo:"Coordenada Sindética Alternativa",    exemplo:"Quer chova, quer faça sol, irei trabalhar."},
+  {palavra:"seja...seja",          tipo:"Coordenada Sindética Alternativa",    exemplo:"Seja pelo esforço, seja pelo talento, passou."},
+  {palavra:"já...já",              tipo:"Coordenada Sindética Alternativa",    exemplo:"Já ria, já chorava ao ler o resultado."},
+  /* ── COORDENADAS CONCLUSIVAS ── */
+  {palavra:"portanto",             tipo:"Coordenada Sindética Conclusiva",     exemplo:"Estudou muito, portanto foi aprovado."},
+  {palavra:"logo",                 tipo:"Coordenada Sindética Conclusiva",     exemplo:"Penso, logo existo."},
+  {palavra:"então",                tipo:"Coordenada Sindética Conclusiva",     exemplo:"Dedicou-se, então conquistou a vaga."},
+  {palavra:"assim",                tipo:"Coordenada Sindética Conclusiva",     exemplo:"Treinou bastante, assim garantiu a aprovação."},
+  {palavra:"por isso",             tipo:"Coordenada Sindética Conclusiva",     exemplo:"Estudou todo o edital, por isso passou."},
+  {palavra:"por conseguinte",      tipo:"Coordenada Sindética Conclusiva",     exemplo:"Errou muito, por conseguinte não passou."},
+  {palavra:"consequentemente",     tipo:"Coordenada Sindética Conclusiva",     exemplo:"Não estudou; consequentemente, reprovou."},
+  {palavra:"pois (após o verbo)",  tipo:"Coordenada Sindética Conclusiva",     exemplo:"Irei, pois já decidi."},
+  /* ── COORDENADAS EXPLICATIVAS ── */
+  {palavra:"pois (antes do verbo)",tipo:"Coordenada Sindética Explicativa",    exemplo:"Estude, pois a prova é amanhã."},
+  {palavra:"porque",               tipo:"Coordenada Sindética Explicativa",    exemplo:"Fique, porque você é necessário."},
+  {palavra:"que",                  tipo:"Coordenada Sindética Explicativa",    exemplo:"Corra, que o tempo está acabando."},
+  {palavra:"porquanto",            tipo:"Coordenada Sindética Explicativa",    exemplo:"Descanse, porquanto a jornada é longa."},
+  /* ── SUBORDINADAS ADVERBIAIS CAUSAIS ── */
+  {palavra:"porque (causal)",      tipo:"Subordinada Adverbial Causal",        exemplo:"Passou no concurso porque estudou todos os dias."},
+  {palavra:"como (causal)",        tipo:"Subordinada Adverbial Causal",        exemplo:"Como não estudou, foi reprovado."},
+  {palavra:"já que",               tipo:"Subordinada Adverbial Causal",        exemplo:"Já que está aqui, pode ajudar."},
+  {palavra:"uma vez que",          tipo:"Subordinada Adverbial Causal",        exemplo:"Uma vez que chegou, começamos a reunião."},
+  {palavra:"visto que",            tipo:"Subordinada Adverbial Causal",        exemplo:"Visto que o edital foi publicado, iniciaram as inscrições."},
+  {palavra:"dado que",             tipo:"Subordinada Adverbial Causal",        exemplo:"Dado que os candidatos estudaram, o resultado foi bom."},
+  {palavra:"pois que",             tipo:"Subordinada Adverbial Causal",        exemplo:"Saiu cedo, pois que tinha compromisso."},
+  {palavra:"por isso que",         tipo:"Subordinada Adverbial Causal",        exemplo:"Não foi aprovado, por isso que não se esforçou."},
+  /* ── SUBORDINADAS ADVERBIAIS TEMPORAIS ── */
+  {palavra:"quando",               tipo:"Subordinada Adverbial Temporal",      exemplo:"Quando o gabarito foi divulgado, ele comemorou."},
+  {palavra:"enquanto",             tipo:"Subordinada Adverbial Temporal",      exemplo:"Enquanto estudava, ouvia música clássica."},
+  {palavra:"assim que",            tipo:"Subordinada Adverbial Temporal",      exemplo:"Assim que terminar a prova, sairemos."},
+  {palavra:"logo que",             tipo:"Subordinada Adverbial Temporal",      exemplo:"Logo que chegou, começou a estudar."},
+  {palavra:"depois que",           tipo:"Subordinada Adverbial Temporal",      exemplo:"Depois que terminou, foi descansar."},
+  {palavra:"antes que",            tipo:"Subordinada Adverbial Temporal",      exemplo:"Revise antes que o tempo acabe."},
+  {palavra:"desde que (temporal)", tipo:"Subordinada Adverbial Temporal",      exemplo:"Desde que entrou no cursinho, melhorou muito."},
+  {palavra:"mal",                  tipo:"Subordinada Adverbial Temporal",      exemplo:"Mal chegou em casa, recebeu a notícia."},
+  {palavra:"tão logo",             tipo:"Subordinada Adverbial Temporal",      exemplo:"Tão logo terminou a prova, entregou o caderno."},
+  {palavra:"sempre que",           tipo:"Subordinada Adverbial Temporal",      exemplo:"Sempre que estudava, fazia anotações."},
+  /* ── SUBORDINADAS ADVERBIAIS CONDICIONAIS ── */
+  {palavra:"se",                   tipo:"Subordinada Adverbial Condicional",   exemplo:"Se você estudar todos os dias, será aprovado."},
+  {palavra:"caso",                 tipo:"Subordinada Adverbial Condicional",   exemplo:"Caso chova, a prova será adiada."},
+  {palavra:"desde que (cond.)",    tipo:"Subordinada Adverbial Condicional",   exemplo:"Pode sair, desde que volte cedo."},
+  {palavra:"contanto que",         tipo:"Subordinada Adverbial Condicional",   exemplo:"Farei isso, contanto que você me ajude."},
+  {palavra:"salvo se",             tipo:"Subordinada Adverbial Condicional",   exemplo:"Irei à prova, salvo se adoecer."},
+  {palavra:"a não ser que",        tipo:"Subordinada Adverbial Condicional",   exemplo:"Estudarei, a não ser que algo ocorra."},
+  {palavra:"a menos que",          tipo:"Subordinada Adverbial Condicional",   exemplo:"Vou comparecer, a menos que haja impedimento."},
+  {palavra:"sem que",              tipo:"Subordinada Adverbial Condicional",   exemplo:"Não sairá sem que termine o exercício."},
+  /* ── SUBORDINADAS ADVERBIAIS CONCESSIVAS ── */
+  {palavra:"embora",               tipo:"Subordinada Adverbial Concessiva",    exemplo:"Embora estivesse atrasado, não se apressou."},
+  {palavra:"ainda que",            tipo:"Subordinada Adverbial Concessiva",    exemplo:"Ainda que chova, irei trabalhar."},
+  {palavra:"mesmo que",            tipo:"Subordinada Adverbial Concessiva",    exemplo:"Mesmo que tente, não conseguirá."},
+  {palavra:"posto que",            tipo:"Subordinada Adverbial Concessiva",    exemplo:"Posto que fosse difícil, não desistiu."},
+  {palavra:"se bem que",           tipo:"Subordinada Adverbial Concessiva",    exemplo:"Gostou do resultado, se bem que esperava mais."},
+  {palavra:"conquanto",            tipo:"Subordinada Adverbial Concessiva",    exemplo:"Conquanto estudasse, não passou."},
+  {palavra:"por mais que",         tipo:"Subordinada Adverbial Concessiva",    exemplo:"Por mais que tentasse, não conseguia."},
+  {palavra:"apesar de que",        tipo:"Subordinada Adverbial Concessiva",    exemplo:"Apesar de que estudou, não foi aprovado."},
+  {palavra:"nem que",              tipo:"Subordinada Adverbial Concessiva",    exemplo:"Irei à prova, nem que precise correr."},
+  {palavra:"por muito que",        tipo:"Subordinada Adverbial Concessiva",    exemplo:"Por muito que estudasse, errava essas questões."},
+  /* ── SUBORDINADAS ADVERBIAIS CONSECUTIVAS ── */
+  {palavra:"tão...que",            tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Era tão difícil que poucos passaram."},
+  {palavra:"tanto...que",          tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Estudou tanto que ficou exausto."},
+  {palavra:"tamanho...que",        tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Era tamanho o esforço que todos notaram."},
+  {palavra:"tal...que",            tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Tal foi seu empenho que todos o elogiaram."},
+  {palavra:"de modo que",          tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Estudou muito, de modo que passou facilmente."},
+  {palavra:"de forma que",         tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Treinou bastante, de forma que se destacou."},
+  {palavra:"de maneira que",       tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Agiu corretamente, de maneira que foi elogiado."},
+  {palavra:"de sorte que",         tipo:"Subordinada Adverbial Consecutiva",   exemplo:"Planejou tudo, de sorte que nada falhou."},
+  /* ── SUBORDINADAS ADVERBIAIS COMPARATIVAS ── */
+  {palavra:"como (comparativa)",   tipo:"Subordinada Adverbial Comparativa",   exemplo:"Agiu como esperávamos que agiria."},
+  {palavra:"assim como",           tipo:"Subordinada Adverbial Comparativa",   exemplo:"Assim como o pai, o filho também passou."},
+  {palavra:"tal como",             tipo:"Subordinada Adverbial Comparativa",   exemplo:"Falou tal como o professor ensinou."},
+  {palavra:"mais...do que",        tipo:"Subordinada Adverbial Comparativa",   exemplo:"Estudou mais do que julgava necessário."},
+  {palavra:"menos...do que",       tipo:"Subordinada Adverbial Comparativa",   exemplo:"Errou menos do que esperava."},
+  {palavra:"tanto...quanto",       tipo:"Subordinada Adverbial Comparativa",   exemplo:"Estudou tanto quanto o colega aprovado."},
+  /* ── SUBORDINADAS ADVERBIAIS CONFORMATIVAS ── */
+  {palavra:"conforme",             tipo:"Subordinada Adverbial Conformativa",  exemplo:"Agiu conforme o edital determinava."},
+  {palavra:"como (conformativa)",  tipo:"Subordinada Adverbial Conformativa",  exemplo:"Fez como foi orientado pelo professor."},
+  {palavra:"segundo",              tipo:"Subordinada Adverbial Conformativa",  exemplo:"Fez segundo as instruções do coordenador."},
+  {palavra:"consoante",            tipo:"Subordinada Adverbial Conformativa",  exemplo:"Agiu consoante as normas do regulamento."},
+  {palavra:"de acordo com",        tipo:"Subordinada Adverbial Conformativa",  exemplo:"Procedeu de acordo com o que foi orientado."},
+  /* ── SUBORDINADAS ADVERBIAIS FINAIS ── */
+  {palavra:"para que",             tipo:"Subordinada Adverbial Final",         exemplo:"Estudou muito para que pudesse ser aprovado."},
+  {palavra:"a fim de que",         tipo:"Subordinada Adverbial Final",         exemplo:"Correu a fim de que chegasse a tempo."},
+  {palavra:"que (final)",          tipo:"Subordinada Adverbial Final",         exemplo:"Venha cá, que eu te mostre o resultado."},
+  /* ── SUBORDINADAS ADVERBIAIS PROPORCIONAIS ── */
+  {palavra:"à medida que",         tipo:"Subordinada Adverbial Proporcional",  exemplo:"À medida que estudava, sentia mais confiança."},
+  {palavra:"ao passo que",         tipo:"Subordinada Adverbial Proporcional",  exemplo:"Melhorava ao passo que praticava questões."},
+  {palavra:"quanto mais...mais",   tipo:"Subordinada Adverbial Proporcional",  exemplo:"Quanto mais estudava, mais aprendia."},
+  {palavra:"quanto menos...menos", tipo:"Subordinada Adverbial Proporcional",  exemplo:"Quanto menos dormia, menos rendia."},
+  {palavra:"à proporção que",      tipo:"Subordinada Adverbial Proporcional",  exemplo:"À proporção que o tempo passava, ficava mais nervoso."},
+  /* ── SUBORDINADAS ADJETIVAS ── */
+  {palavra:"que (restritiva, sem vírgula)",   tipo:"Subordinada Adjetiva Restritiva",  exemplo:"Os candidatos que estudaram foram aprovados."},
+  {palavra:"o qual (restritiva)",             tipo:"Subordinada Adjetiva Restritiva",  exemplo:"O edital o qual foi publicado gerou dúvidas."},
+  {palavra:"cujo (restritiva)",               tipo:"Subordinada Adjetiva Restritiva",  exemplo:"O candidato cujo nome foi divulgado compareceu."},
+  {palavra:"onde (restritiva)",               tipo:"Subordinada Adjetiva Restritiva",  exemplo:"A cidade onde mora fica longe da capital."},
+  {palavra:"que (explicativa, com vírgula)",  tipo:"Subordinada Adjetiva Explicativa", exemplo:"Os candidatos, que estudaram, foram aprovados."},
+  {palavra:"o qual (explicativa)",            tipo:"Subordinada Adjetiva Explicativa", exemplo:"O edital, o qual foi publicado ontem, gerou dúvidas."},
 ];
+
+/* Guia agrupado por tipo para referência rápida */
+const GUIA_CONJUNCOES = [
+  { tipo:"Coord. Aditiva",         cor:"#2563eb", palavras:["e","nem","não só...mas também","tanto...quanto","bem como"] },
+  { tipo:"Coord. Adversativa",     cor:"#dc2626", palavras:["mas","porém","contudo","entretanto","todavia","no entanto","não obstante"] },
+  { tipo:"Coord. Alternativa",     cor:"#7c3aed", palavras:["ou...ou","ora...ora","quer...quer","seja...seja","já...já"] },
+  { tipo:"Coord. Conclusiva",      cor:"#059669", palavras:["portanto","logo","então","assim","por isso","por conseguinte","consequentemente","pois (após o verbo)"] },
+  { tipo:"Coord. Explicativa",     cor:"#0891b2", palavras:["pois (antes do verbo)","porque","que","porquanto"] },
+  { tipo:"Sub. Adv. Causal",       cor:"#b45309", palavras:["porque","como","já que","uma vez que","visto que","dado que","pois que","por isso que"] },
+  { tipo:"Sub. Adv. Temporal",     cor:"#0f766e", palavras:["quando","enquanto","assim que","logo que","depois que","antes que","desde que","mal","tão logo","sempre que"] },
+  { tipo:"Sub. Adv. Condicional",  cor:"#9333ea", palavras:["se","caso","desde que","contanto que","salvo se","a não ser que","a menos que","sem que"] },
+  { tipo:"Sub. Adv. Concessiva",   cor:"#e11d48", palavras:["embora","ainda que","mesmo que","posto que","se bem que","conquanto","por mais que","apesar de que","nem que","por muito que"] },
+  { tipo:"Sub. Adv. Consecutiva",  cor:"#ea580c", palavras:["tão...que","tanto...que","tamanho...que","tal...que","de modo que","de forma que","de maneira que","de sorte que"] },
+  { tipo:"Sub. Adv. Comparativa",  cor:"#0284c7", palavras:["como","assim como","tal como","mais...do que","menos...do que","tanto...quanto"] },
+  { tipo:"Sub. Adv. Conformativa", cor:"#65a30d", palavras:["conforme","como","segundo","consoante","de acordo com"] },
+  { tipo:"Sub. Adv. Final",        cor:"#d97706", palavras:["para que","a fim de que","que (= para que)"] },
+  { tipo:"Sub. Adv. Proporcional", cor:"#be185d", palavras:["à medida que","ao passo que","quanto mais...mais","quanto menos...menos","à proporção que"] },
+  { tipo:"Sub. Adjetiva Restritiva",  cor:"#1d4ed8", palavras:["que (sem vírgula)","o qual","cujo","onde","quem"] },
+  { tipo:"Sub. Adjetiva Explicativa", cor:"#7e22ce", palavras:["que (com vírgula)","o qual","cujo","onde","quem"] },
+];
+
+function GuiaConjuncoesMode() {
+  const [aberto, setAberto] = useState(null);
+  const [busca, setBusca]   = useState("");
+
+  const lista = busca.trim()
+    ? GUIA_CONJUNCOES.filter(g =>
+        g.tipo.toLowerCase().includes(busca.toLowerCase()) ||
+        g.palavras.some(p => p.toLowerCase().includes(busca.toLowerCase()))
+      )
+    : GUIA_CONJUNCOES;
+
+  return (
+    <div className="sint-content">
+      <input
+        type="text"
+        placeholder="Buscar tipo ou conjunção..."
+        value={busca}
+        onChange={e => setBusca(e.target.value)}
+        style={{width:"100%",boxSizing:"border-box",padding:".6rem 1rem",borderRadius:".75rem",
+          border:"1.5px solid var(--b1)",background:"var(--ca)",color:"var(--tx)",
+          fontFamily:"var(--S)",fontSize:".88rem",marginBottom:".75rem",outline:"none"}}
+      />
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem"}}>
+        {lista.map(g => {
+          const open = aberto === g.tipo;
+          return (
+            <div key={g.tipo}
+              onClick={() => setAberto(open ? null : g.tipo)}
+              style={{borderRadius:"1rem",border:`1.5px solid ${open ? g.cor : "var(--b1)"}`,
+                overflow:"hidden",cursor:"pointer",transition:"border-color .15s",background:"var(--ca)"}}
+            >
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:".8rem 1rem"}}>
+                <div style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+                  <span style={{width:"10px",height:"10px",borderRadius:"50%",background:g.cor,flexShrink:0,display:"inline-block"}} />
+                  <span style={{fontWeight:600,fontSize:".88rem"}}>{g.tipo}</span>
+                  <span style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)"}}>{g.palavras.length} conjunções</span>
+                </div>
+                <span style={{color:"var(--t3)",fontSize:".75rem"}}>{open?"▲":"▼"}</span>
+              </div>
+              {open && (
+                <div style={{padding:"0 1rem 1rem",borderTop:"1px solid var(--b1)"}}>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:".4rem",marginTop:".75rem"}}>
+                    {g.palavras.map((p,i) => (
+                      <span key={i} style={{
+                        fontFamily:"var(--M)",fontSize:".72rem",padding:".3rem .75rem",
+                        borderRadius:"2rem",background:g.cor+"18",color:g.cor,
+                        border:`1px solid ${g.cor}44`,letterSpacing:".02em"
+                      }}>{p}</span>
+                    ))}
+                  </div>
+                  {/* exemplos do CONJUNCOES_DATA para esse tipo */}
+                  {(() => {
+                    const tipoFull = g.tipo
+                      .replace("Sub. Adv.","Subordinada Adverbial")
+                      .replace("Sub. Adjetiva Restritiva","Subordinada Adjetiva Restritiva")
+                      .replace("Sub. Adjetiva Explicativa","Subordinada Adjetiva Explicativa")
+                      .replace("Coord.","Coordenada Sindética");
+                    const exs = CONJUNCOES_DATA.filter(c => c.tipo === tipoFull || c.tipo.startsWith(tipoFull)).slice(0,3);
+                    return exs.length > 0 ? (
+                      <div style={{marginTop:".75rem",display:"flex",flexDirection:"column",gap:".35rem"}}>
+                        <div style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",letterSpacing:".06em"}}>EXEMPLOS</div>
+                        {exs.map((e,i) => (
+                          <div key={i} style={{fontStyle:"italic",fontSize:".82rem",color:"var(--t2)",borderLeft:`2px solid ${g.cor}`,paddingLeft:".65rem"}}>
+                            <b style={{fontStyle:"normal",color:g.cor}}>{e.palavra}</b> — "{e.exemplo}"
+                          </div>
+                        ))}
+                      </div>
+                    ) : null;
+                  })()}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 const DEFINICOES_ORACOES = [
   { funcao:"Coordenada Assindética",
@@ -3054,12 +3229,14 @@ function OracoesPanel() {
   return (
     <>
       <div className="sint-tabs">
-        <button className={`sint-tab${modo==="periodo"?" active":""}`}    onClick={() => setModo("periodo")}>Períodos</button>
-        <button className={`sint-tab${modo==="conjuncoes"?" active":""}`} onClick={() => setModo("conjuncoes")}>Conjunções</button>
-        <button className={`sint-tab${modo==="definicoes"?" active":""}`} onClick={() => setModo("definicoes")}>Definições</button>
-        <button className={`sint-tab${modo==="stats"?" active":""}`}      onClick={() => setModo("stats")}>Estatísticas</button>
+        <button className={`sint-tab${modo==="periodo"?"    active":""}`}   onClick={() => setModo("periodo")}>Períodos</button>
+        <button className={`sint-tab${modo==="guia"?" active":""}`}         onClick={() => setModo("guia")}>Guia</button>
+        <button className={`sint-tab${modo==="conjuncoes"?" active":""}`}   onClick={() => setModo("conjuncoes")}>Quiz</button>
+        <button className={`sint-tab${modo==="definicoes"?" active":""}`}   onClick={() => setModo("definicoes")}>Definições</button>
+        <button className={`sint-tab${modo==="stats"?" active":""}`}        onClick={() => setModo("stats")}>Estatísticas</button>
       </div>
       {modo === "periodo"    && <PeriodoMode />}
+      {modo === "guia"       && <GuiaConjuncoesMode />}
       {modo === "conjuncoes" && <ConjuncaoMode />}
       {modo === "definicoes" && <DefinicaoOracoesMode />}
       {modo === "stats"      && <EstatisticasMode />}
