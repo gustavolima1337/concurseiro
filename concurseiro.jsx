@@ -3304,6 +3304,309 @@ function DefinicaoOracoesMode() {
   );
 }
 
+/* ══════════════════════════════════════════════
+   SINÔNIMOS DE CONJUNÇÕES
+══════════════════════════════════════════════ */
+const SINONIMOS_CONJUNCOES = [
+  {
+    tipo:"Coordenada Adversativa",
+    ideia:"Indica oposição ou contraste — 'apesar disso', 'porém'.",
+    cor:"#dc2626",
+    sinonimos:[
+      {palavra:"mas",           nuance:"A mais comum. Informal e universal."},
+      {palavra:"porém",         nuance:"Mais formal que 'mas'. Muito cobrado em provas."},
+      {palavra:"contudo",       nuance:"Formal. Sinônimo perfeito de 'porém'."},
+      {palavra:"entretanto",    nuance:"Formal. Equivale a 'mas' em qualquer contexto."},
+      {palavra:"todavia",       nuance:"Literário/formal. Sinônimo de 'contudo'."},
+      {palavra:"no entanto",    nuance:"Locução. Muito usada em textos dissertativos."},
+      {palavra:"não obstante",  nuance:"Muito formal/jurídico. 'Apesar disso'."},
+    ],
+    exemplo:"Estudou muito, {conj} não foi aprovado.",
+  },
+  {
+    tipo:"Coordenada Conclusiva",
+    ideia:"Indica conclusão ou consequência lógica da oração anterior — 'por isso'.",
+    cor:"#059669",
+    sinonimos:[
+      {palavra:"portanto",        nuance:"A mais clássica. Cobradíssima em provas."},
+      {palavra:"logo",            nuance:"Sinônimo formal de 'portanto'."},
+      {palavra:"então",           nuance:"Mais informal, mas válida em provas."},
+      {palavra:"assim",           nuance:"Indica resultado. Equivale a 'portanto'."},
+      {palavra:"por isso",        nuance:"Locução causal-conclusiva. Muito usada."},
+      {palavra:"por conseguinte", nuance:"Muito formal/jurídico. Sinônimo de 'portanto'."},
+      {palavra:"consequentemente",nuance:"Formal. Indica resultado direto."},
+    ],
+    exemplo:"Dedicou-se por meses, {conj} foi aprovado.",
+  },
+  {
+    tipo:"Coordenada Explicativa",
+    ideia:"Justifica ou explica a oração anterior — dá o 'motivo' de um pedido ou afirmação.",
+    cor:"#0891b2",
+    sinonimos:[
+      {palavra:"pois (antes do verbo)", nuance:"A forma mais cobrada. Pois anteposto = explicativa."},
+      {palavra:"porque",                nuance:"No meio da frase, após uma ordem: explicativa."},
+      {palavra:"que",                   nuance:"Em registros formais: 'Corra, que o tempo acaba.'"},
+      {palavra:"porquanto",             nuance:"Arcaico/formal. Sinônimo literário de 'porque'."},
+    ],
+    exemplo:"Estude com atenção, {conj} a prova é amanhã.",
+  },
+  {
+    tipo:"Coordenada Aditiva",
+    ideia:"Soma ideias — 'além disso', 'também'.",
+    cor:"#2563eb",
+    sinonimos:[
+      {palavra:"e",                   nuance:"A conjunção mais básica. Une dois elementos."},
+      {palavra:"nem",                 nuance:"Aditiva negativa. 'Não... nem...'"},
+      {palavra:"não só...mas também", nuance:"Ênfase na adição. 'Além de X, também Y.'"},
+      {palavra:"tanto...quanto",      nuance:"Igualdade aditiva. 'Igualmente X e Y.'"},
+      {palavra:"bem como",            nuance:"Formal. Sinônimo de 'assim como' / 'e também'."},
+    ],
+    exemplo:"Estudou a teoria {conj} praticou questões.",
+  },
+  {
+    tipo:"Coordenada Alternativa",
+    ideia:"Indica alternância ou exclusão entre opções — 'ou X ou Y'.",
+    cor:"#7c3aed",
+    sinonimos:[
+      {palavra:"ou...ou",     nuance:"A forma mais direta de alternativa exclusiva."},
+      {palavra:"ora...ora",   nuance:"Indica alternância sequencial: 'às vezes X, às vezes Y'."},
+      {palavra:"quer...quer", nuance:"Formal. 'Seja X ou Y'."},
+      {palavra:"seja...seja", nuance:"Formal. Equivale a 'quer...quer'."},
+      {palavra:"já...já",     nuance:"Indica alternância rápida entre estados."},
+    ],
+    exemplo:"Ou você estuda, ou vai reprovar novamente.",
+  },
+  {
+    tipo:"Subordinada Adverbial Causal",
+    ideia:"Indica a CAUSA da ação principal — responde 'por quê?'.",
+    cor:"#b45309",
+    sinonimos:[
+      {palavra:"porque",       nuance:"A mais usada. No início da frase = causal."},
+      {palavra:"como",         nuance:"No início da frase = causal. 'Como não estudou, reprovou.'"},
+      {palavra:"já que",       nuance:"Causal com ideia de 'uma vez que já se sabe'."},
+      {palavra:"uma vez que",  nuance:"Formal. Sinônimo de 'já que' / 'visto que'."},
+      {palavra:"visto que",    nuance:"Muito formal. Sinônimo perfeito de 'uma vez que'."},
+      {palavra:"dado que",     nuance:"Formal/jurídico. Equivale a 'visto que'."},
+      {palavra:"pois que",     nuance:"Arcaico. Equivale a 'pois' causal."},
+    ],
+    exemplo:"Passou no concurso {conj} estudou todos os dias.",
+  },
+  {
+    tipo:"Subordinada Adverbial Concessiva",
+    ideia:"Indica concessão — algo ocorre APESAR DE uma condição contrária.",
+    cor:"#e11d48",
+    sinonimos:[
+      {palavra:"embora",        nuance:"A mais cobrada. Sempre com subjuntivo."},
+      {palavra:"ainda que",     nuance:"Sinônimo de 'embora'. Muito formal."},
+      {palavra:"mesmo que",     nuance:"Sinônimo de 'embora'. Mais coloquial."},
+      {palavra:"posto que",     nuance:"Formal/literário. Sinônimo de 'embora'."},
+      {palavra:"se bem que",    nuance:"Locução. Equivale a 'embora'."},
+      {palavra:"conquanto",     nuance:"Arcaico/literário. Sinônimo de 'embora'."},
+      {palavra:"por mais que",  nuance:"Indica esforço sem resultado. 'Por mais que tentasse...'"},
+      {palavra:"apesar de que", nuance:"Locução. Equivale a 'embora'."},
+      {palavra:"nem que",       nuance:"Concessão hiperbólica. 'Nem que precise correr...'"},
+    ],
+    exemplo:"{conj} estivesse atrasado, ele não se apressou.",
+  },
+  {
+    tipo:"Subordinada Adverbial Condicional",
+    ideia:"Indica a CONDIÇÃO necessária para que a ação principal ocorra — 'se...então'.",
+    cor:"#9333ea",
+    sinonimos:[
+      {palavra:"se",            nuance:"A mais usada. Condiciona diretamente."},
+      {palavra:"caso",          nuance:"Mais formal que 'se'. Muito usado em textos jurídicos."},
+      {palavra:"desde que",     nuance:"Condição obrigatória. 'Somente se...'"},
+      {palavra:"contanto que",  nuance:"Equivale a 'desde que'. 'Com a condição de que...'"},
+      {palavra:"salvo se",      nuance:"Condição excludente. 'Exceto se...'"},
+      {palavra:"a não ser que", nuance:"Equivale a 'salvo se'. 'A menos que...'"},
+      {palavra:"a menos que",   nuance:"Sinônimo de 'a não ser que'."},
+    ],
+    exemplo:"{conj} você estudar todos os dias, será aprovado.",
+  },
+  {
+    tipo:"Subordinada Adverbial Temporal",
+    ideia:"Indica o TEMPO em que a ação ocorre em relação à oração principal.",
+    cor:"#0f766e",
+    sinonimos:[
+      {palavra:"quando",       nuance:"A mais genérica. 'No momento em que...'"},
+      {palavra:"enquanto",     nuance:"Simultaneidade. 'Ao mesmo tempo que...'"},
+      {palavra:"assim que",    nuance:"Imediatamente após. 'Logo que...'"},
+      {palavra:"logo que",     nuance:"Sinônimo de 'assim que'. Imediato."},
+      {palavra:"depois que",   nuance:"Posterioridade. 'Após o momento em que...'"},
+      {palavra:"antes que",    nuance:"Anterioridade. 'Antes de que...'"},
+      {palavra:"desde que",    nuance:"Temporal: duração desde um ponto. 'A partir de quando...'"},
+      {palavra:"mal",          nuance:"Imediatamente após. 'Mal chegou, começou a trabalhar.'"},
+      {palavra:"tão logo",     nuance:"Sinônimo de 'assim que'. Muito formal."},
+      {palavra:"sempre que",   nuance:"Repetição temporal. 'Toda vez que...'"},
+    ],
+    exemplo:"{conj} o gabarito foi divulgado, ele comemorou.",
+  },
+  {
+    tipo:"Subordinada Adverbial Consecutiva",
+    ideia:"Indica a CONSEQUÊNCIA ou resultado da ação da oração principal.",
+    cor:"#ea580c",
+    sinonimos:[
+      {palavra:"tão...que",       nuance:"Intensidade + consequência. 'Tão difícil que...'"},
+      {palavra:"tanto...que",     nuance:"Quantidade + consequência. 'Tanto que ficou exausto.'"},
+      {palavra:"tamanho...que",   nuance:"Dimensão + consequência. 'Tamanho o esforço que...'"},
+      {palavra:"de modo que",     nuance:"Resultado de uma ação. Equivale a 'de forma que'."},
+      {palavra:"de forma que",    nuance:"Sinônimo de 'de modo que'."},
+      {palavra:"de maneira que",  nuance:"Sinônimo de 'de modo que'."},
+      {palavra:"de sorte que",    nuance:"Formal/literário. Equivale a 'de modo que'."},
+    ],
+    exemplo:"Estudou tanto {conj} não aguentou mais e dormiu.",
+  },
+  {
+    tipo:"Subordinada Adverbial Final",
+    ideia:"Indica a FINALIDADE ou objetivo da ação — responde 'para quê?'.",
+    cor:"#d97706",
+    sinonimos:[
+      {palavra:"para que",     nuance:"A mais usada. Indica propósito direto."},
+      {palavra:"a fim de que", nuance:"Formal. Sinônimo de 'para que'."},
+      {palavra:"que (final)",  nuance:"Após imperativos. 'Venha cá, que eu te explico.'"},
+    ],
+    exemplo:"Estudou muito {conj} pudesse ser aprovado.",
+  },
+  {
+    tipo:"Subordinada Adverbial Comparativa",
+    ideia:"Estabelece COMPARAÇÃO entre as duas orações.",
+    cor:"#0284c7",
+    sinonimos:[
+      {palavra:"como",           nuance:"A mais usada. 'Da mesma forma que...'"},
+      {palavra:"assim como",     nuance:"Ênfase na comparação. 'Da mesma forma que...'"},
+      {palavra:"tal como",       nuance:"Formal. Sinônimo de 'assim como'."},
+      {palavra:"mais...do que",  nuance:"Comparação de superioridade."},
+      {palavra:"menos...do que", nuance:"Comparação de inferioridade."},
+      {palavra:"tanto...quanto", nuance:"Comparação de igualdade."},
+    ],
+    exemplo:"Agiu {conj} esperávamos que agiria.",
+  },
+  {
+    tipo:"Subordinada Adverbial Conformativa",
+    ideia:"Indica CONFORMIDADE — a ação segue uma regra, norma ou acordo.",
+    cor:"#65a30d",
+    sinonimos:[
+      {palavra:"conforme",      nuance:"A mais usada. 'De acordo com o que...'"},
+      {palavra:"como",          nuance:"Conformativa quando indica modo/acordo."},
+      {palavra:"segundo",       nuance:"Formal. 'De acordo com o que X disse/determinou.'"},
+      {palavra:"consoante",     nuance:"Muito formal/jurídico. Sinônimo de 'conforme'."},
+      {palavra:"de acordo com", nuance:"Locução. Equivale a 'conforme'."},
+    ],
+    exemplo:"{conj} o edital determinava, a prova durou quatro horas.",
+  },
+  {
+    tipo:"Subordinada Adverbial Proporcional",
+    ideia:"Indica que as ações CRESCEM ou DECRESCEM proporcionalmente.",
+    cor:"#be185d",
+    sinonimos:[
+      {palavra:"à medida que",    nuance:"A mais cobrada. 'Na proporção em que...'"},
+      {palavra:"ao passo que",    nuance:"Proporcional ou adversativa. 'Enquanto / na medida em que.'"},
+      {palavra:"quanto mais...mais",  nuance:"Proporção crescente. 'Quanto mais X, mais Y.'"},
+      {palavra:"quanto menos...menos",nuance:"Proporção decrescente."},
+      {palavra:"à proporção que", nuance:"Formal. Sinônimo de 'à medida que'."},
+    ],
+    exemplo:"{conj} estudava, mais confiante ele ficava.",
+  },
+];
+
+function SinonimosMode() {
+  const [aberto, setAberto] = useState(null);
+  const [conjIdx, setConjIdx] = useState({});
+
+  const trocar = (tipo, dir) => {
+    const grupo = SINONIMOS_CONJUNCOES.find(g => g.tipo === tipo);
+    if (!grupo) return;
+    const total = grupo.sinonimos.length;
+    setConjIdx(prev => ({ ...prev, [tipo]: ((prev[tipo] || 0) + dir + total) % total }));
+  };
+
+  return (
+    <div className="sint-content">
+      <div style={{fontFamily:"var(--M)",fontSize:".65rem",color:"var(--t3)",marginBottom:"1rem",letterSpacing:".04em"}}>
+        Clique em um tipo para ver todos os sinônimos e suas nuances.
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem"}}>
+        {SINONIMOS_CONJUNCOES.map(g => {
+          const open  = aberto === g.tipo;
+          const cidx  = conjIdx[g.tipo] || 0;
+          const conj  = g.sinonimos[cidx].palavra.split(" ")[0]; // pega a palavra simples para o exemplo
+          const exFmt = g.exemplo.replace("{conj}", g.sinonimos[cidx].palavra);
+
+          return (
+            <div key={g.tipo}
+              style={{borderRadius:"1rem",border:`1.5px solid ${open ? g.cor : "var(--b1)"}`,
+                overflow:"hidden",background:"var(--ca)",transition:"border-color .15s"}}
+            >
+              {/* cabeçalho — clicável */}
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+                padding:".85rem 1rem",cursor:"pointer"}}
+                onClick={() => setAberto(open ? null : g.tipo)}
+              >
+                <div>
+                  <span style={{fontWeight:700,fontSize:".88rem"}}>{g.tipo}</span>
+                  <div style={{fontFamily:"var(--M)",fontSize:".62rem",color:"var(--t3)",marginTop:".2rem"}}>{g.ideia}</div>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:".5rem",flexShrink:0}}>
+                  <span style={{fontFamily:"var(--M)",fontSize:".6rem",padding:".2rem .55rem",
+                    borderRadius:"2rem",background:g.cor+"22",color:g.cor}}>
+                    {g.sinonimos.length} sinônimos
+                  </span>
+                  <span style={{color:"var(--t3)",fontSize:".75rem"}}>{open?"▲":"▼"}</span>
+                </div>
+              </div>
+
+              {open && (
+                <div style={{borderTop:"1px solid var(--b1)",padding:"1rem"}}>
+                  {/* exemplo dinâmico */}
+                  <div style={{background:"var(--bg)",borderRadius:".75rem",padding:".75rem 1rem",
+                    marginBottom:"1rem",borderLeft:`3px solid ${g.cor}`}}>
+                    <div style={{fontFamily:"var(--M)",fontSize:".58rem",color:"var(--t3)",
+                      letterSpacing:".08em",marginBottom:".4rem"}}>EXEMPLO COM SINÔNIMO</div>
+                    <div style={{fontSize:".88rem",fontStyle:"italic",color:"var(--t2)",lineHeight:1.55}}>
+                      "{exFmt}"
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",gap:".5rem",marginTop:".6rem"}}>
+                      <button onClick={() => trocar(g.tipo,-1)}
+                        style={{fontFamily:"var(--M)",fontSize:".65rem",padding:".2rem .6rem",
+                          borderRadius:"2rem",border:`1px solid ${g.cor}44`,background:g.cor+"18",
+                          color:g.cor,cursor:"pointer"}}>← ant.</button>
+                      <span style={{fontFamily:"var(--M)",fontSize:".65rem",color:"var(--t3)"}}>
+                        {cidx+1}/{g.sinonimos.length}
+                      </span>
+                      <button onClick={() => trocar(g.tipo,1)}
+                        style={{fontFamily:"var(--M)",fontSize:".65rem",padding:".2rem .6rem",
+                          borderRadius:"2rem",border:`1px solid ${g.cor}44`,background:g.cor+"18",
+                          color:g.cor,cursor:"pointer"}}>próx. →</button>
+                    </div>
+                  </div>
+
+                  {/* lista de sinônimos */}
+                  <div style={{display:"flex",flexDirection:"column",gap:".4rem"}}>
+                    {g.sinonimos.map((s, i) => (
+                      <div key={i}
+                        onClick={() => setConjIdx(prev => ({...prev, [g.tipo]: i}))}
+                        style={{display:"flex",alignItems:"flex-start",gap:".75rem",
+                          padding:".6rem .85rem",borderRadius:".65rem",cursor:"pointer",
+                          background: cidx===i ? g.cor+"18" : "transparent",
+                          border:`1px solid ${cidx===i ? g.cor+"66" : "transparent"}`,
+                          transition:"all .15s"}}
+                      >
+                        <span style={{fontFamily:"var(--M)",fontSize:".78rem",fontWeight:700,
+                          color:g.cor,flexShrink:0,minWidth:"90px"}}>{s.palavra}</span>
+                        <span style={{fontSize:".82rem",color:"var(--t2)",lineHeight:1.45}}>{s.nuance}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function OracoesPanel() {
   const [modo, setModo] = useState("periodo");
   return (
@@ -3311,12 +3614,14 @@ function OracoesPanel() {
       <div className="sint-tabs">
         <button className={`sint-tab${modo==="periodo"?"    active":""}`}   onClick={() => setModo("periodo")}>Períodos</button>
         <button className={`sint-tab${modo==="guia"?" active":""}`}         onClick={() => setModo("guia")}>Guia</button>
+        <button className={`sint-tab${modo==="sinonimos"?" active":""}`}    onClick={() => setModo("sinonimos")}>Sinônimos</button>
         <button className={`sint-tab${modo==="conjuncoes"?" active":""}`}   onClick={() => setModo("conjuncoes")}>Quiz</button>
         <button className={`sint-tab${modo==="definicoes"?" active":""}`}   onClick={() => setModo("definicoes")}>Definições</button>
         <button className={`sint-tab${modo==="stats"?" active":""}`}        onClick={() => setModo("stats")}>Estatísticas</button>
       </div>
       {modo === "periodo"    && <PeriodoMode />}
       {modo === "guia"       && <GuiaConjuncoesMode />}
+      {modo === "sinonimos"  && <SinonimosMode />}
       {modo === "conjuncoes" && <ConjuncaoMode />}
       {modo === "definicoes" && <DefinicaoOracoesMode />}
       {modo === "stats"      && <EstatisticasMode />}
@@ -4841,6 +5146,556 @@ function GlossarioPanel() {
 }
 
 /* ══════════════════════════════════════════════
+   CRASE
+══════════════════════════════════════════════ */
+const CRASE_REGRAS = [
+  {
+    id:"obrigatorio",
+    titulo:"Crase OBRIGATÓRIA",
+    cor:"#16a34a",
+    icone:"✓",
+    regras:[
+      {
+        regra:"Antes de palavras femininas (preposição 'a' + artigo 'a')",
+        exemplo:["Fui à cidade.", "Refiro-me à candidata aprovada.", "Entregou o relatório à diretora."],
+        dica:"Teste: substitua por palavra masculina. Se usar 'ao', usa crase no feminino.",
+      },
+      {
+        regra:"Antes de pronomes demonstrativos: àquela, àquele, àquilo, àqueles, àquelas",
+        exemplo:["Refiro-me àquela proposta.", "Isso é semelhante àquilo que estudei.", "Entreguei o documento àquele servidor."],
+        dica:"'Aquele/aquela/aquilo' recebem crase quando há preposição 'a' antes.",
+      },
+      {
+        regra:"Nas expressões adverbiais femininas de tempo, lugar e modo",
+        exemplo:["Chegou às três horas.", "Às vezes estuda à noite.", "Trabalhou à exaustão.", "Feito à mão."],
+        dica:"Às vezes, à tarde, à noite, à meia-noite, à direita, à esquerda, às pressas.",
+      },
+      {
+        regra:"Antes de 'moda de' e 'maneira de' (mesmo sem o substantivo)",
+        exemplo:["Vestiu-se à Luís XIV.", "Agiu à moda antiga.", "Cortou o cabelo à la garçonne."],
+        dica:"À francesa, à italiana, à brasileira — sempre crase.",
+      },
+      {
+        regra:"Locução 'à medida que'",
+        exemplo:["À medida que estudava, melhorava.", "Os resultados melhoravam à medida que treinava."],
+        dica:"Não confundir com 'na medida em que' (sem crase).",
+      },
+    ],
+  },
+  {
+    id:"proibido",
+    titulo:"Crase PROIBIDA",
+    cor:"#dc2626",
+    icone:"✗",
+    regras:[
+      {
+        regra:"Antes de palavras masculinas",
+        exemplo:["Referiu-se a concurso público.", "Candidato a emprego.", "Fui a pé ao trabalho."],
+        dica:"Sem artigo antes de masculino = sem crase.",
+      },
+      {
+        regra:"Antes de verbos",
+        exemplo:["Começou a estudar.", "Voltou a treinar questões.", "Está pronto a ajudar."],
+        dica:"Verbos nunca são precedidos de artigo, logo nunca há crase.",
+      },
+      {
+        regra:"Antes de pronomes pessoais, pronomes de tratamento (exceto 'senhora', 'senhorita', 'dona')",
+        exemplo:["Dirigiu-se a ela.", "Falou a mim.", "Enviou a mensagem a Vossa Excelência."],
+        dica:"Ele, ela, mim, mim, ti, você, Vossa Excelência → sem crase.",
+      },
+      {
+        regra:"Antes de pronomes indefinidos (alguma, nenhuma, toda, qualquer...)",
+        exemplo:["Refere-se a alguma candidata.", "Não se dirige a nenhuma pessoa.", "Aplicável a qualquer situação."],
+        dica:"Pronomes indefinidos não aceitam artigo definido antes deles.",
+      },
+      {
+        regra:"Antes de nomes próprios de pessoas",
+        exemplo:["Entregou o documento a Maria.", "Referia-se a Claudia.", "Falou a Pedro."],
+        dica:"Nomes próprios geralmente não levam artigo definido.",
+      },
+      {
+        regra:"Após preposição",
+        exemplo:["Saiu de a escola → saiu da escola (contração, não crase).", "Está em a cidade → está na cidade.", "Veio para a prova (sem crase após 'para')."],
+        dica:"Preposição + artigo = contração (da, na, pela...), nunca crase.",
+      },
+      {
+        regra:"Antes de artigo indefinido (uma, umas)",
+        exemplo:["Refiro-me a uma candidata.", "Isso equivale a uma vitória."],
+        dica:"Artigo indefinido não forma crase com a preposição 'a'.",
+      },
+    ],
+  },
+  {
+    id:"facultativo",
+    titulo:"Crase FACULTATIVA",
+    cor:"#d97706",
+    icone:"~",
+    regras:[
+      {
+        regra:"Antes de nome próprio feminino de lugar (com artigo implícito)",
+        exemplo:["Fui a/à Bahia.", "Viajarei a/à Europa.", "Retornou a/à França."],
+        dica:"Se o lugar aceita artigo ('a Bahia', 'a França'), a crase é facultativa.",
+      },
+      {
+        regra:"Antes de pronome possessivo feminino",
+        exemplo:["Refiro-me a/à minha proposta.", "Apresentou o projeto a/à sua equipe."],
+        dica:"Em texto formal prefere-se sem crase; nas provas, ambas são aceitas.",
+      },
+      {
+        regra:"Após a preposição 'até'",
+        exemplo:["Foram até a/à porta.", "Estudou até a/à meia-noite."],
+        dica:"Facultativa após 'até'. Ambas as formas são corretas.",
+      },
+    ],
+  },
+  {
+    id:"dicas",
+    titulo:"Macetes & Armadilhas",
+    cor:"#7c3aed",
+    icone:"💡",
+    regras:[
+      {
+        regra:"Macete do 'ao': substitua o feminino por masculino",
+        exemplo:["Fui à praia. → Fui ao clube. ✓ (usa crase)", "Assisti a peças. → Assisti a filmes. ✗ (sem crase, não tem artigo)"],
+        dica:"Se no masculino usar 'ao', no feminino usa crase. Se usar 'a' (sem artigo), não usa crase.",
+      },
+      {
+        regra:"Macete de 'uma': substitua por 'uma'",
+        exemplo:["Refiro-me à proposta. → Refiro-me a uma proposta. ✓", "Fui à cidade. → Fui a uma cidade. ✓ (crase obrigatória)"],
+        dica:"Se 'uma' couber naturalmente na frase, há crase. Se não couber, não há.",
+      },
+      {
+        regra:"Armadilha: 'a partir de', 'a ponto de', 'a fim de'",
+        exemplo:["A partir de agora estudarei mais. (sem crase — 'a' é preposição)", "Estudou a ponto de passar. (sem crase)"],
+        dica:"Nessas locuções o 'a' é sempre preposição. Não há artigo = sem crase.",
+      },
+      {
+        regra:"Armadilha: 'à medida que' vs 'na medida em que'",
+        exemplo:["À medida que o tempo passava, melhorava. ✓ (crase)", "Na medida em que estudava, crescia. ✓ (sem crase — 'em' é outra preposição)"],
+        dica:"'À medida que' = proporcional. 'Na medida em que' = porque / à proporção que.",
+      },
+      {
+        regra:"Armadilha: distâncias e horas",
+        exemplo:["A questão estava a dois metros da parede. (sem crase — numeral masculino)", "Chegará às duas horas. ✓ (crase — hora feminina com artigo)"],
+        dica:"Horas no feminino sempre pedem crase. Distâncias com numerais masculinos, nunca.",
+      },
+    ],
+  },
+];
+
+const CRASE_EXERCICIOS = [
+  {id:1,  frase:"Fui ___ escola ontem para buscar os documentos.",          resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'Escola' é feminino e aceita artigo ('a escola'). Preposição 'a' + artigo 'a' = crase."},
+  {id:2,  frase:"Ele começou ___ estudar às cinco da manhã.",               resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"Antes de verbo nunca há crase."},
+  {id:3,  frase:"Chegou ___ casa de madrugada.",                            resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"'Casa' sem artigo definido (uso genérico): sem crase."},
+  {id:4,  frase:"Refiro-me ___ aquela proposta apresentada na reunião.",    resposta:"àquela",      opcoes:["àquela","a aquela","aquela"], explicacao:"Antes de 'aquela' há crase: preposição 'a' + demonstrativo 'aquela' = 'àquela'."},
+  {id:5,  frase:"O candidato foi aprovado ___ unanimidade.",                resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'À unanimidade' é expressão adverbial feminina — crase obrigatória."},
+  {id:6,  frase:"Ela se referiu ___ mim durante toda a apresentação.",      resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"Antes de pronome pessoal ('mim') nunca há crase."},
+  {id:7,  frase:"Trabalhou ___ exaustão para ser aprovado no concurso.",    resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'À exaustão' é locução adverbial de modo feminina — crase obrigatória."},
+  {id:8,  frase:"Dedicou-se ___ causa pública por toda a carreira.",        resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'Causa' é feminino com artigo. Preposição 'a' + artigo 'a' = crase."},
+  {id:9,  frase:"O relatório foi entregue ___ diretoria na data prevista.", resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'Diretoria' é feminino. Preposição 'a' + artigo 'a' = crase."},
+  {id:10, frase:"Faremos isso ___ partir de agora.",                        resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"'A partir de' é locução prepositiva — o 'a' é preposição, sem artigo, sem crase."},
+  {id:11, frase:"O servidor foi nomeado ___ cargo de diretor.",             resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"'Cargo' é masculino — nunca há crase antes de palavras masculinas."},
+  {id:12, frase:"O documento foi enviado ___ Vossa Excelência.",            resposta:"a",           opcoes:["à","a","Não usa crase"],   explicacao:"Pronomes de tratamento (exceto senhora/dona) não recebem crase."},
+  {id:13, frase:"Às três horas, o candidato entrou na sala de prova.",      resposta:"Às",          opcoes:["Às","As","A"],             explicacao:"Horas sempre pedem crase: preposição 'a' + artigo 'as' = 'às'."},
+  {id:14, frase:"O edital foi feito ___ moda do anterior.",                 resposta:"à",          opcoes:["à","a","Não usa crase"],   explicacao:"'À moda de' é locução feminina que exige crase."},
+  {id:15, frase:"___ medida que estudava, sentia mais confiança.",          resposta:"À",          opcoes:["À","A","Na"],              explicacao:"'À medida que' é locução conjuntiva proporcional — crase obrigatória."},
+];
+
+function CraseQuizMode() {
+  const [exs]    = useState(() => shuffle([...CRASE_EXERCICIOS]));
+  const [idx, setIdx]                 = useState(0);
+  const [selecionado, setSelecionado] = useState(null);
+  const [concluidos, setConcluidos]   = useState(new Set());
+
+  const ex    = exs[idx];
+  const total = exs.length;
+  const acertos = concluidos.size;
+
+  const handleSelect = (op) => {
+    if (selecionado) return;
+    setSelecionado(op);
+    const ok = op === ex.resposta;
+    if (ok) setConcluidos(prev => new Set([...prev, ex.id]));
+    recordResult("Crase", ok);
+  };
+
+  const avancar = () => { setSelecionado(null); setIdx((idx+1) % total); };
+
+  const fraseParts = ex.frase.split("___");
+
+  return (
+    <div className="sint-content">
+      <div style={{display:"flex",justifyContent:"space-between",fontFamily:"var(--M)",fontSize:".7rem",color:"var(--t3)",marginBottom:"1rem"}}>
+        <span>{idx+1}/{total}</span><span>{acertos} corretas</span>
+      </div>
+      <div style={{background:"var(--ca)",borderRadius:"1rem",padding:"1.25rem",marginBottom:"1rem",lineHeight:1.8,fontSize:"1rem",textAlign:"center"}}>
+        {fraseParts[0]}
+        <span style={{borderBottom:"2px solid var(--ac)",padding:"0 .3rem",color:"var(--ac)",fontWeight:700,minWidth:"2rem",display:"inline-block"}}>
+          {selecionado || "___"}
+        </span>
+        {fraseParts[1]}
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem",marginBottom:"1rem"}}>
+        {ex.opcoes.map(op => {
+          let cls = "def-opt";
+          if (selecionado) {
+            if (op === ex.resposta) cls += " def-opt-ok";
+            else if (op === selecionado) cls += " def-opt-err";
+            else cls += " def-opt-dim";
+          }
+          return <button key={op} className={cls} onClick={() => handleSelect(op)}>{op}</button>;
+        })}
+      </div>
+      {selecionado && (
+        <>
+          <div style={{fontFamily:"var(--M)",fontSize:".78rem",padding:".75rem 1rem",borderRadius:".75rem",
+            background: selecionado===ex.resposta ? "rgba(74,222,128,.08)" : "rgba(239,68,68,.08)",
+            border: `1px solid ${selecionado===ex.resposta ? "#4ade80" : "var(--er)"}`,
+            marginBottom:".75rem",lineHeight:1.5}}>
+            <b>{selecionado===ex.resposta ? "Correto ✓" : `Errado — resposta: ${ex.resposta}`}</b><br/>
+            <span style={{color:"var(--t2)",fontFamily:"var(--S)",fontSize:".82rem"}}>{ex.explicacao}</span>
+          </div>
+          <button className="sint-btn-pri" style={{width:"100%"}} onClick={avancar}>Próximo →</button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function CraseRegraMode() {
+  const [aberto, setAberto] = useState(null);
+
+  return (
+    <div className="sint-content">
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem"}}>
+        {CRASE_REGRAS.map(grupo => {
+          const open = aberto === grupo.id;
+          return (
+            <div key={grupo.id} style={{borderRadius:"1rem",border:`1.5px solid ${open ? grupo.cor : "var(--b1)"}`,overflow:"hidden",background:"var(--ca)"}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:".9rem 1rem",cursor:"pointer"}}
+                onClick={() => setAberto(open ? null : grupo.id)}>
+                <div style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+                  <span style={{width:"28px",height:"28px",borderRadius:"50%",background:grupo.cor+"22",
+                    color:grupo.cor,display:"flex",alignItems:"center",justifyContent:"center",
+                    fontWeight:700,fontSize:".85rem",flexShrink:0}}>{grupo.icone}</span>
+                  <span style={{fontWeight:700,fontSize:".9rem"}}>{grupo.titulo}</span>
+                  <span style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)"}}>{grupo.regras.length} regras</span>
+                </div>
+                <span style={{color:"var(--t3)",fontSize:".75rem"}}>{open?"▲":"▼"}</span>
+              </div>
+              {open && (
+                <div style={{borderTop:"1px solid var(--b1)",padding:"1rem",display:"flex",flexDirection:"column",gap:".85rem"}}>
+                  {grupo.regras.map((r,i) => (
+                    <div key={i} style={{borderLeft:`3px solid ${grupo.cor}`,paddingLeft:"1rem"}}>
+                      <div style={{fontWeight:600,fontSize:".88rem",marginBottom:".4rem"}}>{r.regra}</div>
+                      <div style={{display:"flex",flexDirection:"column",gap:".25rem",marginBottom:".5rem"}}>
+                        {r.exemplo.map((ex,j) => (
+                          <div key={j} style={{fontStyle:"italic",fontSize:".83rem",color:"var(--t2)"}}>{ex}</div>
+                        ))}
+                      </div>
+                      <div style={{fontFamily:"var(--M)",fontSize:".68rem",color:grupo.cor,
+                        background:grupo.cor+"12",borderRadius:".5rem",padding:".35rem .65rem"}}>
+                        {r.dica}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function CrasePanel() {
+  const [modo, setModo] = useState("regras");
+  return (
+    <>
+      <div className="sint-tabs">
+        <button className={`sint-tab${modo==="regras"?" active":""}`} onClick={() => setModo("regras")}>Regras</button>
+        <button className={`sint-tab${modo==="quiz"?" active":""}`}   onClick={() => setModo("quiz")}>Quiz</button>
+        <button className={`sint-tab${modo==="stats"?" active":""}`}  onClick={() => setModo("stats")}>Estatísticas</button>
+      </div>
+      {modo === "regras" && <CraseRegraMode />}
+      {modo === "quiz"   && <CraseQuizMode />}
+      {modo === "stats"  && <EstatisticasMode />}
+    </>
+  );
+}
+
+/* ══════════════════════════════════════════════
+   BANCAS
+══════════════════════════════════════════════ */
+const COR_PRIO = { alta:"#dc2626", média:"#d97706", baixa:"#16a34a" };
+const BG_PRIO  = { alta:"rgba(220,38,38,.1)", média:"rgba(217,119,6,.1)", baixa:"rgba(22,163,74,.1)" };
+
+const BANCAS_DATA = [
+  {
+    nome:"CEBRASPE / CESPE", sigla:"CEBRASPE", cor:"#1d4ed8",
+    formato:"Certo / Errado — cada item é julgado individualmente.",
+    perfil:"Cobra gramática no texto, não isolada. O contexto muda tudo. Adora pegadinhas de semântica, pontuação que altera sentido e operadores argumentativos.",
+    dicas:[
+      "Palavras como 'apenas', 'somente', 'todo', 'nenhum' costumam ser a armadilha.",
+      "Pontuação muda o sentido — vírgula antes de 'que' pode mudar a oração de restritiva para explicativa.",
+      "Leia o parágrafo inteiro antes de julgar o item — o sentido é contextual.",
+      "Substituição de termos: verifique se o substituto mantém o sentido original.",
+    ],
+    topicos:[
+      {nome:"Interpretação de Texto",  prio:"alta",  modulo:null},
+      {nome:"Coesão e Coerência",       prio:"alta",  modulo:null},
+      {nome:"Semântica (sinonímia, antonímia, ambiguidade)", prio:"alta", modulo:null},
+      {nome:"Orações / Conjunções",     prio:"alta",  modulo:"oracoes"},
+      {nome:"Sintaxe",                  prio:"alta",  modulo:"sintaxe"},
+      {nome:"Pontuação",                prio:"alta",  modulo:null},
+      {nome:"Crase",                    prio:"média", modulo:"crase"},
+      {nome:"Concordância Verbal e Nominal", prio:"média", modulo:null},
+      {nome:"Regência",                 prio:"média", modulo:null},
+      {nome:"Morfologia",               prio:"baixa", modulo:"morfologia"},
+    ],
+  },
+  {
+    nome:"FCC — Fund. Carlos Chagas", sigla:"FCC", cor:"#7c3aed",
+    formato:"Múltipla escolha (A–E). Questões mais objetivas e diretas.",
+    perfil:"A mais gramatical de todas. Cobra regras isoladas com rigor. Morfologia, concordância, regência e crase são as favoritas. Menos interpretação, mais gramática pura.",
+    dicas:[
+      "Estude as regras de concordância verbal (sujeito composto, coletivo, percentual).",
+      "Regência nominal e verbal são cobradas com frequência — memorize as preposições exigidas.",
+      "Crase: FCC cobra muito a distinção entre obrigatória, proibida e facultativa.",
+      "Morfologia: classes e flexões são cobradas de forma isolada.",
+    ],
+    topicos:[
+      {nome:"Concordância Verbal e Nominal", prio:"alta",  modulo:null},
+      {nome:"Regência Verbal e Nominal",     prio:"alta",  modulo:null},
+      {nome:"Crase",                         prio:"alta",  modulo:"crase"},
+      {nome:"Morfologia",                    prio:"alta",  modulo:"morfologia"},
+      {nome:"Sintaxe",                       prio:"alta",  modulo:"sintaxe"},
+      {nome:"Orações / Conjunções",          prio:"média", modulo:"oracoes"},
+      {nome:"Pontuação",                     prio:"média", modulo:null},
+      {nome:"Interpretação de Texto",        prio:"média", modulo:null},
+      {nome:"Figuras de Linguagem",          prio:"média", modulo:null},
+      {nome:"Formação de Palavras",          prio:"baixa", modulo:"morfologia"},
+    ],
+  },
+  {
+    nome:"FGV — Fund. Getulio Vargas", sigla:"FGV", cor:"#0891b2",
+    formato:"Múltipla escolha. Textos longos com questões interpretativas e gramaticais misturadas.",
+    perfil:"Equilibrada entre interpretação e gramática. Gosta de tipologia textual, argumentação e semântica. A gramática aparece sempre conectada ao texto.",
+    dicas:[
+      "Tipologia textual: dissertativo-argumentativo, narrativo, descritivo — saiba identificar.",
+      "Coesão: pronomes relativos, conectivos e referenciação são muito cobrados.",
+      "Questões de vocabulário no contexto: sinônimos que não trocam o sentido.",
+      "Raramente cobra gramática pura — sempre contextualizada no texto.",
+    ],
+    topicos:[
+      {nome:"Interpretação de Texto",        prio:"alta",  modulo:null},
+      {nome:"Tipologia e Gêneros Textuais",  prio:"alta",  modulo:null},
+      {nome:"Coesão e Coerência",            prio:"alta",  modulo:null},
+      {nome:"Semântica / Vocabulário",       prio:"alta",  modulo:null},
+      {nome:"Orações / Conjunções",          prio:"média", modulo:"oracoes"},
+      {nome:"Argumentação e Discurso",       prio:"média", modulo:null},
+      {nome:"Sintaxe",                       prio:"média", modulo:"sintaxe"},
+      {nome:"Concordância e Regência",       prio:"baixa", modulo:null},
+      {nome:"Morfologia",                    prio:"baixa", modulo:"morfologia"},
+    ],
+  },
+  {
+    nome:"CESGRANRIO", sigla:"CESGRANRIO", cor:"#059669",
+    formato:"Múltipla escolha. Questões medianas, com textos de área técnica/profissional.",
+    perfil:"Foca em interpretação e gramática dentro do texto. Gosta de questões de semântica e relações entre orações. Concordância e regência aparecem com frequência.",
+    dicas:[
+      "Atenção ao sentido de conectivos no texto — relações lógicas entre parágrafos.",
+      "Questões de substituição: 'pode ser substituído sem alterar o sentido?'",
+      "Concordância verbal com sujeito posposto e composto é frequente.",
+      "Orações adverbiais e suas relações de sentido são muito cobradas.",
+    ],
+    topicos:[
+      {nome:"Interpretação de Texto",        prio:"alta",  modulo:null},
+      {nome:"Semântica",                     prio:"alta",  modulo:null},
+      {nome:"Orações / Conjunções",          prio:"alta",  modulo:"oracoes"},
+      {nome:"Concordância Verbal e Nominal", prio:"alta",  modulo:null},
+      {nome:"Coesão e Coerência",            prio:"média", modulo:null},
+      {nome:"Regência",                      prio:"média", modulo:null},
+      {nome:"Sintaxe",                       prio:"média", modulo:"sintaxe"},
+      {nome:"Crase",                         prio:"média", modulo:"crase"},
+      {nome:"Morfologia",                    prio:"baixa", modulo:"morfologia"},
+    ],
+  },
+  {
+    nome:"VUNESP", sigla:"VUNESP", cor:"#b45309",
+    formato:"Múltipla escolha. Cobra gramática normativa com rigor, similar à FCC.",
+    perfil:"Tradicional e gramatical. Valoriza o conhecimento das normas cultas. Morfologia, análise sintática e concordância são os destaques.",
+    dicas:[
+      "Análise sintática completa: saiba identificar todos os termos da oração.",
+      "Concordância nominal: adjetivo com múltiplos substantivos — posição importa.",
+      "Figuras de linguagem aparecem com frequência, especialmente metáfora e metonímia.",
+      "Estuda bem o uso do modo subjuntivo nas orações subordinadas.",
+    ],
+    topicos:[
+      {nome:"Sintaxe",                       prio:"alta",  modulo:"sintaxe"},
+      {nome:"Concordância Verbal e Nominal", prio:"alta",  modulo:null},
+      {nome:"Morfologia",                    prio:"alta",  modulo:"morfologia"},
+      {nome:"Figuras de Linguagem",          prio:"alta",  modulo:null},
+      {nome:"Interpretação de Texto",        prio:"média", modulo:null},
+      {nome:"Regência",                      prio:"média", modulo:null},
+      {nome:"Orações / Conjunções",          prio:"média", modulo:"oracoes"},
+      {nome:"Crase",                         prio:"média", modulo:"crase"},
+      {nome:"Pontuação",                     prio:"baixa", modulo:null},
+    ],
+  },
+  {
+    nome:"IBFC", sigla:"IBFC", cor:"#9333ea",
+    formato:"Múltipla escolha. Questões de dificuldade média, estilo CESPE adaptado.",
+    perfil:"Cobra interpretação e gramática no texto. Parecida com CEBRASPE no estilo, mas com alternativas. Gosta de questões sobre coesão, conjunções e semântica.",
+    dicas:[
+      "Muito parecida com CESPE — estude o mesmo conteúdo.",
+      "Conjunções e operadores argumentativos são frequentes.",
+      "Questões de vocabulário contextualizado aparecem bastante.",
+      "Análise de período composto: identifique o tipo de oração pela conjunção.",
+    ],
+    topicos:[
+      {nome:"Interpretação de Texto",        prio:"alta",  modulo:null},
+      {nome:"Orações / Conjunções",          prio:"alta",  modulo:"oracoes"},
+      {nome:"Coesão e Coerência",            prio:"alta",  modulo:null},
+      {nome:"Semântica",                     prio:"alta",  modulo:null},
+      {nome:"Sintaxe",                       prio:"média", modulo:"sintaxe"},
+      {nome:"Concordância e Regência",       prio:"média", modulo:null},
+      {nome:"Crase",                         prio:"média", modulo:"crase"},
+      {nome:"Morfologia",                    prio:"baixa", modulo:"morfologia"},
+    ],
+  },
+  {
+    nome:"AOCP", sigla:"AOCP", cor:"#0f766e",
+    formato:"Múltipla escolha. Questões de dificuldade média-baixa.",
+    perfil:"Cobra conteúdo básico e intermediário. Interpretação de texto é o foco principal. Gramática aparece mas sem o rigor de FCC ou VUNESP.",
+    dicas:[
+      "Foco em interpretação — leia o texto com calma e volte ao texto para responder.",
+      "Gramática básica: concordância, regência e crase no nível fundamental.",
+      "Questões de ortografia e acentuação podem aparecer.",
+    ],
+    topicos:[
+      {nome:"Interpretação de Texto",        prio:"alta",  modulo:null},
+      {nome:"Coesão e Coerência",            prio:"alta",  modulo:null},
+      {nome:"Orações / Conjunções",          prio:"média", modulo:"oracoes"},
+      {nome:"Concordância",                  prio:"média", modulo:null},
+      {nome:"Crase",                         prio:"média", modulo:"crase"},
+      {nome:"Morfologia",                    prio:"média", modulo:"morfologia"},
+      {nome:"Sintaxe",                       prio:"baixa", modulo:"sintaxe"},
+    ],
+  },
+];
+
+function BancasPanel({ onIrParaTopico }) {
+  const [aberta, setAberta] = useState(null);
+
+  return (
+    <div className="sint-content">
+      <div style={{fontFamily:"var(--M)",fontSize:".65rem",color:"var(--t3)",marginBottom:"1rem",lineHeight:1.6}}>
+        Tópicos de Português cobrados por cada banca. Clique em um tópico para ir direto ao módulo.
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:".5rem"}}>
+        {BANCAS_DATA.map(b => {
+          const open = aberta === b.sigla;
+          return (
+            <div key={b.sigla}
+              style={{borderRadius:"1rem",border:`1.5px solid ${open ? b.cor : "var(--b1)"}`,
+                overflow:"hidden",background:"var(--ca)",transition:"border-color .15s"}}
+            >
+              {/* cabeçalho */}
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+                padding:".9rem 1rem",cursor:"pointer"}}
+                onClick={() => setAberta(open ? null : b.sigla)}
+              >
+                <div style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+                  <span style={{fontFamily:"var(--M)",fontSize:".65rem",fontWeight:700,
+                    padding:".25rem .65rem",borderRadius:".4rem",
+                    background:b.cor+"22",color:b.cor,letterSpacing:".04em"}}>
+                    {b.sigla}
+                  </span>
+                  <span style={{fontSize:".82rem",fontWeight:600,color:"var(--tx)"}}>{b.nome}</span>
+                </div>
+                <span style={{color:"var(--t3)",fontSize:".75rem",flexShrink:0}}>{open?"▲":"▼"}</span>
+              </div>
+
+              {open && (
+                <div style={{borderTop:"1px solid var(--b1)",padding:"1rem",display:"flex",flexDirection:"column",gap:"1rem"}}>
+
+                  {/* formato */}
+                  <div style={{display:"flex",alignItems:"flex-start",gap:".6rem",
+                    background:b.cor+"10",borderRadius:".75rem",padding:".7rem .9rem"}}>
+                    <span style={{fontFamily:"var(--M)",fontSize:".6rem",color:b.cor,
+                      letterSpacing:".06em",flexShrink:0,paddingTop:".1rem"}}>FORMATO</span>
+                    <span style={{fontSize:".83rem",color:"var(--t2)",lineHeight:1.5}}>{b.formato}</span>
+                  </div>
+
+                  {/* perfil */}
+                  <div style={{fontSize:".85rem",color:"var(--t2)",lineHeight:1.6,
+                    borderLeft:`3px solid ${b.cor}`,paddingLeft:".85rem"}}>
+                    {b.perfil}
+                  </div>
+
+                  {/* tópicos */}
+                  <div>
+                    <div style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",
+                      letterSpacing:".08em",marginBottom:".6rem"}}>TÓPICOS COBRADOS</div>
+                    <div style={{display:"flex",flexDirection:"column",gap:".35rem"}}>
+                      {b.topicos.map((t,i) => (
+                        <div key={i}
+                          onClick={() => t.modulo && onIrParaTopico(t.modulo)}
+                          style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+                            padding:".55rem .85rem",borderRadius:".65rem",
+                            background:"var(--bg)",border:"1px solid var(--b1)",
+                            cursor: t.modulo ? "pointer" : "default",
+                            transition:"border-color .15s"}}
+                        >
+                          <div style={{display:"flex",alignItems:"center",gap:".6rem"}}>
+                            <span style={{width:"8px",height:"8px",borderRadius:"50%",
+                              background:COR_PRIO[t.prio],flexShrink:0}} />
+                            <span style={{fontSize:".84rem"}}>{t.nome}</span>
+                          </div>
+                          <div style={{display:"flex",alignItems:"center",gap:".5rem",flexShrink:0}}>
+                            <span style={{fontFamily:"var(--M)",fontSize:".58rem",
+                              padding:".15rem .5rem",borderRadius:"2rem",
+                              background:BG_PRIO[t.prio],color:COR_PRIO[t.prio]}}>
+                              {t.prio}
+                            </span>
+                            {t.modulo && (
+                              <span style={{fontFamily:"var(--M)",fontSize:".58rem",
+                                color:b.cor,letterSpacing:".04em"}}>treinar →</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* dicas */}
+                  <div>
+                    <div style={{fontFamily:"var(--M)",fontSize:".6rem",color:"var(--t3)",
+                      letterSpacing:".08em",marginBottom:".6rem"}}>DICAS PARA ESSA BANCA</div>
+                    <div style={{display:"flex",flexDirection:"column",gap:".35rem"}}>
+                      {b.dicas.map((d,i) => (
+                        <div key={i} style={{display:"flex",alignItems:"flex-start",gap:".6rem",
+                          fontSize:".83rem",color:"var(--t2)",lineHeight:1.5}}>
+                          <span style={{color:b.cor,flexShrink:0,marginTop:".1rem"}}>›</span>
+                          {d}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════
    PORTUGUÊS — aba unificada
 ══════════════════════════════════════════════ */
 function PortuguesScreen({ onBack }) {
@@ -4853,7 +5708,7 @@ function PortuguesScreen({ onBack }) {
         <div style={{width:"80px"}} />
       </div>
       <div style={{display:"flex",gap:".5rem",padding:".75rem 1rem",borderBottom:"1px solid var(--b1)",overflowX:"auto",scrollbarWidth:"none"}}>
-        {[["sintaxe","Sintaxe"],["oracoes","Orações"],["morfologia","Morfologia"],["glossario","Glossário"]].map(([k,l]) => (
+        {[["sintaxe","Sintaxe"],["oracoes","Orações"],["morfologia","Morfologia"],["crase","Crase"],["bancas","Bancas"],["glossario","Glossário"]].map(([k,l]) => (
           <button key={k}
             onClick={() => setTopico(k)}
             style={{
@@ -4869,6 +5724,8 @@ function PortuguesScreen({ onBack }) {
       {topico === "sintaxe"    && <SintaxePanel />}
       {topico === "oracoes"    && <OracoesPanel />}
       {topico === "morfologia" && <MorfologiaPanel />}
+      {topico === "crase"      && <CrasePanel />}
+      {topico === "bancas"     && <BancasPanel onIrParaTopico={setTopico} />}
       {topico === "glossario"  && <GlossarioPanel />}
     </div>
   );
